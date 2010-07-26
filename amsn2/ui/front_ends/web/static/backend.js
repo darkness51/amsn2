@@ -342,15 +342,13 @@ function addChatWidget(windowUid, widgetUid)
     chatWindows[windowUid].addChatWidget(chatWidgets[widgetUid]);
 }
 
-function showChatWindow(uidL)
+function showChatWindow(uid)
 {
-    var uid = uidL.shift();
     chatWindows[uid].show();
 }
 
-function hideChatWindow(uidL)
+function hideChatWindow(uid)
 {
-    var uid = uidL.shift();
     chatWindows[uid].hide();
 }
 
@@ -359,16 +357,13 @@ function newChatWidget(uid)
     chatWidgets[uid] = new ChatWidget(uid);
 }
 
-function onMessageReceivedChatWidget(omrcwL)
+function onMessageReceivedChatWidget(uid, msg)
 {
-    var uid = omrcwL.shift();
-    var msg = omrcwL.shift();
     chatWidgets[uid].onMessageReceived(msg);
 }
 
-function nudgeChatWidget(uidL)
+function nudgeChatWidget(uid)
 {
-    var uid = uidL.shift();
     chatWidgets[uid].nudge();
 }
 // main
@@ -421,9 +416,20 @@ function myInfoUpdated()
   // TODO
 }
 
+function aMSNStart()
+{
+  $(".mainWindow").dialog({
+        position:['left','top'],
+        height: '100%',
+        width: '400px',
+        stack: false
+  });
+  Listening();
+}
+
 function Listening() {
   $.get("/out", function(data){
-    setTimeout(Listening, 5000);
+    setTimeout(Listening, 500);
     //try {
       eval(data);
     //} catch(e) {}
@@ -433,12 +439,5 @@ function Listening() {
 // init
 $(document).ready(function()
 {
-    $(".mainWindow").dialog({
-        position:['left','top'],
-        height: '100%',
-        width: '400px',
-        stack: false
-    });
-    showLogin();
-    //Listening();
+        showLogin();
 });

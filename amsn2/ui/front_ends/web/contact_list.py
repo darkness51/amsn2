@@ -6,8 +6,9 @@
     ...
 """
 
+from amsn2.ui import base
 
-class aMSNContactListWindow(object):
+class aMSNContactListWindow(base.aMSNContactListWindow):
     """ This interface represents the main Contact List Window
         self._clwidget is an aMSNContactListWidget
     """
@@ -15,13 +16,19 @@ class aMSNContactListWindow(object):
     def __init__(self, amsn_core, parent):
         self._main = parent
         self._clwidget = aMSNContactListWidget(amsn_core,self)
+        self._main.cl_window = self
+
+    def __del__(self):
+        self._main.cl_window = None
 
     def show(self):
         """ Show the contact list window """
+        self._main.cl_window = self
         self._main.send("showContactListWindow")
 
     def hide(self):
         """ Hide the contact list window """
+        self._main.login_window = None
         self._main.send("hideContactListWindow")
 
     def set_title(self, text):
@@ -46,15 +53,14 @@ class aMSNContactListWindow(object):
     def get_contactlist_widget(self):
         return self._clwidget
 
-class aMSNContactListWidget(object):
+class aMSNContactListWidget(base.aMSNContactListWidget):
     """ This interface implements the contact list of the UI """
     def __init__(self, amsn_core, parent):
         self._main = parent._main
         self.contacts = {}
         self.groups = {}
 
-    def contactClicked(self,uidL):
-        uid = uidL.pop()
+    def contact_clicked(self, uid):
         try:
             self.contacts[uid].on_click(uid)
         except Exception, inst:

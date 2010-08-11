@@ -36,3 +36,6 @@ class aMSNLoginWindow(base.aMSNLoginWindow):
 
     def on_connecting(self, progress, msg):
         self._main.send("onConnecting", msg)
+
+    def signout(self):
+        pass

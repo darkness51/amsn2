@@ -206,6 +206,7 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
 
     def __search_by_id(self, id):
         parent = self._model.item(0)
+        children = []
 
         while (parent is not None):
             obj = str(self._model.item(self._model.indexFromItem(parent).row(), 1).text())
@@ -215,13 +216,14 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
             nc = 0
             while (child is not None):
                 cobj = str(parent.child(nc, 1).text())
-                if (cobj == id): return child
+                if (cobj == id): children.append(child)
                 nc = nc + 1
                 child = self._model.item(self._model.indexFromItem(parent).row()).child(nc)
             parent = self._model.item(self._model.indexFromItem(parent).row() + 1)
             if parent is None: break
 
-        return None
+        if children: return children
+        else:  return None
 
     def contactlist_updated(self, view):
         guids = self.groups
@@ -230,8 +232,8 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
         # New groups
         for gid in view.group_ids:
             if (gid == 0): gid = '0'
+            self.groups.append(gid)
             if gid not in guids:
-                self.groups.append(gid)
                 self._model.appendRow([QStandardItem(gid), QStandardItem(gid), QStandardItem("group"), QStandardItem()])
 
         # Remove unused groups
@@ -239,27 +241,32 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
             if gid not in self.groups:
                 gitem = self.__search_by_id(gid)
                 self._model.removeRow((self._model.indexFromItem(gitem)).row())
-                self.groups.remove(gid)
+                try:
+                    del self.contacts[gid]
+                except KeyError:
+                    pass
+                #self.groups.remove(gid)
 
     def contact_updated(self, contact):
         
-        citem = self.__search_by_id(contact.uid)
-        if citem is None: return
-
-        gitem = citem.parent()
-        if gitem is None: return
+        citems = self.__search_by_id(contact.uid)
+        if citems is None: return
 
         dp = Image(self._parent._theme_manager, contact.dp)
         dp = dp.to_size(28, 28)
         #icon = Image(self._parent._theme_manager, contact.icon)
 
-        gitem.child(self._model.indexFromItem(citem).row(), 0).setData(QVariant(dp), Qt.DecorationRole)
-        #gitem.child(self._model.indexFromItem(citem).row(), 0).setData(QVariant(icon), Qt.DecorationRole)
+        for citem in citems:
+            gitem = citem.parent()
+            if gitem is None: continue
 
-        gitem.child(self._model.indexFromItem(citem).row(), 3).setData(QVariant(contact), Qt.DisplayRole)
-        cname = StringView()
-        cname = contact.name.to_HTML_string()
-        gitem.child(self._model.indexFromItem(citem).row(), 0).setText(QString.fromUtf8(cname))
+            gitem.child(self._model.indexFromItem(citem).row(), 0).setData(QVariant(dp), Qt.DecorationRole)
+            #gitem.child(self._model.indexFromItem(citem).row(), 0).setData(QVariant(icon), Qt.DecorationRole)
+
+            gitem.child(self._model.indexFromItem(citem).row(), 3).setData(QVariant(contact), Qt.DisplayRole)
+            cname = StringView()
+            cname = contact.name.to_HTML_string()
+            gitem.child(self._model.indexFromItem(citem).row(), 0).setText(QString.fromUtf8(cname))
 
     def group_updated(self, group):
         if (group.uid == 0): group.uid = '0'
@@ -285,8 +292,9 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
         # Remove unused contacts
         for cid in cuids:
             if cid not in self.contacts[group.uid]:
-                citem = self.__search_by_id(cid)
-                self._model.removeRow((self._model.indexFromItem(citem)).row())
+                citems = self.__search_by_id(cid)
+                for citem in citems:
+                    self._model.removeRow((self._model.indexFromItem(citem)).row())
 
     def group_removed(self, group):
         gid = self.__search_by_id(group.uid)

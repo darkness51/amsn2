@@ -49,7 +49,7 @@ class aMSNUserInterfaceManager(object):
         self._splash.image = image
         self._splash.text = "Loading..."
         self._splash.show()
-        self._main.title = "aMSN 2 - Loading"
+        self._main.set_title("aMSN 2 - Loading")
         return self._splash
 
     def load_login(self, accounts):
@@ -69,7 +69,7 @@ class aMSNUserInterfaceManager(object):
             self._login.signout()
             self._login.set_accounts(accounts)
 
-        self._main.title = "aMSN 2 - Login"
+        self._main.set_title("aMSN 2 - Login")
 
         self._login.show()
 
@@ -108,13 +108,19 @@ class aMSNUserInterfaceManager(object):
         self._contactlist = None
 
     def show_dialog(self, message, buttons):
-        self._ui.aMSNDialogWindow(message, buttons)
+        win = self._ui.aMSNDialogWindow(message, buttons)
+        win.set_title("aMSN 2 - Dialog")
+        win.show()
 
     def show_notification(self, message):
-        self._ui.aMSNNotificationWindow(message)
+        win = self._ui.aMSNNotificationWindow(message)
+        win.set_title("aMSN 2 - Notification")
+        win.show()
 
     def show_error(self, message):
-        self._ui.aMSNErrorWindow(message)
+        win = self._ui.aMSNErrorWindow(message)
+        win.set_title("aMSN 2 - Error")
+        win.show()
 
     def load_chat_window(self, conv_manager):
         return self._ui.aMSNChatWindow(conv_manager)
@@ -122,15 +128,35 @@ class aMSNUserInterfaceManager(object):
     def load_chat_widget(self, conversation, window, cuids):
         return self._ui.aMSNChatWidget(conversation, window, cuids)
 
-    def load_contact_input_window(self, callback):
-        return self._ui.aMSNContactInputWindow(('Contact to add: ', 'Invite message: '),
-                                                 callback, ())
+    def load_contact_input_window(self, callback, groupviews):
+        win = self._ui.aMSNContactInputWindow(('Contact to add: ', 'Invite message: '),
+                                                 callback, groupviews)
+        win.set_title("aMSN 2 - Add a Contact")
+        win.show()
+        return win
 
-    def load_contact_delete_window(self, callback):
-        return self._ui.aMSNContactDeleteWindow('Contact to remove: ', callback, ())
+    def load_contact_delete_window(self, callback, contactviews):
+        win = self._ui.aMSNContactDeleteWindow(('Contact to remove: ',), callback, contactviews)
+        win.set_title("aMSN 2 - Delete a Contact")
+        win.show()
+        return win
+
+    def load_group_input_window(self, callback, contactviews):
+        win = self._ui.aMSNGroupInputWindow(('Group to add: ',), callback, contactviews)
+        win.set_title("aMSN 2 - Add a Group")
+        win.show()
+        return win
+
+    def load_group_delete_window(self, callback, groupviews):
+        win = self._ui.aMSNGroupDeleteWindow(('Group to remove: ',), callback, groupviews)
+        win.set_title("aMSN 2 - Delete a Group")
+        win.show()
+        return win
 
     def load_DP_chooser_window(self):
-        self._ui.aMSNDPChooserWindow(self._core._account.set_dp ,self._core._backend_manager)
+        win = self._ui.aMSNDPChooserWindow(self._core._account.set_dp ,self._core._backend_manager)
+        win.set_title("aMSN 2 - Choose a Display Picture")
+        win.show()
 
     # Common methods for all UI
 

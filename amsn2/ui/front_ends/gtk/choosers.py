@@ -5,7 +5,7 @@ import gtk
 
 class aMSNFileChooserWindow(base.aMSNFileChooserWindow, gtk.FileChooserDialog):
     def __init__(self, filters, directory, callback):
-        gtk.FileChooserDialog.__init__(self, title='aMSN2 -Choose a file',
+        gtk.FileChooserDialog.__init__(self, None,
                                     action=gtk.FILE_CHOOSER_ACTION_OPEN,
                                     buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
                                              gtk.STOCK_OPEN, gtk.RESPONSE_OK))
@@ -32,12 +32,12 @@ class aMSNFileChooserWindow(base.aMSNFileChooserWindow, gtk.FileChooserDialog):
         if directory:
             self.set_current_folder_uri(directory)
 
-        self.connect('selection-changed', self.activatePreview)
-        self.connect('response', self.onResponse)
+        self.connect('selection-changed', self.activate_preview)
+        self.connect('response', self.on_response)
 
         self.run()
 
-    def activatePreview(self, chooser):
+    def activate_preview(self, chooser):
         filename = self.get_preview_filename()
         if filename:
             info = gtk.gdk.pixbuf_get_file_info(filename)
@@ -49,13 +49,18 @@ class aMSNFileChooserWindow(base.aMSNFileChooserWindow, gtk.FileChooserDialog):
 
         self.set_preview_widget_active(False)
 
-    def onResponse(self, chooser, id):
+    def on_response(self, chooser, id):
         if id ==gtk.RESPONSE_OK:
             self.callback(self.get_filename())
         elif id == gtk.RESPONSE_CANCEL:
             pass
         self.destroy()
-        
+
+    def show(self):
+        self.show_all()
+
+    def set_title(self, title):
+        gtk.FileChooserDialog.set_title(self, title)
 
 class aMSNDPChooserWindow(base.aMSNDPChooserWindow, gtk.Window):
     def __init__(self, callback, backend_manager):
@@ -73,9 +78,6 @@ class aMSNDPChooserWindow(base.aMSNDPChooserWindow, gtk.Window):
         self._setup_boxes(actions)
         for dp in default_dps:
             self._update_dp_list(default_dps)
-
-        self.show()
-        self.show_all()
 
     def _open_file(self):
         filters = {'Image files':("*.png", "*.jpeg", "*.jpg", "*.gif", "*.bmp"),
@@ -157,4 +159,10 @@ class aMSNDPChooserWindow(base.aMSNDPChooserWindow, gtk.Window):
         self.iconview.select_path(path)
         iter = self._model.get_iter(path)
         self.view = self._model.get_value(iter, 1)
+
+    def show(self):
+        self.show_all()
+
+    def set_title(self, title):
+        gtk.Window.set_title(self, title)
 

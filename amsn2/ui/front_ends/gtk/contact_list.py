@@ -336,7 +336,7 @@ class aMSNContactListWidget(base.aMSNContactListWidget, gtk.TreeView):
     def __on_button_click(self, source, event):
         # Detect a single right-click
         if event.type == gtk.gdk.BUTTON_PRESS and event.button == 3:
-            treepath = self.get_path_at_pos(event.x, event.y)
+            treepath = self.get_path_at_pos(int(event.x), int(event.y))
 
             if treepath:
                 path, tree_column, x, y = treepath
@@ -401,8 +401,8 @@ class aMSNContactListWidget(base.aMSNContactListWidget, gtk.TreeView):
         # New groups
         for gid in clview.group_ids:
             if (gid == 0): gid = '0'
+            self.groups.append(gid)
             if gid not in guids:
-                self.groups.append(gid)
                 self._model.append(None, [None, None, gid, gid, False])
 
         # Remove unused groups
@@ -410,7 +410,10 @@ class aMSNContactListWidget(base.aMSNContactListWidget, gtk.TreeView):
             if gid not in self.groups:
                 giter = self.__search_by_id(gid)
                 self._model.remove(giter)
-                self.groups.remove(gid)
+                try:
+                    del self.contacts[gid]
+                except KeyError:
+                    pass
 
     def group_updated(self, groupview):
         if (groupview.uid == 0): groupview.uid = '0'

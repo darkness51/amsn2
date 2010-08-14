@@ -20,7 +20,7 @@ class aMSNChatWindow(base.aMSNChatWindow):
     def add_chat_widget(self, chat_widget):
         """ add an aMSNChatWidget to the window """
         self._main.send("addChatWidget", self._uid, chat_widget._uid)
-        self._chat_widgets[chat_widgets.uid] = chat_widget
+        self._chat_widgets[chat_widget._uid] = chat_widget
 
     def show(self):
         self._main.send("showChatWindow", self._uid)
@@ -86,7 +86,7 @@ class aMSNChatWidget(base.aMSNChatWidget):
         """ Called for incoming and outgoing messages
             message: a MessageView of the message"""
         self._main.send("onMessageReceivedChatWidget",
-                        self._uid, str(messageview.to_stringview()))
+                        self._uid, unicode(messageview.to_stringview()))
 
     def nudge(self):
         self._main.send("nudgeChatWidget", self._uid)

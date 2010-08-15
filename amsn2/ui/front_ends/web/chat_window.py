@@ -76,7 +76,7 @@ class aMSNChatWidget(base.aMSNChatWidget):
     def send_message(self, uid, msg):
         if uid == self._uid:
             stmess = StringView()
-            stmess.append_text('\n'.join(msg))
+            stmess.append_text('\n'.join(msg).decode('utf-8'))
             self._conversation.send_message(stmess)
         return True
 

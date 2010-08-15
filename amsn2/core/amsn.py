@@ -145,8 +145,9 @@ class aMSNCore(object):
     def sign_out_of_account(self):
         accounts = self._account_manager.get_available_accountviews()
         self._ui_manager.load_login(accounts)
-        self._account.client.logout()
-        self._account = None
+        if self._account is not None:
+            self._account.client.logout()
+            self._account = None
 
         accounts = self._account_manager.get_available_accountviews()
         self._ui_manager.load_login(accounts)
@@ -180,9 +181,9 @@ class aMSNCore(object):
 
         elif state == papyon.event.ClientState.CLOSED:
             accounts = self._account_manager.get_available_accountviews()
-            self._ui_manager.load_login(accounts)
             self._account.sign_out()
             self._account = None
+            self._ui_manager.load_login(accounts)
 
     def idler_add(self, func):
         """
@@ -220,12 +221,18 @@ class aMSNCore(object):
 
         addContactItem = MenuItemView(MenuItemView.COMMAND, label="Add Contact",
                                       command=self._contactlist_manager.add_contact)
-        removeContact = MenuItemView(MenuItemView.COMMAND, label='Remove contact',
+        removeContactItem = MenuItemView(MenuItemView.COMMAND, label='Remove contact',
                                      command=self._contactlist_manager.remove_contact)
+        addGroupItem = MenuItemView(MenuItemView.COMMAND, label='Add Group',
+                                     command=self._contactlist_manager.add_group)
+        removeGroupItem = MenuItemView(MenuItemView.COMMAND, label='Remove Group',
+                                     command=self._contactlist_manager.remove_group)
 
         contactsMenu = MenuItemView(MenuItemView.CASCADE_MENU, label="Contacts")
         contactsMenu.add_item(addContactItem)
-        contactsMenu.add_item(removeContact)
+        contactsMenu.add_item(removeContactItem)
+        contactsMenu.add_item(addGroupItem)
+        contactsMenu.add_item(removeGroupItem)
 
         menu.add_item(mainMenu)
         menu.add_item(contactsMenu)

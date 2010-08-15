@@ -336,18 +336,26 @@ class aMSNContactListWidget(base.aMSNContactListWidget, gtk.TreeView):
     def __on_button_click(self, source, event):
         # Detect a single right-click
         if event.type == gtk.gdk.BUTTON_PRESS and event.button == 3:
-            treepath = self.get_path_at_pos(event.x, event.y)
+            treepath = self.get_path_at_pos(int(event.x), int(event.y))
 
             if treepath:
                 path, tree_column, x, y = treepath
                 iter = self._model.get_iter(path)
                 view = self._model.get_value(iter, 1)
 
+                parent = self._model.iter_parent(iter)
+                if parent:
+                    parentview = self._model.get_value(parent, 1)
+                else:
+                    parentview = None
+
                 if isinstance(view, ContactView) or isinstance(view, GroupView):
+                    # TODO: pass the parentview to the menu in some way,
+                    # the menu could be custom
                     self.grab_focus()
                     self.set_cursor(path, tree_column, 0)
                     menu = gtk.Menu()
-                    common.createMenuItemsFromView(menu,
+                    common.create_menu_items_from_view(menu,
                                 view.on_right_click_popup_menu.items)
                     menu.popup(None, None, None, event.button, event.time)
 
@@ -401,8 +409,8 @@ class aMSNContactListWidget(base.aMSNContactListWidget, gtk.TreeView):
         # New groups
         for gid in clview.group_ids:
             if (gid == 0): gid = '0'
+            self.groups.append(gid)
             if gid not in guids:
-                self.groups.append(gid)
                 self._model.append(None, [None, None, gid, gid, False])
 
         # Remove unused groups
@@ -410,12 +418,15 @@ class aMSNContactListWidget(base.aMSNContactListWidget, gtk.TreeView):
             if gid not in self.groups:
                 giter = self.__search_by_id(gid)
                 self._model.remove(giter)
-                self.groups.remove(gid)
+                try:
+                    del self.contacts[gid]
+                except KeyError:
+                    pass
 
     def group_updated(self, groupview):
         if (groupview.uid == 0): groupview.uid = '0'
         if groupview.uid not in self.groups:
-            logger.error('Group iter %s not found!' %(contactview.uid))
+            logger.error('Group iter %s not found!' %(groupview.uid))
             return
 
         giter = self.__search_by_id(groupview.uid)

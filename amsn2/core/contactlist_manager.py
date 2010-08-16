@@ -502,11 +502,11 @@ class aMSNContact():
         self.emblem.load("Theme", "emblem_" + self._core.p2s[papyon_contact.presence])
         #TODO: PARSE ONLY ONCE
         self.nickname.reset()
-        self.nickname.append_text(papyon_contact.display_name)
+        self.nickname.append_text(papyon_contact.display_name.decode('utf-8'))
         self.personal_message.reset()
-        self.personal_message.append_text(papyon_contact.personal_message)
+        self.personal_message.append_text(papyon_contact.personal_message.decode('utf-8'))
         self.current_media.reset()
-        self.current_media.append_text(papyon_contact.current_media)
+        self.current_media.append_text(papyon_contact.current_media.decode('utf-8'))
         self.status.reset()
         self.status.append_text(self._core.p2s[papyon_contact.presence])
 

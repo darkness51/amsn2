@@ -334,10 +334,14 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
         type = qvart.toString()
         view = qvarv.toPyObject()
 
-        #is the double-clicked item a contact?
         if type == "contact":
             menuview = view.on_right_click_popup_menu
             menu = QMenu("Contact Popup", self)
+            common.create_menu_items_from_view(menu, menuview.items)
+            menu.popup(event.globalPos())
+        if type == "group":
+            menuview = view.on_right_click_popup_menu
+            menu = QMenu("Group Popup", self)
             common.create_menu_items_from_view(menu, menuview.items)
             menu.popup(event.globalPos())
 

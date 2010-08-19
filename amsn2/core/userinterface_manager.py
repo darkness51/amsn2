@@ -130,32 +130,27 @@ class aMSNUserInterfaceManager(object):
 
     def load_contact_input_window(self, callback, groupviews):
         win = self._ui.aMSNContactInputWindow(('Contact to add: ', 'Invite message: '),
-                                                 callback, groupviews)
-        win.set_title("aMSN 2 - Add a Contact")
+                                                 callback, groupviews, "aMSN 2 - Add a Contact")
         win.show()
         return win
 
     def load_contact_delete_window(self, callback, contactviews):
-        win = self._ui.aMSNContactDeleteWindow(('Contact to remove: ',), callback, contactviews)
-        win.set_title("aMSN 2 - Delete a Contact")
+        win = self._ui.aMSNContactDeleteWindow(('Contact to remove: ',), callback, contactviews, "aMSN 2 - Delete a Contact")
         win.show()
         return win
 
     def load_group_input_window(self, callback, contactviews):
-        win = self._ui.aMSNGroupInputWindow(('Group to add: ',), callback, contactviews)
-        win.set_title("aMSN 2 - Add a Group")
+        win = self._ui.aMSNGroupInputWindow(('Group to add: ',), callback, contactviews, "aMSN 2 - Add a Group")
         win.show()
         return win
 
     def load_group_delete_window(self, callback, groupviews):
-        win = self._ui.aMSNGroupDeleteWindow(('Group to remove: ',), callback, groupviews)
-        win.set_title("aMSN 2 - Delete a Group")
+        win = self._ui.aMSNGroupDeleteWindow(('Group to remove: ',), callback, groupviews, "aMSN 2 - Delete a Group")
         win.show()
         return win
 
     def load_DP_chooser_window(self):
-        win = self._ui.aMSNDPChooserWindow(self._core._account.set_dp ,self._core._backend_manager)
-        win.set_title("aMSN 2 - Choose a Display Picture")
+        win = self._ui.aMSNDPChooserWindow(self._core._account.set_dp ,self._core._backend_manager, "aMSN 2 - Choose a Display Picture")
         win.show()
 
     # Common methods for all UI

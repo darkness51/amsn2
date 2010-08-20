@@ -9,7 +9,7 @@ import pango
 logger = logging.getLogger('amsn2.gtk.utility')
 
 class aMSNErrorWindow(base.aMSNErrorWindow, gtk.Dialog):
-    def __init__(self, error_text):
+    def __init__(self, error_text, title = "aMSN Error"):
         gtk.Dialog.__init__(self, None, None, gtk.DIALOG_NO_SEPARATOR,
                             (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
         label = gtk.Label(error_text)
@@ -17,6 +17,7 @@ class aMSNErrorWindow(base.aMSNErrorWindow, gtk.Dialog):
         self.get_content_area().pack_start(label)
         label.show()
         self.connect("response", self.on_response)
+        gtk.Dialog.set_title(self, title)
         self.show()
 
     def on_response(self, dialog, id):
@@ -29,7 +30,7 @@ class aMSNErrorWindow(base.aMSNErrorWindow, gtk.Dialog):
         gtk.Dialog.set_title(self, title)
 
 class aMSNNotificationWindow(base.aMSNNotificationWindow, gtk.Dialog):
-    def __init__(self, notification_text):
+    def __init__(self, notification_text, title = "aMSN Notification"):
         gtk.Dialog.__init__(self, None, None, gtk.DIALOG_NO_SEPARATOR,
                             (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
         label = gtk.Label(notification_text)
@@ -37,6 +38,7 @@ class aMSNNotificationWindow(base.aMSNNotificationWindow, gtk.Dialog):
         self.get_content_area().pack_start(label)
         label.show()
         self.connect("response", self.on_response)
+        gtk.Dialog.set_title(self, title)
         self.show()
 
     def on_response(self, dialog, id):
@@ -49,7 +51,7 @@ class aMSNNotificationWindow(base.aMSNNotificationWindow, gtk.Dialog):
         gtk.Dialog.set_title(self, title)
 
 class aMSNDialogWindow(base.aMSNDialogWindow, gtk.Dialog):
-    def __init__(self, message, actions):
+    def __init__(self, message, actions, title = "aMSN Dialog"):
         gtk.Dialog.__init__(self, None, None, gtk.DIALOG_NO_SEPARATOR, None)
 
         label = gtk.Label(message)
@@ -66,6 +68,7 @@ class aMSNDialogWindow(base.aMSNDialogWindow, gtk.Dialog):
 
         self.connect("response", self.on_response)
         label.show()
+        gtk.Dialog.set_title(self, title)
         self.show()
 
     def on_response(self, dialog, id):
@@ -82,7 +85,7 @@ class aMSNDialogWindow(base.aMSNDialogWindow, gtk.Dialog):
         gtk.Dialog.set_title(self, title)
 
 class aMSNContactInputWindow(base.aMSNContactInputWindow, gtk.Dialog):
-    def __init__(self, message, callback, groups):
+    def __init__(self, message, callback, groups, title = "aMSN Contact Input"):
         gtk.Dialog.__init__(self, None, None, gtk.DIALOG_NO_SEPARATOR,
                             (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT,
                              gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT))
@@ -134,6 +137,7 @@ class aMSNContactInputWindow(base.aMSNContactInputWindow, gtk.Dialog):
         ca.pack_start(inputbox, False)
         ca.pack_start(scrollwindow, True)
 
+        gtk.Dialog.set_title(self, title)
         self.connect("response", self.on_response)
 
     def _row_selected(self, dialog, row, boh):
@@ -159,7 +163,7 @@ class aMSNContactInputWindow(base.aMSNContactInputWindow, gtk.Dialog):
         gtk.Dialog.set_title(self, title)
 
 class aMSNGroupInputWindow(base.aMSNGroupInputWindow, gtk.Dialog): 
-    def __init__(self, message, callback, contacts):
+    def __init__(self, message, callback, contacts, title = "aMSN Group Input"):
         gtk.Dialog.__init__(self, None, None, gtk.DIALOG_NO_SEPARATOR,
                             (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT,
                              gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT))
@@ -205,6 +209,7 @@ class aMSNGroupInputWindow(base.aMSNGroupInputWindow, gtk.Dialog):
         #ca.pack_start(label1, False)
         ca.pack_start(scrollwindow, True)
 
+        gtk.Dialog.set_title(self, title)
         self.connect("response", self.on_response)
 
     def _row_selected(self, dialog, row, boh):
@@ -229,7 +234,7 @@ class aMSNGroupInputWindow(base.aMSNGroupInputWindow, gtk.Dialog):
         gtk.Dialog.set_title(self, title)
 
 class aMSNContactDeleteWindow(base.aMSNContactDeleteWindow, gtk.Dialog): 
-    def __init__(self, message, callback, contacts):
+    def __init__(self, message, callback, contacts, title = "aMSN Delete Contact"):
         gtk.Dialog.__init__(self, None, None, gtk.DIALOG_NO_SEPARATOR,
                             (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT,
                              gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT))
@@ -245,6 +250,7 @@ class aMSNContactDeleteWindow(base.aMSNContactDeleteWindow, gtk.Dialog):
         self.connect("response", self.on_response)
         label.show()
         self._name.show()
+        gtk.Dialog.set_title(self, title)
         self.show()
 
     def on_response(self, dialog, id):
@@ -262,7 +268,7 @@ class aMSNContactDeleteWindow(base.aMSNContactDeleteWindow, gtk.Dialog):
         gtk.Dialog.set_title(self, title)
 
 class aMSNGroupDeleteWindow(base.aMSNGroupDeleteWindow, gtk.Dialog): 
-    def __init__(self, message, callback, groups):
+    def __init__(self, message, callback, groups, title = "aMSN Delete Group"):
         gtk.Dialog.__init__(self, None, None, gtk.DIALOG_NO_SEPARATOR,
                             (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT,
                              gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT))
@@ -278,6 +284,7 @@ class aMSNGroupDeleteWindow(base.aMSNGroupDeleteWindow, gtk.Dialog):
         self.connect("response", self.on_response)
         label.show()
         self._name.show()
+        gtk.Dialog.set_title(self, title)
         self.show()
 
     def on_response(self, dialog, id):

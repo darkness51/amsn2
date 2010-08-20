@@ -162,8 +162,7 @@ class aMSNContactInputWindowSingleton(base.aMSNContactInputWindow, QDialog):
         selectedgroups = []
         for checkbox in self.dicgroups:
             if checkbox.isChecked():
-                selectedgroups.append(self.dicgroups[checkbox])
-        print self.scrollarea.children()
+                selectedgroups.append(self.dicgroups[checkbox].uid)
         self._callback(name, msg, selectedgroups)
         self.empty()
         self.done(-1)
@@ -241,7 +240,11 @@ class aMSNGroupInputWindowSingleton(base.aMSNGroupInputWindow, QDialog):
 
     def onOk(self):
         name = str(self._name.text())
-        self._callback(name)
+        selectedcontacts = []
+        for checkbox in self.diccontacts:
+            if checkbox.isChecked():
+                selectedcontacts.append(self.diccontacts[checkbox].account)
+        self._callback(name, selectedcontacts)
         self.empty()
         self.done(-1)
         self.deleteLater()

@@ -86,12 +86,12 @@ function Group(_gid)
 
   var name = "";
 
-  var elem = new Element('li', {id: 'grp_' + gid,
-                         onclick: 'cl.groupToggle(\''+gid+'\'); return false;'});
+  var elem = new Element('li', {id: 'grp_' + gid});
 
   var h;
-  h  = '<img id="grp_' + gid + '_arrow" src="static/images/arrow.png" />';
-  h += '<span id="grp_' + gid + '_hdr">loading…</span>';
+  h  = '<div onclick="cl.groupToggle(\''+ gid+'\'); return false;">'
+  h += '<img id="grp_' + gid + '_arrow" src="static/images/arrow.png" />';
+  h += '<span id="grp_' + gid + '_hdr">loading…</span></div>';
   h += '<ul  id="grp_' + gid + '_cts" class="clContacts">';
   h += '<li  id="grp_' + gid + '_fake" style="display:none"></ul>';
   elem.update(h);

@@ -75,6 +75,7 @@ class Backend(object):
                     self._logged_in = False
             return True
         self._core._loop.timer_add(30000, cb)
+        print "Now, open your favorite browser and go to http://%s:%d/" % (self._options.host, self._options.port)
 
     def on_accept(self, s, c):
         w = s.accept()

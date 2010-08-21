@@ -477,7 +477,8 @@ function showMainWindow()
   if (!g_cl) {
     g_cl = new ContactList($('cl'));
   }
-  g_mainWindow.showCenter(false);
+
+  g_mainWindow.showCenter(false, 10, document.viewport.getWidth() - g_mainWindow.getSize()['width'] - 10);
   g_mainWindow.toFront();
 }
 function hideMainWindow()

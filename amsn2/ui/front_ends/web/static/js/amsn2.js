@@ -475,7 +475,7 @@ function showMainWindow()
     g_mainWindow.setCloseCallback(logoutCb);
   }
   if (!g_cl) {
-    g_cl = new ContactList($('g_cl'));
+    g_cl = new ContactList($('cl'));
   }
   g_mainWindow.showCenter(false);
   g_mainWindow.toFront();

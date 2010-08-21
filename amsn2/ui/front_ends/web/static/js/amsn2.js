@@ -1,7 +1,25 @@
 // TODO: have info/debug/err functions
 
 var g_loop = null;
+// Utils {{{
 
+
+var g_t_info = 0;
+function info(s) {
+  var inf = $('info');
+  var d = new Date();
+
+  inf.update('<div class="info-msg" onclick="$(\'info\').update();">'+s+'</div>');
+  g_t_info = d.getTime()
+}
+function hideInfoIfNeeded() {
+  var d = new Date();
+
+  if (g_t_info + 5000 <= d.getTime()) {
+    $('info').update();
+  }
+}
+//}}}
 // Contact List {{{
 var g_cl = null;
 
@@ -472,8 +490,7 @@ function setMainWindowTitle(title)
 }
 function onConnecting(msg)
 {
-    /* FIXME */
-    //$(".message").text(msg);
+  info(msg);
 }
 function showLogin()
 {
@@ -526,6 +543,7 @@ function loggedOut() {
 function aMSNStart()
 {
   g_loop = new PeriodicalExecuter(function(pe) {
+    hideInfoIfNeeded();
     new Ajax.Request('/out', {
       method: 'get',
       onException: function(r, e) {

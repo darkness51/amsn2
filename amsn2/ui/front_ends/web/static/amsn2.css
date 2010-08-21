@@ -459,3 +459,14 @@ input.stdButton {
   font-weight: normal;
 }
 /**** END WINDOWS ****/
+
+
+#info {
+  width: 100%;
+  background-color: #fff;
+  opacity: 0.8;
+}
+.info-msg {
+  text-align: center;
+  color: #000;
+}

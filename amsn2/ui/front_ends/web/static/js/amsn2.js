@@ -447,49 +447,49 @@ function ChatWidget(_uid)
   }
 }
 // Chat functions
-var chatWindows = {};
-var chatWidgets = {};
+var g_chatWindows = {};
+var g_chatWidgets = {};
 
 function newChatWindow(uid)
 {
-  if (chatWindows[uid] != undefined)
-    chatWindows[uid].remove()
-  chatWindows[uid] = new ChatWindow(uid);
+  if (g_chatWindows[uid] != undefined)
+    g_chatWindows[uid].remove()
+  g_chatWindows[uid] = new ChatWindow(uid);
 }
 
 function addChatWidget(windowUid, widgetUid)
 {
-  chatWindows[windowUid].addChatWidget(chatWidgets[widgetUid]);
+  g_chatWindows[windowUid].addChatWidget(g_chatWidgets[widgetUid]);
 }
 
 function showChatWindow(uid)
 {
-  chatWindows[uid].show();
+  g_chatWindows[uid].show();
 }
 
 function hideChatWindow(uid)
 {
-  chatWindows[uid].hide();
+  g_chatWindows[uid].hide();
 }
 
 function newChatWidget(uid)
 {
-  chatWidgets[uid] = new ChatWidget(uid);
+  g_chatWidgets[uid] = new ChatWidget(uid);
 }
 
 function onMessageReceivedChatWidget(uid, msg)
 {
-  chatWidgets[uid].onMessageReceived(msg);
+  g_chatWidgets[uid].onMessageReceived(msg);
 }
 
 function nudgeChatWidget(uid)
 {
-  chatWidgets[uid].nudge();
+  g_chatWidgets[uid].nudge();
 }
 
 function setTitleCW(uid, title)
 {
-  chatWindows[uid].setTitle(title);
+  g_chatWindows[uid].setTitle(title);
 } // }}}
 // main {{{
 
@@ -581,15 +581,15 @@ function loggedOut() {
     g_mainWindow = null;
   }
 
-  for (c in chatWidgets) {
-    chatWidgets[c].remove()
+  for (c in g_chatWidgets) {
+    g_chatWidgets[c].remove()
   }
-  chatWidgets = {};
+  g_chatWidgets = {};
 
-  for (c in chatWindows) {
-    chatWindows[c].remove()
+  for (c in g_chatWindows) {
+    g_chatWindows[c].remove()
   }
-  chatWindows = {};
+  g_chatWindows = {};
 
   showLogin();
 }

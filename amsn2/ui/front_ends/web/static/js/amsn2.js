@@ -563,6 +563,50 @@ function loggedOut() {
   showLogin();
 }
 
+
+
+
+
+
+function callInProgress (xmlhttp) {
+  switch (xmlhttp.readyState) {
+    case 1: case 2: case 3:
+      return true;
+      break;
+      // Case 4 and 0
+    default:
+      return false;
+      break;
+  }
+}
+// Register global responders that will occur on all AJAX requests
+Ajax.Responders.register({
+  onCreate: function(request) {
+    request['timeoutId'] = window.setTimeout( function() {
+      // If we have hit the timeout and the AJAX request is active, abort it and let the user know
+      if (callInProgress(request.transport)) {
+        request.transport.abort();
+        error("Unable to contact the aMSN2 server.");
+        // Run the onFailure method if we set one up when creating the AJAX object
+        if (request.options['onFailure']) {
+            request.options['onFailure'](request.transport, request.json);
+          }
+        }
+      },
+      5000 // Five seconds
+    );
+  },
+  onComplete: function(request) {
+    console.log("complete");
+    console.log(request);
+    // Clear the timeout, the request completed ok
+    window.clearTimeout(request['timeoutId']);
+    if (request.transport.status == 0) {
+      error("Unable to contact the aMSN2 server.");
+    }
+  }
+});
+
 function aMSNStart()
 {
   g_loop = new PeriodicalExecuter(function(pe) {

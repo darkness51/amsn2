@@ -1,4 +1,4 @@
-
+var g_logging_out = false;
 var g_loop = null;
 // Utils {{{
 
@@ -393,7 +393,7 @@ function ChatWidget(_uid)
   });
 
   this.remove = function() {
-    Event.StopObserving(t, 'keydown');
+    Event.stopObserving(t, 'keydown');
     elem.remove();
     win = null;
   }
@@ -496,8 +496,12 @@ function setTitleCW(uid, title)
 var g_mainWindow = null;
 
 function logoutCb() {
+  if (g_logging_out)
+    return true;
   if (confirm('Are you sure you want to logout?')) {
     new Ajax.Request('/logout');
+    g_logging_out = true;
+    loggedOut();
     return true;
   }
   return false;
@@ -577,7 +581,7 @@ function loggedOut() {
 
   if (g_mainWindow) {
     g_mainWindow.destroy();
-    Event.StopObserving(window, 'resize');
+    Event.stopObserving(window, 'resize');
     g_mainWindow = null;
   }
 
@@ -590,6 +594,8 @@ function loggedOut() {
     g_chatWindows[c].remove()
   }
   g_chatWindows = {};
+
+  g_logging_out = false;
 
   showLogin();
 }
@@ -638,6 +644,7 @@ Ajax.Responders.register({
 
 function aMSNStart()
 {
+  g_logging_out = false;
   g_loop = new PeriodicalExecuter(function(pe) {
     hideInfoIfNeeded();
     new Ajax.Request('/out', {

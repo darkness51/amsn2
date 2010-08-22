@@ -139,7 +139,7 @@ class Backend(object):
         if (body and 'content-type' in headers
         and headers['content-type'].startswith('application/x-www-form-urlencoded')):
             args = parse_qs(body)
-            print "<<< signin: %s" %(args,)
+            print "<<< signin: {'username': %s, 'password': ******}" %(args['username'],)
             self.login_window.signin(args['username'][0], args['password'][0])
             self._logged_in = True
             self._last_poll = time()

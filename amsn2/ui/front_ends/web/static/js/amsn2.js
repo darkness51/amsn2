@@ -1,9 +1,71 @@
-// TODO: have info/debug/err functions
 
-var loop = null;
+var g_loop = null;
+// Utils {{{
 
+
+function debug(s) {
+  // TODO
+}
+
+var g_t_info = 0;
+function info(s) {
+  var inf = $('info');
+  var d = new Date();
+
+  inf.update('<div class="info-msg" onclick="$(\'info\').update();">'+s+'</div>');
+  g_t_info = d.getTime()
+}
+function hideInfoIfNeeded() {
+  var d = new Date();
+
+  if (g_t_info + 5000 <= d.getTime()) {
+    $('info').update();
+  }
+}
+
+function error(e) {
+  var err = $('error');
+  var msg = new Element('div', {class: 'error-msg'});
+  var children = err.childElements();
+  var a = new Element('a', {class: 'error-close'});
+  var s = new Element('span');
+
+  s.update(e);
+  a.update('[X] ');
+  a.observe('click', function(event) {
+    elt = Event.findElement(event, 'div');
+    elt.remove();
+  });
+
+  msg.insert(a);
+  msg.insert(s);
+  if (children.length >= 5) {
+    children[0].remove();
+  }
+  err.insert(msg);
+}
+
+function debug(d) {
+  var dbg = $('debug');
+  var msg = new Element('div', {class: 'debug-msg'});
+  var children = dbg.childElements();
+  var a = new Element('a', {class: 'debug-close'});
+  var s = new Element('span');
+
+  s.update(d);
+  a.update('[X] ');
+  a.observe('click', function(event) {
+    elt = Event.findElement(event, 'div');
+    elt.remove();
+  });
+
+  msg.insert(a);
+  msg.insert(s);
+  dbg.insert(msg);
+}
+//}}}
 // Contact List {{{
-var cl = null;
+var g_cl = null;
 
 function ContactList(_parent)
 {
@@ -89,7 +151,7 @@ function Group(_gid)
   var elem = new Element('li', {id: 'grp_' + gid});
 
   var h;
-  h  = '<div onclick="cl.groupToggle(\''+ gid+'\'); return false;">'
+  h  = '<div onclick="g_cl.groupToggle(\''+ gid+'\'); return false;">'
   h += '<img id="grp_' + gid + '_arrow" src="static/images/arrow.png" />';
   h += '<span id="grp_' + gid + '_hdr">loading…</span></div>';
   h += '<ul  id="grp_' + gid + '_cts" class="clContacts">';
@@ -151,10 +213,10 @@ function Group(_gid)
   }
 
   this.getContact = function(_uid) {
-    c = cl.getContact(_uid);
+    c = g_cl.getContact(_uid);
     if (!c) {
       c = new Contact(gid, _uid);
-      cl.setContact(_uid, c);
+      g_cl.setContact(_uid, c);
     }
     contact_ids[_uid] = c;
     return c;
@@ -168,7 +230,7 @@ function Contact(_gid, _uid)
 
   var elem = new Element('li',
                          {id: 'ct_' + _uid + '_' + _gid,
-                          onclick: 'cl.contactClick(\''+uid+'\'); return false;'});
+                          onclick: 'g_cl.contactClick(\''+uid+'\'); return false;'});
 
   var elements = {};
   elements[_gid] = elem;
@@ -177,7 +239,7 @@ function Contact(_gid, _uid)
     for (k in elements) {
       elements[k].remove();
     }
-    cl.contacts[uid] = undefined;
+    g_cl.contacts[uid] = undefined;
   }
 
   this.removeFromGroup = function(_gid) {
@@ -229,14 +291,14 @@ function setContactListTitle(title)
 
 function contactListUpdated(groups)
 {
-  if (cl)
-    cl.setGroups(groups);
+  if (g_cl)
+    g_cl.setGroups(groups);
 }
 
 function groupUpdated(uid, name, contact_ids)
 {
-  if (cl) {
-    var group = cl.getGroup(uid);
+  if (g_cl) {
+    var group = g_cl.getGroup(uid);
     group.setName(name);
     group.setContacts(contact_ids);
   }
@@ -244,8 +306,8 @@ function groupUpdated(uid, name, contact_ids)
 
 function contactUpdated(uid, name)
 {
-  if (cl)
-    cl.getContact(uid).setName(name);
+  if (g_cl)
+    g_cl.getContact(uid).setName(name);
 }
 // }}}
 // ChatWindow {{{
@@ -293,6 +355,10 @@ function ChatWindow(_uid)
   this.addChatWidget = function(widget) {
     win.setContent(widget.getElement());
     widget.setParent(this);
+  }
+
+  this.setTitle = function(title) {
+    win.setTitle(title);
   }
 }
 
@@ -419,11 +485,15 @@ function onMessageReceivedChatWidget(uid, msg)
 function nudgeChatWidget(uid)
 {
   chatWidgets[uid].nudge();
-} // }}}
+}
 
+function setTitleCW(uid, title)
+{
+  chatWindows[uid].setTitle(title);
+} // }}}
 // main {{{
 
-var mainWindow = null;
+var g_mainWindow = null;
 
 function logoutCb() {
   if (confirm('Are you sure you want to logout?')) {
@@ -434,14 +504,14 @@ function logoutCb() {
 }
 function showMainWindow()
 {
-  if (!mainWindow) {
+  if (!g_mainWindow) {
     function fixMainWindow() {
-      $('mw_minimize').setStyle({left: (mainWindow.getSize()['width'] - 42) + 'px'});
+      $('mw_minimize').setStyle({left: (g_mainWindow.getSize()['width'] - 42) + 'px'});
     }
 
     Event.observe(window, 'resize', fixMainWindow);
 
-    mainWindow = new Window({
+    g_mainWindow = new Window({
       id: 'mw', className: "win",
       width: 210, height: (document.viewport.getHeight() - 60),
       minWidth: 205, minHeight: 150,
@@ -452,29 +522,29 @@ function showMainWindow()
       title: 'aMSN 2',
       hideEffectOptions: {duration: 0},
     });
-    mainWindow.setConstraint(true, {left: 0, right: 0, top: 0, bottom: 0});
+    g_mainWindow.setConstraint(true, {left: 0, right: 0, top: 0, bottom: 0});
     fixMainWindow();
-    mainWindow.setHTMLContent('<div id="cl"></div>');
-    mainWindow.setCloseCallback(logoutCb);
+    g_mainWindow.setHTMLContent('<div id="cl"></div>');
+    g_mainWindow.setCloseCallback(logoutCb);
   }
-  if (!cl) {
-    cl = new ContactList($('cl'));
+  if (!g_cl) {
+    g_cl = new ContactList($('cl'));
   }
-  mainWindow.showCenter(false);
-  mainWindow.toFront();
+
+  g_mainWindow.showCenter(false, 10, document.viewport.getWidth() - g_mainWindow.getSize()['width'] - 10);
+  g_mainWindow.toFront();
 }
 function hideMainWindow()
 {
-  mainWindow.hide();
+  g_mainWindow.hide();
 }
 function setMainWindowTitle(title)
 {
-  mainWindow.setTitle(title);
+  g_mainWindow.setTitle(title);
 }
 function onConnecting(msg)
 {
-    /* FIXME */
-    //$(".message").text(msg);
+  info(msg);
 }
 function showLogin()
 {
@@ -490,25 +560,25 @@ function signingIn()
   hideLogin();
 }
 
-function myInfoUpdated()
+function myInfoUpdated(s)
 {
   // TODO
 }
 
 function loggedOut() {
   // TODO: show message
-  loop.stop();
-  loop = null;
+  g_loop.stop();
+  g_loop = null;
 
-  if (cl) {
-    cl.remove();
-    cl = null;
+  if (g_cl) {
+    g_cl.remove();
+    g_cl = null;
   }
 
-  if (mainWindow) {
-    mainWindow.destroy();
+  if (g_mainWindow) {
+    g_mainWindow.destroy();
     Event.StopObserving(window, 'resize');
-    mainWindow = null;
+    g_mainWindow = null;
   }
 
   for (c in chatWidgets) {
@@ -524,9 +594,52 @@ function loggedOut() {
   showLogin();
 }
 
+
+
+
+
+
+function callInProgress (xmlhttp) {
+  switch (xmlhttp.readyState) {
+    case 1: case 2: case 3:
+      return true;
+      break;
+      // Case 4 and 0
+    default:
+      return false;
+      break;
+  }
+}
+// Register global responders that will occur on all AJAX requests
+Ajax.Responders.register({
+  onCreate: function(request) {
+    request['timeoutId'] = window.setTimeout( function() {
+      // If we have hit the timeout and the AJAX request is active, abort it and let the user know
+      if (callInProgress(request.transport)) {
+        request.transport.abort();
+        error("Unable to contact the aMSN2 server.");
+        // Run the onFailure method if we set one up when creating the AJAX object
+        if (request.options['onFailure']) {
+            request.options['onFailure'](request.transport, request.json);
+          }
+        }
+      },
+      5000 // Five seconds
+    );
+  },
+  onComplete: function(request) {
+    // Clear the timeout, the request completed ok
+    window.clearTimeout(request['timeoutId']);
+    if (request.transport.status == 0) {
+      error("Unable to contact the aMSN2 server.");
+    }
+  }
+});
+
 function aMSNStart()
 {
-  loop = new PeriodicalExecuter(function(pe) {
+  g_loop = new PeriodicalExecuter(function(pe) {
+    hideInfoIfNeeded();
     new Ajax.Request('/out', {
       method: 'get',
       onException: function(r, e) {

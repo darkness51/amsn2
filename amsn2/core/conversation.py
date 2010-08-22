@@ -53,6 +53,14 @@ class aMSNConversation:
         self._conv_widget = core._ui_manager.load_chat_widget(self, self._win, contacts_uid)
         self._win.add_chat_widget(self._conv_widget)
         self._win.show()
+        if contacts_uid:
+            if len(contacts_uid) > 1:
+                self._win.set_title("aMSN2 - Multi Chat")
+            else:
+                c = self._core._contactlist_manager.get_contact(contacts_uid[0])
+                self._win.set_title("Chat with " + unicode(c.nickname))
+        else:
+            self._win.set_title("aMSN2 - Chat")
 
 
     """ events from outside """

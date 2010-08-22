@@ -58,6 +58,9 @@ class aMSNChatWindow(base.aMSNChatWindow):
     """TODO: move, remove, detach, attach (shouldn't we use add ?), close,
         flash..."""
 
+    def set_title(self, title):
+        self._main.send("setTitleCW", self._uid, title);
+
 
 class aMSNChatWidget(base.aMSNChatWidget):
     """ This interface will present a chat widget of the UI """

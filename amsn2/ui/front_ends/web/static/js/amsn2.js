@@ -356,6 +356,10 @@ function ChatWindow(_uid)
     win.setContent(widget.getElement());
     widget.setParent(this);
   }
+
+  this.setTitle = function(title) {
+    win.setTitle(title);
+  }
 }
 
 function ChatWidget(_uid)
@@ -481,6 +485,11 @@ function onMessageReceivedChatWidget(uid, msg)
 function nudgeChatWidget(uid)
 {
   chatWidgets[uid].nudge();
+}
+
+function setTitleCW(uid, title)
+{
+  chatWindows[uid].setTitle(title);
 } // }}}
 // main {{{
 

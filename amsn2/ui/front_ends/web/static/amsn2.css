@@ -470,3 +470,13 @@ input.stdButton {
   text-align: center;
   color: #000;
 }
+#error {
+  width: 100%;
+  background-color: #faa;
+  opacity: 0.8;
+}
+.error-msg {
+  color: #000;
+  border: 2px red solid;
+  text-align: left;
+}

@@ -19,6 +19,28 @@ function hideInfoIfNeeded() {
     $('info').update();
   }
 }
+
+function error(e) {
+  var err = $('error');
+  var msg = new Element('div', {class: 'error-msg'});
+  var children = err.childElements();
+  var a = new Element('a', {class: 'error-close'});
+  var s = new Element('span');
+
+  s.update(e);
+  a.update('[X] ');
+  a.observe('click', function(event) {
+    elt = Event.findElement(event, 'div');
+    elt.remove();
+  });
+
+  msg.insert(a);
+  msg.insert(s);
+  if (children.length >= 5) {
+    children[0].remove();
+  }
+  err.insert(msg);
+}
 //}}}
 // Contact List {{{
 var g_cl = null;

@@ -597,6 +597,8 @@ function loggedOut() {
 
   g_logging_out = false;
 
+  hideInfoIfNeeded();
+
   showLogin();
 }
 

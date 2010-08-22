@@ -599,6 +599,9 @@ function loggedOut() {
 
   hideInfoIfNeeded();
 
+  Event.stopObserving(window, 'beforeunload');
+  Event.stopObserving(window, 'unload');
+
   showLogin();
 }
 

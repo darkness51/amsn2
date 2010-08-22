@@ -480,3 +480,13 @@ input.stdButton {
   border: 2px red solid;
   text-align: left;
 }
+#debug {
+  width: 100%;
+  background-color: #aff;
+  opacity: 0.8;
+}
+.debug-msg {
+  color: #000;
+  border: 2px blue solid;
+  text-align: left;
+}

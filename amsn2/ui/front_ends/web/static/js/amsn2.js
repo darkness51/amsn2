@@ -1,8 +1,11 @@
-// TODO: have info/debug/err functions
 
 var g_loop = null;
 // Utils {{{
 
+
+function debug(s) {
+  // TODO
+}
 
 var g_t_info = 0;
 function info(s) {
@@ -40,6 +43,25 @@ function error(e) {
     children[0].remove();
   }
   err.insert(msg);
+}
+
+function debug(d) {
+  var dbg = $('debug');
+  var msg = new Element('div', {class: 'debug-msg'});
+  var children = dbg.childElements();
+  var a = new Element('a', {class: 'debug-close'});
+  var s = new Element('span');
+
+  s.update(d);
+  a.update('[X] ');
+  a.observe('click', function(event) {
+    elt = Event.findElement(event, 'div');
+    elt.remove();
+  });
+
+  msg.insert(a);
+  msg.insert(s);
+  dbg.insert(msg);
 }
 //}}}
 // Contact List {{{

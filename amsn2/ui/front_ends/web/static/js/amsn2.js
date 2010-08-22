@@ -619,8 +619,6 @@ Ajax.Responders.register({
     );
   },
   onComplete: function(request) {
-    console.log("complete");
-    console.log(request);
     // Clear the timeout, the request completed ok
     window.clearTimeout(request['timeoutId']);
     if (request.transport.status == 0) {

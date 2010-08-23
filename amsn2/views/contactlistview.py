@@ -56,6 +56,7 @@ class ContactView:
         self.account = amsn_contact.account
         #self.contact = amsn_contact # Usefull at least if we want to reload the ContactPopupMenu
 
+        self.status = amsn_contact.status
         self.icon = amsn_contact.icon
         #TODO: apply emblem on dp
         self.dp = amsn_contact.dp.clone()

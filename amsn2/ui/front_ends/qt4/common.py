@@ -1,4 +1,4 @@
-from amsn2.core.views import StringView, MenuItemView
+from amsn2.views import StringView, MenuItemView
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 

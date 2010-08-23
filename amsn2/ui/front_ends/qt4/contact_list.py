@@ -26,7 +26,7 @@ from ui_contactlist import Ui_ContactList
 from styledwidget import StyledWidget
 
 from image import *
-from amsn2.core.views import StringView, ContactView, GroupView, ImageView, PersonalInfoView
+from amsn2.views import StringView, ContactView, GroupView, ImageView, PersonalInfoView
 import common
 
 class aMSNContactListWindow(base.aMSNContactListWindow):

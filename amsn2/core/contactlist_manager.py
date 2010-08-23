@@ -1,4 +1,4 @@
-from views import *
+from amsn2.views import *
 import os
 import tempfile
 import papyon
@@ -108,7 +108,7 @@ class aMSNContactListManager:
             logger.info('Adding WLM contact %s' %email)
             if email:
                 def failed(error_code):
-                    self._core._ui_manager.showError('Failed to remove the contact %s'
+                    self._core._ui_manager.show_error('Failed to add the contact %s'
                                                       %email)
                     logger.error('Failed to remove contact %s error code %s' %(email, error_code))
 
@@ -274,8 +274,10 @@ class aMSNContactListManager:
 
     def on_contact_removed(self, contact):
         logger.info('Contact %s removed' %contact.account)
-        self._remove_contact_from_groups(contact.id)
+        groups = self.get_groups(contact.id)
+        groups = filter(lambda g: contact.id in g.contacts, groups)
         del self._contacts[contact.id]
+        self._remove_contact_from_groups(contact.id, groups)
         self._core._ui_manager.show_notification("Contact %s removed!" % contact.account)
 
     def on_contact_blocked(self, papyon_contact):
@@ -308,33 +310,28 @@ class aMSNContactListManager:
     def on_group_contact_deleted(self, papyon_group, papyon_contact):
         logger.info('Contact %s deleted from group %s'
                                   %(papyon_contact.account, papyon_group.name))
-        #amsn_group = self.get_group(papyon_group.id)
-        #amsn_group.contacts.remove(papyon_contact.id)
-        ###gv = GroupView(self._core, amsn_group)
-        ###self._em.emit(self._em.events.GROUPVIEW_UPDATED, gv)
-        #self.update_groups()
-        self._remove_contact_from_groups(papyon_contact.id, [papyon_group.id])
+
+        # remove contact from the group
+        groups = [self.get_group(papyon_group.id)]
+        self._remove_contact_from_groups(papyon_contact.id, groups)
+
+        # remove group from the contact's groups
+        c = self.get_contact(papyon_contact.id)
+        c.groups.remove(papyon_group.id)
+        cv = ContactView(self._core, c)
+        self._em.emit(self._em.events.CONTACTVIEW_UPDATED, cv)
 
     ''' additional methods '''
 
     # used when a contact is deleted, moved or change status to offline
-    def _remove_contact_from_groups(self, cid, gids=None):
-        if gids:
-            groups = [self.get_group(gid) for gid in gids]
-        else:
-            groups = self.get_groups(cid)
+    def _remove_contact_from_groups(self, cid, groups):
         for g in groups:
             g.contacts.remove(cid)
-            g.fill()
+            g.contacts_online.discard(cid)
 
         self.update_groups()
 
         # if a contact has to be removed from all the groups, has been deleted
-        if gids:
-            c = self.get_contact(cid)
-            for gid in gids: c.groups.remove(gid)
-            cv = ContactView(self._core, c)
-            self._em.emit(self._em.events.CONTACTVIEW_UPDATED, cv)
 
     def _add_contact_to_groups(self, cid, gids):
         for gid in gids:
@@ -353,6 +350,8 @@ class aMSNContactListManager:
     def on_CL_downloaded(self, address_book):
         self._papyon_addressbook = address_book
         self._clv = ContactListView()
+        self._contacts = {}
+        self._groups = {}
 
         self.update_groups()
         self.update_contacts()
@@ -503,11 +502,14 @@ class aMSNContact():
         self.emblem.load("Theme", "emblem_" + self._core.p2s[papyon_contact.presence])
         #TODO: PARSE ONLY ONCE
         self.nickname.reset()
-        self.nickname.append_text(papyon_contact.display_name)
+        if papyon_contact.display_name:
+            self.nickname.append_text(papyon_contact.display_name.decode('utf-8'))
         self.personal_message.reset()
-        self.personal_message.append_text(papyon_contact.personal_message)
+        if papyon_contact.personal_message:
+            self.personal_message.append_text(papyon_contact.personal_message.decode('utf-8'))
         self.current_media.reset()
-        self.current_media.append_text(papyon_contact.current_media)
+        if papyon_contact.current_media:
+            self.current_media.append_text(papyon_contact.current_media.decode('utf-8'))
         self.status.reset()
         self.status.append_text(self._core.p2s[papyon_contact.presence])
 
@@ -572,7 +574,7 @@ class aMSNPapyonGroup(aMSNBaseGroup):
         self.contacts = set([ c.id for c in contacts])
         self.contacts_online = set([c.id for c in contacts if c.presence != papyon.Presence.OFFLINE])
 
-class aMSNPreseceGroup(aMSNBaseGroup):
+class aMSNPresenceGroup(aMSNBaseGroup):
     """ Group which holds the contacts according to their status """
     def __init__(self, core):
         aMSNBaseGroup.__init__(self, core)

@@ -75,6 +75,7 @@ class Backend(object):
                     self._logged_in = False
             return True
         self._core._loop.timer_add(30000, cb)
+        print "Now, open your favorite browser and go to http://%s:%d/" % (self._options.host, self._options.port)
 
     def on_accept(self, s, c):
         w = s.accept()
@@ -99,7 +100,7 @@ class Backend(object):
             if (t == 'tuple' or t == 'list'):
                 call += '['+ self._args2JS(*value)+']'
             elif (t == 'unicode'):
-                call += "'" + value.encode('unicode_escape') + "',"
+                call += "'" + value.encode('unicode_escape').replace("'","\\'") + "',"
             elif (t == 'str'):
                 call += "'" + value.encode('string_escape') + "',"
             elif (t == 'int'):
@@ -138,7 +139,7 @@ class Backend(object):
         if (body and 'content-type' in headers
         and headers['content-type'].startswith('application/x-www-form-urlencoded')):
             args = parse_qs(body)
-            print "<<< signin: %s" %(args,)
+            print "<<< signin: {'username': %s, 'password': ******}" %(args['username'],)
             self.login_window.signin(args['username'][0], args['password'][0])
             self._logged_in = True
             self._last_poll = time()

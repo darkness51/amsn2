@@ -30,11 +30,7 @@ import logging
 
 #import papyon
 from image import *
-from amsn2.core.views import StringView
-from amsn2.core.views import GroupView
-from amsn2.core.views import ContactView
-from amsn2.core.views import ImageView
-from amsn2.core.views import PersonalInfoView
+from amsn2.views import StringView, GroupView, ContactView, ImageView, PersonalInfoView
 from amsn2.ui import base
 
 import common
@@ -343,7 +339,15 @@ class aMSNContactListWidget(base.aMSNContactListWidget, gtk.TreeView):
                 iter = self._model.get_iter(path)
                 view = self._model.get_value(iter, 1)
 
+                parent = self._model.iter_parent(iter)
+                if parent:
+                    parentview = self._model.get_value(parent, 1)
+                else:
+                    parentview = None
+
                 if isinstance(view, ContactView) or isinstance(view, GroupView):
+                    # TODO: pass the parentview to the menu in some way,
+                    # the menu could be custom
                     self.grab_focus()
                     self.set_cursor(path, tree_column, 0)
                     menu = gtk.Menu()
@@ -418,7 +422,7 @@ class aMSNContactListWidget(base.aMSNContactListWidget, gtk.TreeView):
     def group_updated(self, groupview):
         if (groupview.uid == 0): groupview.uid = '0'
         if groupview.uid not in self.groups:
-            logger.error('Group iter %s not found!' %(contactview.uid))
+            logger.error('Group iter %s not found!' %(groupview.uid))
             return
 
         giter = self.__search_by_id(groupview.uid)

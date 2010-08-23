@@ -22,7 +22,7 @@ from amsn2.ui import base
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from amsn2.core.views import imageview
+from amsn2.views import ImageView
 
 class Image(QPixmap):
     def __init__(self, theme_manager, view):

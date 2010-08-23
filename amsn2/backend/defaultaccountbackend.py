@@ -1,6 +1,6 @@
 
 import os
-from amsn2.core.views import AccountView
+from amsn2.views import AccountView
 import basebackend
 
 """ElementTree independent from the available distribution"""

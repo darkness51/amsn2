@@ -1,10 +1,10 @@
 import os
+from StringIO import StringIO
 import Image
 import logging
 import papyon
 import __builtin__
-from views import AccountView
-from views import StringView
+from amsn2.views import AccountView, StringView
 
 logger = logging.getLogger('amsn2.core.account_manager')
 
@@ -64,13 +64,15 @@ class aMSNAccount(object):
                 dp_path_tmp = self.backend_manager.get_file_location_DP(self.view.email, profile.id, 'tmp')
                 im.save(dp_path_tmp, "PNG")
                 f = open(dp_path_tmp)
+		buf = f.read()
+		f.close()
+		f = StringIO (buf)
                 dp_object = papyon.p2p.MSNObject(self.client.profile,
                                                  os.path.getsize(dp_path_tmp),
                                                  papyon.p2p.MSNObjectType.DISPLAY_PICTURE,
                                                  os.path.basename(path),
                                                  os.path.basename(path),
                                                  data=f)
-                f.close()
 
                 dp_path = self.backend_manager.get_file_location_DP(self.view.email, profile.id, dp_object._data_sha)
                 os.rename(dp_path_tmp, dp_path)

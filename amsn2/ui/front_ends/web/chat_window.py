@@ -1,6 +1,6 @@
 import hashlib
 import random
-from amsn2.core.views import ContactView, StringView
+from amsn2.views import ContactView, StringView
 from amsn2.ui import base
 
 class aMSNChatWindow(base.aMSNChatWindow):
@@ -58,6 +58,9 @@ class aMSNChatWindow(base.aMSNChatWindow):
     """TODO: move, remove, detach, attach (shouldn't we use add ?), close,
         flash..."""
 
+    def set_title(self, title):
+        self._main.send("setTitleCW", self._uid, title);
+
 
 class aMSNChatWidget(base.aMSNChatWidget):
     """ This interface will present a chat widget of the UI """
@@ -76,7 +79,7 @@ class aMSNChatWidget(base.aMSNChatWidget):
     def send_message(self, uid, msg):
         if uid == self._uid:
             stmess = StringView()
-            stmess.append_text('\n'.join(msg))
+            stmess.append_text('\n'.join(msg).decode('utf-8'))
             self._conversation.send_message(stmess)
         return True
 

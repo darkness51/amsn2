@@ -1,4 +1,4 @@
-from views import *
+from amsn2.views import PersonalInfoView
 
 class aMSNPersonalInfoManager:
     def __init__(self, core):
@@ -18,13 +18,13 @@ class aMSNPersonalInfoManager:
         # set nickname at login
         # could be overriden by the one set in the saved account
         # TODO: add setting display picture
-        nick = str(amsn_account.view.nick).encode("utf-8")
+        nick = unicode(amsn_account.view.nick)
         if not nick or nick == amsn_account.view.email:
             nick = self._papyon_profile.display_name
         self._personalinfoview.nick = nick
 
         # TODO: The psm doesn't seem to get fetched from server. Papyon issue?
-        psm = str(amsn_account.view.psm).encode("utf-8")
+        psm = unicode(amsn_account.view.psm)
         self._personalinfoview.psm = psm
 
         # set login presence, from this moment the client appears to the others
@@ -60,13 +60,13 @@ class aMSNPersonalInfoManager:
     def on_nick_updated(self, nick):
         # TODO: parse fields for smileys, format, etc
         self._personalinfoview._nickname.reset()
-        self._personalinfoview._nickname.append_text(nick)
+        self._personalinfoview._nickname.append_text(nick.decode('utf-8'))
         self._em.emit(self._em.events.PERSONALINFO_UPDATED, self._personalinfoview)
 
     def on_PSM_updated(self, psm):
         # TODO: parse fields for smileys, format, etc
         self._personalinfoview._psm.reset()
-        self._personalinfoview._psm.append_text(psm)
+        self._personalinfoview._psm.append_text(psm.decode('utf-8'))
         self._em.emit(self._em.events.PERSONALINFO_UPDATED, self._personalinfoview)
 
     def on_DP_updated(self, dp_msnobj):

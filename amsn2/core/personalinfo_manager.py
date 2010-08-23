@@ -1,4 +1,4 @@
-from amsn2.views import *
+from amsn2.views import PersonalInfoView
 
 class aMSNPersonalInfoManager:
     def __init__(self, core):

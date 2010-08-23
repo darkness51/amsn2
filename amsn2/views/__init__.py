@@ -1,9 +1,9 @@
-from contactlistview import *
-from keybindingview import *
-from menuview import *
-from stringview import *
-from tooltipview import *
-from messageview import *
-from imageview import *
-from accountview import *
-from personalinfoview import *
+from stringview import StringView
+from imageview import ImageView
+from menuview import MenuItemView, MenuView
+from keybindingview import KeyBindingView
+from contactlistview import ContactListView, GroupView, ContactView, ContactPopupMenu, GroupPopupMenu
+from tooltipview import TooltipView
+from messageview import MessageView
+from accountview import AccountView
+from personalinfoview import PersonalInfoView

@@ -1,6 +1,6 @@
-from stringview import *
-from imageview import *
-from menuview import *
+from stringview import StringView
+from imageview import ImageView
+from menuview import MenuView
 
 class ContactListView:
     def __init__(self):
@@ -9,7 +9,6 @@ class ContactListView:
     def __repr__(self):
         return "<ContactListView {group_ids=%s}>" \
                 % (repr(self.group_ids),)
-
 
 class GroupView:
     def __init__(self, core, amsn_group):

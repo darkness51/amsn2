@@ -1,6 +1,6 @@
 
-from imageview import *
-from stringview import *
+from imageview import ImageView
+from stringview import StringView
 
 class AccountView:
     def __init__(self, core, email):

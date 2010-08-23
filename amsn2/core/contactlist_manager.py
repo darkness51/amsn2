@@ -1,4 +1,4 @@
-from views import *
+from amsn2.views import *
 import os
 import tempfile
 import papyon

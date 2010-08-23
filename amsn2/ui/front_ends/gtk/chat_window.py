@@ -28,7 +28,7 @@ import time
 import pango
 from htmltextview import *
 from amsn2.ui import base
-from amsn2.core.views import ContactView, StringView
+from amsn2.views import ContactView, StringView
 import gtk_extras
 import papyon
 import gobject

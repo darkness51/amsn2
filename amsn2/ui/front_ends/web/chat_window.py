@@ -1,6 +1,6 @@
 import hashlib
 import random
-from amsn2.core.views import ContactView, StringView
+from amsn2.views import ContactView, StringView
 from amsn2.ui import base
 
 class aMSNChatWindow(base.aMSNChatWindow):

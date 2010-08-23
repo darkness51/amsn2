@@ -28,7 +28,7 @@ import string
 import logging
 
 from image import *
-from amsn2.core.views import AccountView, ImageView
+from amsn2.views import AccountView, ImageView
 
 logger = logging.getLogger('amsn2.gtk.login')
 

@@ -20,7 +20,7 @@
 
 from amsn2.protocol.events import conversation
 from amsn2.core.contactlist_manager import *
-from amsn2.core.views import *
+from amsn2.views import *
 import papyon
 
 class aMSNConversation:

@@ -23,7 +23,7 @@
 
 import gtk
 from amsn2.ui import base
-from amsn2.core.views import imageview
+from amsn2.views import ImageView
 import logging
 
 logger = logging.getLogger("amsn2.gtk.image")

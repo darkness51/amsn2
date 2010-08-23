@@ -1,6 +1,5 @@
 
 from amsn import *
-from views import *
 from lang import *
 from config import *
 from contactlist_manager import *

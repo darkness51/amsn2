@@ -24,7 +24,7 @@ import logging
 
 from amsn2 import protocol
 from amsn2.backend import aMSNBackendManager
-from views import *
+from amsn2.views import *
 from account_manager import *
 from contactlist_manager import *
 from conversation_manager import *

@@ -1,4 +1,4 @@
-
+var g_logging_out = false;
 var g_loop = null;
 // Utils {{{
 
@@ -393,7 +393,7 @@ function ChatWidget(_uid)
   });
 
   this.remove = function() {
-    Event.StopObserving(t, 'keydown');
+    Event.stopObserving(t, 'keydown');
     elem.remove();
     win = null;
   }
@@ -447,57 +447,61 @@ function ChatWidget(_uid)
   }
 }
 // Chat functions
-var chatWindows = {};
-var chatWidgets = {};
+var g_chatWindows = {};
+var g_chatWidgets = {};
 
 function newChatWindow(uid)
 {
-  if (chatWindows[uid] != undefined)
-    chatWindows[uid].remove()
-  chatWindows[uid] = new ChatWindow(uid);
+  if (g_chatWindows[uid] != undefined)
+    g_chatWindows[uid].remove()
+  g_chatWindows[uid] = new ChatWindow(uid);
 }
 
 function addChatWidget(windowUid, widgetUid)
 {
-  chatWindows[windowUid].addChatWidget(chatWidgets[widgetUid]);
+  g_chatWindows[windowUid].addChatWidget(g_chatWidgets[widgetUid]);
 }
 
 function showChatWindow(uid)
 {
-  chatWindows[uid].show();
+  g_chatWindows[uid].show();
 }
 
 function hideChatWindow(uid)
 {
-  chatWindows[uid].hide();
+  g_chatWindows[uid].hide();
 }
 
 function newChatWidget(uid)
 {
-  chatWidgets[uid] = new ChatWidget(uid);
+  g_chatWidgets[uid] = new ChatWidget(uid);
 }
 
 function onMessageReceivedChatWidget(uid, msg)
 {
-  chatWidgets[uid].onMessageReceived(msg);
+  g_chatWidgets[uid].onMessageReceived(msg);
 }
 
 function nudgeChatWidget(uid)
 {
-  chatWidgets[uid].nudge();
+  g_chatWidgets[uid].nudge();
 }
 
 function setTitleCW(uid, title)
 {
-  chatWindows[uid].setTitle(title);
+  g_chatWindows[uid].setTitle(title);
 } // }}}
 // main {{{
 
 var g_mainWindow = null;
 
 function logoutCb() {
+  if (g_logging_out)
+    return true;
   if (confirm('Are you sure you want to logout?')) {
     new Ajax.Request('/logout');
+    g_logging_out = true;
+    loggedOut();
     return true;
   }
   return false;
@@ -577,19 +581,26 @@ function loggedOut() {
 
   if (g_mainWindow) {
     g_mainWindow.destroy();
-    Event.StopObserving(window, 'resize');
+    Event.stopObserving(window, 'resize');
     g_mainWindow = null;
   }
 
-  for (c in chatWidgets) {
-    chatWidgets[c].remove()
+  for (c in g_chatWidgets) {
+    g_chatWidgets[c].remove()
   }
-  chatWidgets = {};
+  g_chatWidgets = {};
 
-  for (c in chatWindows) {
-    chatWindows[c].remove()
+  for (c in g_chatWindows) {
+    g_chatWindows[c].remove()
   }
-  chatWindows = {};
+  g_chatWindows = {};
+
+  g_logging_out = false;
+
+  hideInfoIfNeeded();
+
+  Event.stopObserving(window, 'beforeunload');
+  Event.stopObserving(window, 'unload');
 
   showLogin();
 }
@@ -638,6 +649,7 @@ Ajax.Responders.register({
 
 function aMSNStart()
 {
+  g_logging_out = false;
   g_loop = new PeriodicalExecuter(function(pe) {
     hideInfoIfNeeded();
     new Ajax.Request('/out', {

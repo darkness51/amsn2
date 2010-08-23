@@ -1,5 +1,5 @@
 
-from amsn2.core.views import StringView, MenuItemView
+from amsn2.views import StringView, MenuItemView
 
 import gobject
 import pango

@@ -30,11 +30,7 @@ import logging
 
 #import papyon
 from image import *
-from amsn2.core.views import StringView
-from amsn2.core.views import GroupView
-from amsn2.core.views import ContactView
-from amsn2.core.views import ImageView
-from amsn2.core.views import PersonalInfoView
+from amsn2.views import StringView, GroupView, ContactView, ImageView, PersonalInfoView
 from amsn2.ui import base
 
 import common

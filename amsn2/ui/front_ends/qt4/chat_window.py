@@ -25,7 +25,7 @@ reload(sys)
 
 import papyon
 from amsn2.ui import base
-from amsn2.core.views import ContactView, StringView
+from amsn2.views import ContactView, StringView
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *

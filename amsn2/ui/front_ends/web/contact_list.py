@@ -112,5 +112,7 @@ class aMSNContactListWidget(base.aMSNContactListWidget):
         in the affects groups.
         """
         self.contacts[contactView.uid]=contactView
-        self._main.send("contactUpdated", contactView.uid, unicode(contactView.name))
+        self._main.send("contactUpdated", contactView.uid,
+                        unicode(contactView.name),
+                        unicode(contactView.status))
 

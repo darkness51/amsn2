@@ -1,6 +1,6 @@
 from stringview import StringView
 from imageview import ImageView
-from menuview import MenuView
+from menuview import MenuView, MenuItemView
 
 class ContactListView:
     def __init__(self):

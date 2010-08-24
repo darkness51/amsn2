@@ -1,6 +1,6 @@
-from stringview import *
-from imageview import *
-from menuview import *
+from stringview import StringView
+from imageview import ImageView
+from menuview import MenuView, MenuItemView
 
 class ContactListView:
     def __init__(self):
@@ -9,7 +9,6 @@ class ContactListView:
     def __repr__(self):
         return "<ContactListView {group_ids=%s}>" \
                 % (repr(self.group_ids),)
-
 
 class GroupView:
     def __init__(self, core, amsn_group):
@@ -57,6 +56,7 @@ class ContactView:
         self.account = amsn_contact.account
         #self.contact = amsn_contact # Usefull at least if we want to reload the ContactPopupMenu
 
+        self.status = amsn_contact.status
         self.icon = amsn_contact.icon
         #TODO: apply emblem on dp
         self.dp = amsn_contact.dp.clone()

@@ -1,7 +1,6 @@
-
-from amsn import *
-from lang import *
-from config import *
-from contactlist_manager import *
-from account_manager import *
-from personalinfo_manager import *
+from amsn import aMSNCore
+from config import aMSNConfig
+from contactlist_manager import aMSNContactListManager, aMSNContact, aMSNBaseGroup, aMSNPapyonGroup, aMSNPresenceGroup
+from account_manager import aMSNAccountManager, aMSNAccount
+from personalinfo_manager import aMSNPersonalInfoManager
+from userinterface_manager import aMSNUserInterfaceManager

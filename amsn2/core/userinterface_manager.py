@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from amsn2.views import *
+from amsn2.views import ImageView, AccountView
 
 import logging
 logger = logging.getLogger('amsn2.ui_manager')

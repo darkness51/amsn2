@@ -227,10 +227,16 @@ function Contact(_gid, _uid)
 {
   var name = "";
   var uid = _uid;
+  var status = "offline";
 
   var elem = new Element('li',
                          {id: 'ct_' + _uid + '_' + _gid,
                           onclick: 'g_cl.contactClick(\''+uid+'\'); return false;'});
+  var img = new Element('img',
+                        {src: 'static/images/icons/'+status+'.png'});
+  var span = new Element('span');
+  elem.insert(img);
+  elem.insert(span);
 
   var elements = {};
   elements[_gid] = elem;
@@ -249,9 +255,20 @@ function Contact(_gid, _uid)
   }
 
   this.setName = function(_name) {
-    name = _name;
-    for (k in elements) {
-      elements[k].update(_name);
+    if (name != _name) {
+      name = _name;
+      for (k in elements) {
+        elements[k].childElements()[1].update('&nbsp'+_name);
+      }
+    }
+  }
+  this.setStatus = function(_status) {
+    if (status != _status) {
+      status = _status;
+      for (k in elements) {
+        e = elements[k].childElements()[0];
+        e.writeAttribute('src','static/images/icons/'+status+'.png');
+      }
     }
   }
 
@@ -304,10 +321,13 @@ function groupUpdated(uid, name, contact_ids)
   }
 }
 
-function contactUpdated(uid, name)
+function contactUpdated(uid, name, status)
 {
-  if (g_cl)
-    g_cl.getContact(uid).setName(name);
+  if (g_cl) {
+    c = g_cl.getContact(uid);
+    c.setName(name);
+    c.setStatus(status);
+  }
 }
 // }}}
 // ChatWindow {{{

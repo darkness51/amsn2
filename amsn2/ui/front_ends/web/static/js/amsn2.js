@@ -88,9 +88,10 @@ function changeMe()
   h += $('pw_nick').innerHTML + '" /> <br/>';
   h += 'Personal Message:<br/><input type="text" name="psm" value="';
   h += $('pw_psm').innerHTML + '" /> <br/>';
+  h += '<div id="changemebuttons">';
   h += '<input type="submit" value="Change" />';
   h += '<input type="reset" value="Cancel" />';
-  h += '</form>';
+  h += '</div></form>';
 
   changeMe.setHTMLContent(h);
 
@@ -107,6 +108,7 @@ function changeMe()
     event.stop();
     Windows.getWindow('changeMe').destroy();
   });
+  $('changemebuttons').setStyle({position: 'absolute', bottom: '10px', left: '25px'});
 }
 
 function PersonalWidget(_parent)

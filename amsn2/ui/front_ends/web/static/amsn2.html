@@ -37,10 +37,10 @@
       recenterLogin(null);
 
       Event.observe('signin', 'submit', function(event) {
+        event.stop();
         $('signin').request({
           onComplete: function(){ aMSNStart(); }
         });
-        event.stop();
       });
 
     </script>

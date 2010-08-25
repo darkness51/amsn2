@@ -735,6 +735,10 @@ Ajax.Responders.register({
 
 function aMSNStart()
 {
+  $('info').update();
+  $('error').update();
+  $('debug').update();
+
   g_logging_out = false;
   g_loop = new PeriodicalExecuter(function(pe) {
     hideInfoIfNeeded();

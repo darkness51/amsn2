@@ -18,7 +18,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import cgi
 import time
 import sys
 reload(sys)
@@ -217,7 +216,6 @@ class aMSNChatWidget(QWidget, base.aMSNChatWidget):
         print "Ding!"
 
         text = messageview.to_stringview().to_HTML_string()
-        text = cgi.escape(text)
         nick, msg = text.split('\n', 1)
         nick = nick.replace('\n', '<br/>')
         msg = msg.replace('\n', '<br/>')

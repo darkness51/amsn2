@@ -3,7 +3,7 @@ import evas
 import elementary
 import window
 from amsn2.ui import base
-from amsn2.core.views import StringView
+from amsn2.views import StringView
 
 class aMSNChatWindow(window.aMSNWindow, base.aMSNChatWindow):
     def __init__(self, conversation_manager):

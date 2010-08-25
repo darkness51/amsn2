@@ -1,7 +1,7 @@
 import curses
 import curses.textpad
 import logging
-from amsn2.core.views import AccountView
+from amsn2.views import AccountView
 
 logger = logging.getLogger('amsn2.curses.login')
 

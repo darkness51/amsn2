@@ -4,8 +4,7 @@ import Image
 import logging
 import papyon
 import __builtin__
-from views import AccountView
-from views import StringView
+from amsn2.views import AccountView, StringView
 
 logger = logging.getLogger('amsn2.core.account_manager')
 

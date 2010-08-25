@@ -1,4 +1,4 @@
-from views import *
+from amsn2.views import *
 import os
 import tempfile
 import papyon
@@ -574,7 +574,7 @@ class aMSNPapyonGroup(aMSNBaseGroup):
         self.contacts = set([ c.id for c in contacts])
         self.contacts_online = set([c.id for c in contacts if c.presence != papyon.Presence.OFFLINE])
 
-class aMSNPreseceGroup(aMSNBaseGroup):
+class aMSNPresenceGroup(aMSNBaseGroup):
     """ Group which holds the contacts according to their status """
     def __init__(self, core):
         aMSNBaseGroup.__init__(self, core)

@@ -24,9 +24,8 @@ import logging
 
 from amsn2 import protocol
 from amsn2.backend import aMSNBackendManager
-from views import *
-from account_manager import *
-from contactlist_manager import *
+from account_manager import aMSNAccount, aMSNAccountManager
+from contactlist_manager import aMSNContactListManager
 from conversation_manager import *
 from oim_manager import *
 from theme_manager import *
@@ -39,7 +38,9 @@ papyon_logger = logging.getLogger("papyon")
 logger = logging.getLogger("amsn2")
 
 class aMSNCore(object):
-    def __init__(self, options, extra_args = None):
+    __shared_state = {}
+
+    def __init__(self, options = None, extra_args = None):
         """
         Create a new aMSN Core. It takes an options class as argument
         which has a variable for each option the core is supposed to received.
@@ -52,48 +53,50 @@ class aMSNCore(object):
            options.debug_amsn2 = whether or not to enable amsn2 debug output
            options.auto_login = whether to autologin with the credentials given
         """
-        self.extra_args = extra_args
-        self.p2s = {papyon.Presence.ONLINE:"online",
-                    papyon.Presence.BUSY:"busy",
-                    papyon.Presence.IDLE:"idle",
-                    papyon.Presence.AWAY:"away",
-                    papyon.Presence.BE_RIGHT_BACK:"brb",
-                    papyon.Presence.ON_THE_PHONE:"phone",
-                    papyon.Presence.OUT_TO_LUNCH:"lunch",
-                    papyon.Presence.INVISIBLE:"hidden",
-                    papyon.Presence.OFFLINE:"offline"}
-        self.Presence = papyon.Presence
+        self.__dict__ = self.__shared_state
+        if options:
+            self.extra_args = extra_args
+            self.p2s = {papyon.Presence.ONLINE:"online",
+                        papyon.Presence.BUSY:"busy",
+                        papyon.Presence.IDLE:"idle",
+                        papyon.Presence.AWAY:"away",
+                        papyon.Presence.BE_RIGHT_BACK:"brb",
+                        papyon.Presence.ON_THE_PHONE:"phone",
+                        papyon.Presence.OUT_TO_LUNCH:"lunch",
+                        papyon.Presence.INVISIBLE:"hidden",
+                        papyon.Presence.OFFLINE:"offline"}
+            self.Presence = papyon.Presence
 
-        self._options = options
-        self._ui_name = None
-        self._loop = None
-        self._main = None
-        self._account = None
+            self._options = options
+            self._ui_name = None
+            self._loop = None
+            self._main = None
+            self._account = None
 
-        self._event_manager = aMSNEventManager(self)
-        self._backend_manager = aMSNBackendManager(self)
-        self._account_manager = aMSNAccountManager(self, options)
-        self._theme_manager = aMSNThemeManager(self)
-        self._contactlist_manager = aMSNContactListManager(self)
-        self._oim_manager = aMSNOIMManager(self)
-        self._conversation_manager = aMSNConversationManager(self)
-        self._personalinfo_manager = aMSNPersonalInfoManager(self)
-        self._ui_manager = aMSNUserInterfaceManager(self)
+            self._event_manager = aMSNEventManager(self)
+            self._backend_manager = aMSNBackendManager(self)
+            self._account_manager = aMSNAccountManager(self, options)
+            self._theme_manager = aMSNThemeManager(self)
+            self._contactlist_manager = aMSNContactListManager(self)
+            self._oim_manager = aMSNOIMManager(self)
+            self._conversation_manager = aMSNConversationManager(self)
+            self._personalinfo_manager = aMSNPersonalInfoManager(self)
+            self._ui_manager = aMSNUserInterfaceManager(self)
 
-        # TODO: redirect the logs somewhere, something like ctrl-s ctrl-d for amsn-0.9x
-        logging.basicConfig(level=logging.WARNING)
+            # TODO: redirect the logs somewhere, something like ctrl-s ctrl-d for amsn-0.9x
+            logging.basicConfig(level=logging.WARNING)
 
-        if self._options.debug_protocol:
-            papyon_logger.setLevel(logging.DEBUG)
-        else:
-            papyon_logger.setLevel(logging.WARNING)
+            if self._options.debug_protocol:
+                papyon_logger.setLevel(logging.DEBUG)
+            else:
+                papyon_logger.setLevel(logging.WARNING)
 
-        if self._options.debug_amsn2:
-            logger.setLevel(logging.DEBUG)
-        else:
-            logger.setLevel(logging.WARNING)
+            if self._options.debug_amsn2:
+                logger.setLevel(logging.DEBUG)
+            else:
+                logger.setLevel(logging.WARNING)
 
-        self.load_UI(self._options.front_end)
+            self.load_UI(self._options.front_end)
 
     def run(self):
         self._main.show()

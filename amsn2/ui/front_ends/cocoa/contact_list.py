@@ -1,10 +1,7 @@
 
 from amsn2.ui import base
 
-from amsn2.core.views import StringView
-from amsn2.core.views import GroupView
-from amsn2.core.views import ContactView
-
+from amsn2.views import StringView, GroupView, ContactView
 
 class aMSNContactList(base.aMSNContactListWindow):
     def __init__(self, amsn_core, parent):

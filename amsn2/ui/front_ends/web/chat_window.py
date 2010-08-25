@@ -1,6 +1,6 @@
 import hashlib
 import random
-from amsn2.core.views import ContactView, StringView
+from amsn2.views import ContactView, StringView
 from amsn2.ui import base
 
 class aMSNChatWindow(base.aMSNChatWindow):
@@ -57,6 +57,9 @@ class aMSNChatWindow(base.aMSNChatWindow):
         pass
     """TODO: move, remove, detach, attach (shouldn't we use add ?), close,
         flash..."""
+
+    def set_title(self, title):
+        self._main.send("setTitleCW", self._uid, title);
 
 
 class aMSNChatWidget(base.aMSNChatWidget):

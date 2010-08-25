@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from amsn2.ui import base
-from amsn2.core.views import AccountView, ImageView
+from amsn2.views import AccountView, ImageView
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *

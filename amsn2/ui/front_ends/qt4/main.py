@@ -23,7 +23,7 @@ from amsn2.ui import base
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from fadingwidget import FadingWidget
-from amsn2.core.views import MenuView, MenuItemView
+from amsn2.views import MenuView, MenuItemView
 
 import common
 

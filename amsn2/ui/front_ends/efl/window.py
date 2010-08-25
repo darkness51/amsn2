@@ -4,7 +4,7 @@ import evas
 import elementary
 
 from amsn2.ui import base
-from amsn2.core.views import MenuItemView
+from amsn2.views import MenuItemView
 
 class aMSNWindow(elementary.Window, base.aMSNWindow):
     def __init__(self, amsn_core):

@@ -18,6 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import cgi
 
 class StringView (object):
     TEXT_ELEMENT = "text"
@@ -132,13 +133,33 @@ class StringView (object):
     def reset_font(self):
         self.set_font(self._default_font)
 
+    def parse_default_smileys(self):
+        new_stringview = StringView()
+        theme_manager = self._core._theme_manager
+        for element in self._elements:
+            if element.get_type() == StringView.TEXT_ELEMENT:
+                finished = False
+                text = element.get_value()
+                while (finished == False): #for now, only parse for :-) and ;-), gonna add a "for" loop which contains this while
+                    pos = text.find(":-)")
+                    if (pos == -1):
+                        finished = True
+                        new_stringview.append_text(text)
+                    else:
+                        new_stringview.append_text(text[:pos])
+                        new_stringview.append_smiley(theme_manager.get_smiley("smiley_smile")[1], ":-)") #the [1] is because the theme manager returns a tuple
+                        text = text[pos+3:]
+            else:
+                new_stringview.append(element.get_type(), element.get_value())
+        return new_stringview
+
     def to_HTML_string(self):
         """ This method returns a formatted html string with all
         the data in the stringview """
         out = ""
         for x in self._elements:
             if x.get_type() == StringView.TEXT_ELEMENT:
-                out += x.get_value()
+                out += cgi.escape(x.get_value())
             elif x.get_type() == StringView.ITALIC_ELEMENT:
                 if x.get_value() == True:
                     out += "<i>"

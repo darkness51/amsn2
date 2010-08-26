@@ -31,6 +31,7 @@ class StringView (object):
     BOLD_ELEMENT = "bold"
     UNDERLINE_ELEMENT = "underline"
     FONT_ELEMENT = "font"
+    SMILEY_ELEMENT = "smiley"
 
     # padding ?
 
@@ -75,9 +76,14 @@ class StringView (object):
     class UnderlineElement(StringElement):
         def __init__(self, underline):
             StringView.StringElement.__init__(self, StringView.UNDERLINE_ELEMENT, underline)
+    class SmileyElement(StringElement):
+        def __init__(self, (image, alt)):
+            StringView.StringElement.__init__(self, StringView.SMILEY_ELEMENT, (image, alt))
 
     def __init__(self, default_background_color = None, default_color = None, default_font = None):
         self._elements = []
+        from amsn2.core import aMSNCore
+        self._core = aMSNCore()
 
         self._default_background_color = default_background_color
         self._default_color = default_color
@@ -93,6 +99,8 @@ class StringView (object):
     def append(self, type, value):
         self._elements.append(StringView.StringElement(type, value))
 
+    def append_smiley(self, image, alt):
+        self._elements.append(StringView.SmileyElement((image, alt)))
     def append_stringview(self, strv):
         #TODO: default (bg)color
         self._elements.extend(strv._elements)
@@ -134,23 +142,29 @@ class StringView (object):
         self.set_font(self._default_font)
 
     def parse_default_smileys(self):
-        new_stringview = StringView()
+        new_stringview = self
         theme_manager = self._core._theme_manager
-        for element in self._elements:
-            if element.get_type() == StringView.TEXT_ELEMENT:
-                finished = False
-                text = element.get_value()
-                while (finished == False): #for now, only parse for :-) and ;-), gonna add a "for" loop which contains this while
-                    pos = text.find(":-)")
-                    if (pos == -1):
-                        finished = True
-                        new_stringview.append_text(text)
-                    else:
-                        new_stringview.append_text(text[:pos])
-                        new_stringview.append_smiley(theme_manager.get_smiley("smiley_smile")[1], ":-)") #the [1] is because the theme manager returns a tuple
-                        text = text[pos+3:]
-            else:
-                new_stringview.append(element.get_type(), element.get_value())
+        smiley_manager = self._core._smiley_manager
+        for shortcut in smiley_manager.default_smileys_shortcuts:
+            temp_stringview = StringView()
+            for element in new_stringview._elements:
+                if element.get_type() == StringView.TEXT_ELEMENT:
+                    finished = False
+                    text = element.get_value()
+                    while (finished == False): 
+                        pos = text.find(shortcut)
+                        if (pos == -1):
+                            pos = text.upper().find(shortcut)
+                        if (pos == -1):
+                            finished = True
+                            temp_stringview.append_text(text)
+                        else:
+                            temp_stringview.append_text(text[:pos])
+                            temp_stringview.append_smiley(theme_manager.get_smiley(smiley_manager.default_smileys_shortcuts[shortcut])[1], shortcut) #the [1] is because the theme manager returns a tuple
+                            text = text[pos+len(shortcut):]
+                else:
+                    temp_stringview.append(element.get_type(), element.get_value())
+            new_stringview = temp_stringview
         return new_stringview
 
     def to_HTML_string(self):
@@ -172,6 +186,8 @@ class StringView (object):
                     out += "</b>"
             elif x.get_type() == StringView.IMAGE_ELEMENT:
                 out += "<img src=\""+x.get_value()+"\" />"
+            elif x.get_type() == StringView.SMILEY_ELEMENT:
+                out += "<img src=\""+x.get_value()[0]+"\" />"
             elif x.get_type() == StringView.UNDERLINE_ELEMENT:
                 if x.get_value() == True:
                     out += "<u>"

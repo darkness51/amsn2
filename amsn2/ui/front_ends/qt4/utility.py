@@ -1,6 +1,6 @@
 
 from amsn2.ui import base
-from amsn2.core import views
+from amsn2 import views
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 

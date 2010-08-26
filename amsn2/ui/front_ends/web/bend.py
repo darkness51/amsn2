@@ -197,6 +197,7 @@ class Backend(object):
     def post_logout(self, w, uri, headers, body = None):
         if self._core._account:
             self._core.sign_out_of_account()
+            print "<<< logout"
             w.write("HTTP/1.1 200 OK\r\n\r\n")
             w.close()
             return

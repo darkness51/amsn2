@@ -90,6 +90,15 @@ class TinyHTTPServer(object):
                     self._rcb = self.on_body
                     self._bytes_to_read = r
                 else:
+                    for (r, _, post_cb) in self._rules:
+                        if r.match(path) and post_cb:
+                            try:
+                                post_cb(self, self._uri, self._headers)
+                            except Exception as e:
+                                traceback.print_exc()
+                                self._500()
+                            finally:
+                                return
                     self._400()
             else:
                 self._400()

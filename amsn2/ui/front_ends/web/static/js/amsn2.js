@@ -66,6 +66,25 @@ function debug(d) {
 //}}}
 // Contact List {{{
 var g_cl = null;
+var g_pw = null;
+
+function PersonalWidget(_parent)
+{
+  var parent = _parent;
+
+  parent.update('<div id="pw_nick"></div><div id="pw_psm"></div>'
+                +'<a href="#" id="pw_presence"></a>');
+
+  this.remove = function() {
+    parent.update();
+  }
+
+  this.update = function(_nick, _presence, _psm) {
+    $('pw_nick').update(_nick);
+    $('pw_psm').update(_psm);
+    $('pw_presence').update(_presence);
+  }
+}
 
 function ContactList(_parent)
 {
@@ -548,11 +567,12 @@ function showMainWindow()
     });
     g_mainWindow.setConstraint(true, {left: 0, right: 0, top: 0, bottom: 0});
     fixMainWindow();
-    g_mainWindow.setHTMLContent('<div id="cl"></div>');
+    g_mainWindow.setHTMLContent('<div id="pw"></div><div id="cl"></div>');
     g_mainWindow.setCloseCallback(logoutCb);
   }
   if (!g_cl) {
     g_cl = new ContactList($('cl'));
+    g_pw = new PersonalWidget($('pw'));
   }
 
   g_mainWindow.showCenter(false, 10, document.viewport.getWidth() - g_mainWindow.getSize()['width'] - 10);
@@ -584,9 +604,11 @@ function signingIn()
   hideLogin();
 }
 
-function myInfoUpdated(s)
+function myInfoUpdated(_nick, _presence, _psm)
 {
-  // TODO
+  if (g_pw) {
+    g_pw.update(_nick, _presence, _psm);
+  }
 }
 
 function loggedOut() {

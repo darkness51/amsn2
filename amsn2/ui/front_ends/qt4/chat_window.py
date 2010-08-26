@@ -215,7 +215,7 @@ class aMSNChatWidget(QWidget, base.aMSNChatWidget):
     def on_message_received(self, messageview, formatting=None):
         print "Ding!"
 
-        text = messageview.to_stringview().to_HTML_string()
+        text = messageview.to_stringview().parse_default_smileys().to_HTML_string()
         nick, msg = text.split('\n', 1)
         nick = nick.replace('\n', '<br/>')
         msg = msg.replace('\n', '<br/>')

@@ -130,11 +130,11 @@ class defaultaccountbackend(basebackend.basebackend):
         emailElmt = SubElement(root_section, "email")
         emailElmt.text = amsn_account.view.email
         #nick
-        nick = str(amsn_account.view.nick).encode("utf-8")
+        nick = str(amsn_account.view.nick)
         nickElmt = SubElement(root_section, "nick")
         nickElmt.text = nick
         #psm
-        psm = str(amsn_account.view.psm).encode("utf-8")
+        psm = str(amsn_account.view.psm)
         psmElmt = SubElement(root_section, "psm")
         psmElmt.text = psm
         #presence

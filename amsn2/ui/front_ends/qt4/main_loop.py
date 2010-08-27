@@ -5,6 +5,8 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import gobject
+import signal
+from amsn2.core import aMSNCore
 
 class aMSNMainLoop(base.aMSNMainLoop):
     def __init__(self, amsn_core):
@@ -19,10 +21,14 @@ class aMSNMainLoop(base.aMSNMainLoop):
     def __del__(self):
         self.gmainloop.quit()
 
+    def on_keyboard_interrupt(self, signal, stack):
+        aMSNCore().quit()
+
     def run(self):
         self.idletimer = QTimer(QApplication.instance())
         QObject.connect(self.idletimer, SIGNAL('timeout()'), self.on_idle)
         self.idletimer.start(100)
+        signal.signal(signal.SIGINT, self.on_keyboard_interrupt)
         self.app.exec_()
 
     def on_idle(self):

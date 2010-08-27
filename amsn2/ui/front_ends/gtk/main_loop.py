@@ -1,5 +1,6 @@
 
 from amsn2.ui import base
+from amsn2.core import aMSNCore
 import gobject
 
 class aMSNMainLoop(base.aMSNMainLoop):
@@ -13,7 +14,7 @@ class aMSNMainLoop(base.aMSNMainLoop):
             try:
                 self._mainloop.run()
             except KeyboardInterrupt:
-                self.quit()
+                aMSNCore().quit()
 
 
     def idler_add(self, func):

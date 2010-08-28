@@ -321,7 +321,7 @@ function Contact(_gid, _uid)
     if (name != _name) {
       name = _name;
       for (k in elements) {
-        elements[k].childElements()[1].update('&nbsp'+_name);
+        elements[k].childElements()[1].update('&nbsp;'+_name);
       }
     }
   }

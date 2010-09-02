@@ -52,7 +52,9 @@ class Backend(object):
             (re.compile('/sendMsg$'), None, self.post_send_msg),
             (re.compile('/closeCW$'), None, self.post_close_cw),
             (re.compile('/logout$'), None, self.post_logout),
-            #TODO: set (nick,psm,status,dp), get (dp, dps),
+            (re.compile('/changeMe$'), None, self.post_changeme),
+            (re.compile('/changePresence$'), None, self.post_change_presence),
+            #TODO: set dp, get (dp, dps),
             # add/remove group/contact
         )
 
@@ -198,6 +200,28 @@ class Backend(object):
         if self._core._account:
             self._core.sign_out_of_account()
             print "<<< logout"
+            w.write("HTTP/1.1 200 OK\r\n\r\n")
+            w.close()
+            return
+        w._400()
+
+    def post_changeme(self, w, uri, headers, body = None):
+        if (body and 'content-type' in headers
+        and headers['content-type'].startswith('application/x-www-form-urlencoded')):
+            args = parse_qs(body)
+            print "<<< changeMe: %s" %(args,)
+            print "TODO"
+            w.write("HTTP/1.1 200 OK\r\n\r\n")
+            w.close()
+            return
+        w._400()
+
+    def post_change_presence(self, w, uri, headers, body = None):
+        if (body and 'content-type' in headers
+        and headers['content-type'].startswith('application/x-www-form-urlencoded')):
+            args = parse_qs(body)
+            print "<<< changePresence: %s" %(args,)
+            print "TODO"
             w.write("HTTP/1.1 200 OK\r\n\r\n")
             w.close()
             return

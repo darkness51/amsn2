@@ -68,11 +68,55 @@ function debug(d) {
 var g_cl = null;
 var g_pw = null;
 
+function changeMe()
+{
+  if($('changeMe')) {
+    Windows.getWindow('changeMe').toFront();
+    return;
+  }
+
+  changeMe = new Window({id: 'changeMe', className: "win", title: "Change my infos",
+                        width: 300, height: 160, minWidth: 240, minHeight: 150,
+                        resizable: true, draggable: true, closable: true,
+                        maximizable: false, minimizable: false, detachable: false,
+                        showEffectOptions: {duration: 0},
+                        hideEffectOptions: {duration: 0}});
+
+  changeMe.setConstraint(true, {left: 0, right: 0, top: 0, bottom: 0});
+  var h = '<form id="fchangeme" action="/changeMe">';
+  h += 'Nick:<br/><input type="text" name="nick" value="';
+  h += $('pw_nick').innerHTML + '" /> <br/>';
+  h += 'Personal Message:<br/><input type="text" name="psm" value="';
+  h += $('pw_psm').innerHTML + '" /> <br/>';
+  h += '<div id="changemebuttons">';
+  h += '<input type="submit" value="Change" />';
+  h += '<input type="reset" value="Cancel" />';
+  h += '</div></form>';
+
+  changeMe.setHTMLContent(h);
+
+  changeMe.setDestroyOnClose();
+  changeMe.showCenter();
+
+  Event.observe('fchangeme', 'submit', function(event) {
+    event.stop();
+    $('fchangeme').request({
+      onComplete: function(){ Windows.getWindow('changeMe').destroy(); }
+    });
+  });
+  Event.observe('fchangeme', 'reset', function(event) {
+    event.stop();
+    Windows.getWindow('changeMe').destroy();
+  });
+  $('changemebuttons').setStyle({position: 'absolute', bottom: '10px', left: '25px'});
+}
+
 function PersonalWidget(_parent)
 {
   var parent = _parent;
 
-  parent.update('<div id="pw_nick"></div><div id="pw_psm"></div>'
+  parent.update('<a href="#" id="pw_nick" onclick="changeMe();"></a><br/>'
+                +'<a href="#" id="pw_psm" onclick="changeMe();"></a><br/>'
                 +'<a href="#" id="pw_presence"></a>');
 
   this.remove = function() {
@@ -277,7 +321,7 @@ function Contact(_gid, _uid)
     if (name != _name) {
       name = _name;
       for (k in elements) {
-        elements[k].childElements()[1].update('&nbsp'+_name);
+        elements[k].childElements()[1].update('&nbsp;'+_name);
       }
     }
   }
@@ -691,6 +735,10 @@ Ajax.Responders.register({
 
 function aMSNStart()
 {
+  $('info').update();
+  $('error').update();
+  $('debug').update();
+
   g_logging_out = false;
   g_loop = new PeriodicalExecuter(function(pe) {
     hideInfoIfNeeded();

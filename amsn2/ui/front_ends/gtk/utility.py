@@ -1,6 +1,6 @@
 
 from amsn2.ui import base
-from amsn2.core import views
+#from amsn2.core import views
 
 import gtk
 import logging

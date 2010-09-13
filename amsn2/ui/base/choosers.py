@@ -4,7 +4,7 @@ class aMSNFileChooserWindow(object):
     This Interface represent a window used to choose a file,
     which could be an image for the dp, a file to send, a theme file, etc.
     """
-    def __init__(self, filters, directory, callback):
+    def __init__(self, filters, directory, callback, title = "aMSN Display Picture Chooser"):
         """
         @type filter: dict of tuple
         @param filter: A dict whose keys are the names of the filters,

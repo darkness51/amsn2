@@ -29,6 +29,7 @@ from contactlist_manager import aMSNContactListManager
 from conversation_manager import *
 from oim_manager import *
 from theme_manager import *
+from smiley_manager import *
 from personalinfo_manager import *
 from event_manager import *
 from userinterface_manager import *
@@ -77,6 +78,7 @@ class aMSNCore(object):
             self._backend_manager = aMSNBackendManager(self)
             self._account_manager = aMSNAccountManager(self, options)
             self._theme_manager = aMSNThemeManager(self)
+            self._smiley_manager = aMSNSmileyManager(self)
             self._contactlist_manager = aMSNContactListManager(self)
             self._oim_manager = aMSNOIMManager(self)
             self._conversation_manager = aMSNConversationManager(self)

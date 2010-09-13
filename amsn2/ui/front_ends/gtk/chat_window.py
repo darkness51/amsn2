@@ -23,7 +23,6 @@
 
 import gc
 import gtk
-import cgi
 import time
 import pango
 from htmltextview import *
@@ -247,9 +246,6 @@ class aMSNChatWidget(base.aMSNChatWidget, gtk.VBox):
         tag.set_property("family", font_family)
         buffer.apply_tag_by_name("family", buffer.get_start_iter(), buffer.get_end_iter())
 
-    def __clean_string(self, str):
-        return cgi.escape(str)
-
     def __on_chat_send(self, entry, event_keyval, event_keymod):
         if (event_keyval == gtk.keysyms.Return):
             buffer = entry.get_buffer()
@@ -317,7 +313,6 @@ class aMSNChatWidget(base.aMSNChatWidget, gtk.VBox):
 
     def on_message_received(self, messageview, formatting=None):
         text = messageview.to_stringview().to_HTML_string()
-        text = self.__clean_string(text)
         nick, msg = text.split('\n', 1)
         nick = str(nick.replace('\n', '<br/>'))
         msg = str(msg.replace('\n', '<br/>'))

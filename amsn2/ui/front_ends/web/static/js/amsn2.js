@@ -85,9 +85,9 @@ function changeMe()
   changeMe.setConstraint(true, {left: 0, right: 0, top: 0, bottom: 0});
   var h = '<form id="fchangeme" action="/changeMe">';
   h += 'Nick:<br/><input type="text" name="nick" value="';
-  h += $('pw_nick').innerHTML + '" /> <br/>';
+  h += $('pw_nick').innerHTML.replace(/^Nick: /, '') + '" /> <br/>';
   h += 'Personal Message:<br/><input type="text" name="psm" value="';
-  h += $('pw_psm').innerHTML + '" /> <br/>';
+  h += $('pw_psm').innerHTML.replace(/^Msg: /, '') + '" /> <br/>';
   h += '<div id="changemebuttons">';
   h += '<input type="submit" value="Change" />';
   h += '<input type="reset" value="Cancel" />';
@@ -115,18 +115,18 @@ function PersonalWidget(_parent)
 {
   var parent = _parent;
 
-  parent.update('<a href="#" id="pw_nick" onclick="changeMe();"></a><br/>'
-                +'<a href="#" id="pw_psm" onclick="changeMe();"></a><br/>'
-                +'<a href="#" id="pw_presence"></a>');
+  parent.update('<a href="#" id="pw_nick" onclick="changeMe();">Nick: </a><br/>'
+                +'<a href="#" id="pw_psm" onclick="changeMe();">Msg: </a><br/>'
+                +'<a href="#" id="pw_presence">Presence: </a>');
 
   this.remove = function() {
     parent.update();
   }
 
   this.update = function(_nick, _presence, _psm) {
-    $('pw_nick').update(_nick);
-    $('pw_psm').update(_psm);
-    $('pw_presence').update(_presence);
+    $('pw_nick').update('Nick: ' + _nick);
+    $('pw_psm').update('Msg: ' + _psm);
+    $('pw_presence').update('Presence: ' + _presence);
   }
 }
 

@@ -52,7 +52,7 @@ class ConversationEvents(papyon.event.ConversationEventInterface):
         strv = StringView()
         if message.content in message.msn_objects.keys():
             print "single emoticon"
-            strv.appendImage(message.msn_objects[message.content]._location)
+            strv.append_image(message.msn_objects[message.content]._location)
             self._amsn_conversation.on_message_received(strv, sender.id)
             return
 

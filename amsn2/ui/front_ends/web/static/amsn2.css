@@ -135,6 +135,9 @@ ul.clContacts li {
   margin: 0;
 }
 
+div#presenceList {
+  width: 165px;
+}
 
 
 /**** WINDOWS ****/

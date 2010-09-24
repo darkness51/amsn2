@@ -1,4 +1,4 @@
-// Based on amsn2 popus
+// Based on amsn2 popups
 
 images {
   image: "shadow_under_bigger.png" COMP;
@@ -45,10 +45,9 @@ group {
      }
      part {
         name: "title.bg";
-        type: GRADIENT;
+        type: RECT;
         description {
            state: "default" 0.0;
-           gradient.spectrum: "bg";
            rel1 {
               to: "bg";
               relative: 0.0 0.0;

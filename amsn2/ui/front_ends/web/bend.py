@@ -206,17 +206,29 @@ class Backend(object):
         w._400()
 
     def post_changeme(self, w, uri, headers, body = None):
+        if self.cl_window is None:
+            w._400()
+            return
         if (body and 'content-type' in headers
         and headers['content-type'].startswith('application/x-www-form-urlencoded')):
             args = parse_qs(body)
             print "<<< changeMe: %s" %(args,)
-            print "TODO"
             w.write("HTTP/1.1 200 OK\r\n\r\n")
             w.close()
+            v = self.cl_window._view
+            sv = StringView()
+            sv.append_text('/n'.join(args['nick']))
+            v.nick = str(sv)
+            sv.reset()
+            sv.append_text('/n'.join(args['psm']))
+            v.psm = str(sv)
             return
         w._400()
 
     def post_change_presence(self, w, uri, headers, body = None):
+        if self.cl_window is None:
+            w._400()
+            return
         if (body and 'content-type' in headers
         and headers['content-type'].startswith('application/x-www-form-urlencoded')):
             args = parse_qs(body)
@@ -224,5 +236,11 @@ class Backend(object):
             print "TODO"
             w.write("HTTP/1.1 200 OK\r\n\r\n")
             w.close()
+            p = int(args['p'][0]);
+            if (not p in self._core.p2s.keys()):
+                w._400()
+                return
+            v = self.cl_window._view
+            v.presence = self._amsn_core.p2s[p]
             return
         w._400()

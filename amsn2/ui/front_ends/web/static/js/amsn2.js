@@ -113,28 +113,30 @@ function changeMe()
 
 function setPresence(p)
 {
-  // TODO
-  alert(p);
   var sL = $('presenceList');
   sL.hide();
+
+  new Ajax.Request('/presenceChanged',
+    {parameters:
+      {p: p}
+  });
 }
 
 function presenceList()
 {
   var sL = $('presenceList');
   if(sL.visible()) {
-    alert("hide");
     sL.hide();
     if(sL.style.zIndex > Windows.maxZIndex) Windows.maxZIndex = sL.style.zIndex;
   } else {
-    alert("show");
     pw = $('pw');
-    cl = g_mainWindow;
+    cl = g_mainWindow.getElement();
     sL.setStyle({left: parseInt(cl.getStyle('left'))+pw.offsetLeft+'px',
                  top:  parseInt(cl.getStyle('bottom'))+pw.offsetTop+'px',
                  zIndex: Windows.maxZIndex + 20,
                  display: 'block'});
     sL.show();
+    sL.setStyle({display: 'block'});
   }
 }
 

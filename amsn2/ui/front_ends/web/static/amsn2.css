@@ -135,10 +135,38 @@ ul.clContacts li {
   margin: 0;
 }
 
-div#presenceList {
+#presenceList {
   width: 165px;
+  background-color:#272728;
+  border:1px solid #42464B;
+  color:#C6C8CC;
+  position:absolute;
+  margin:0;
+  padding:0;
+  font-family:Tahoma,Arial,sans-serif;
+  font-size:10px;
+  padding:1px 3px;
+  text-decoration:none;
 }
-
+div.itemList {
+  background-color:#272728;
+  border:1px solid #42464B;
+  color:#C6C8CC;
+  display:none;
+  position:absolute;
+  z-index:1000;
+}
+div.itemList a {
+  background-color:#272728;
+  display:block;
+  font-family:Tahoma,Arial,sans-serif;
+  font-size:10px;
+  padding:1px 3px;
+  text-decoration:none;
+}
+div.itemList a:hover {
+  background-color:#373B41;
+}
 
 /**** WINDOWS ****/
 .overlay_win {

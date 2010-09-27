@@ -116,7 +116,7 @@ function setPresence(p)
   var sL = $('presenceList');
   sL.hide();
 
-  new Ajax.Request('/presenceChanged',
+  new Ajax.Request('/changePresence',
     {parameters:
       {p: p}
   });

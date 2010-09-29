@@ -60,6 +60,8 @@ class aMSNChatWindow(base.aMSNChatWindow, gtk.Window):
         self.show_all()
         self.child.entry.grab_focus()
 
+    def set_title(self, title):
+        gtk.Window.set_title(self, title)
 
 class aMSNChatWidget(base.aMSNChatWidget, gtk.VBox):
     def __init__(self, amsn_conversation, parent, contacts_uid):

@@ -17,6 +17,7 @@ class aMSNContactListWindow(base.aMSNContactListWindow):
         self._main = parent
         self._clwidget = aMSNContactListWidget(amsn_core,self)
         self._main.cl_window = self
+        self._view = None
 
     def __del__(self):
         self._main.cl_window = None
@@ -48,6 +49,7 @@ class aMSNContactListWindow(base.aMSNContactListWindow):
         ourself, such as DP, nick, psm, the current media being played,...
         @view: the contactView of the ourself (contains DP, nick, psm,
         currentMedia,...)"""
+        self._view = view
         self._main.send("myInfoUpdated", unicode(view.nick),
                        unicode(view.presence), unicode(view.psm))
 

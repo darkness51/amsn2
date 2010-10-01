@@ -75,39 +75,6 @@ group {
         }
       }
     }
-    part {
-      name: "background_spectrum";
-      type: GRADIENT;
-      mouse_events: 0;
-      description {
-        state: "default" 0.0;
-        rel1 {
-          relative: 0.0 0.0;
-          offset: 0 0;
-        }
-        rel2 {
-          relative: 1.0 1.0;
-          offset: 0 0;
-        }
-        gradient {
-          spectrum: "login_screen_spectrum";
-          type: "radial";
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 0 0;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: 0 0;
-          }
-        }
-        fill {
-          origin {
-            relative: 0.0 0.0;
-          }
-        }
-      }
-    }
 
     part {
       name: "background_image";

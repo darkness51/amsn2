@@ -6,10 +6,6 @@ images {
 #include "edc/images.edc"
 }
 
-spectra {
-#include "edc/spectra.edc"
-}
-
 styles {
 #include "edc/styles.edc"
 }

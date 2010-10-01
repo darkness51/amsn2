@@ -24,7 +24,51 @@
               &nbsp;
     </pre>
 
+
+<div class="itemList" id="presenceList">
+  <a href="#" onclick="setPresence('NLN');return false;">
+    <img src="static/images/icons/online.png" style="border:0;" alt="" title="" />
+    &nbsp;&nbsp;I'm available
+  </a>
+  <a href="#" style="border-bottom: 1px solid #bfbcb8;"
+    onclick="setPresence('IDL');return false;">
+    <img src="static/images/icons/idle.png" style="border:0;" alt="" title="" />
+    &nbsp;&nbsp;I'm idle
+  </a>
+
+  <a href="#" onclick="setPresence('BSY');return false;">
+    <img src="static/images/icons/busy.png" style="border:0;" alt="" title="" />
+    &nbsp;&nbsp;I'm busy
+  </a>
+  <a href="#" onclick="setPresence('LUN');return false;">
+    <img src="static/images/icons/lunch.png" style="border:0;" alt="" title="" />
+    &nbsp;&nbsp;I'm having lunch
+  </a>
+  <a href="#" style="border-bottom: 1px solid #bfbcb8;"
+    onclick="setPresence('PHN');return false;">
+    <img src="static/images/icons/phone.png" style="border:0;" alt="" title="" />
+    &nbsp;&nbsp;I'm on phone
+  </a>
+
+  <a href="#" onclick="setPresence('AWY');return false;">
+    <img src="static/images/icons/away.png" style="border:0;" alt="" title="" />
+    &nbsp;&nbsp;I'm away
+  </a>
+  <a href="#" style="border-bottom: 1px solid #bfbcb8;"
+    onclick="setPresence('BRB');return false;">
+    <img src="static/images/icons/brb.png" style="border:0;" alt="" title="" />
+    &nbsp;&nbsp;I'll be right back
+  </a>
+
+  <a href="#" onclick="setPresence('HDN');return false;">
+    <img src="static/images/icons/hidden.png" style="border:0;" alt="" title="" />
+    &nbsp;&nbsp;I'm invisible
+  </a>
+</div>
+
     <script type="text/javascript">
+      $('presenceList').hide();
+
       function recenterLogin(event) {
         var login = $('login');
         var top = (document.viewport.getHeight() - login.getHeight())/2;
@@ -44,34 +88,5 @@
       });
 
     </script>
-
-<div class="itemList" id="presenceList" style="display:none">
-  <a href="#" onclick="setPresence(0);return false;">
-    <img src="images/online.png" style="border:0;" alt="" title="" />
-    &nbsp;&nbsp;I'm available
-  </a>
-  <a href="#" style="border-bottom: 1px solid #bfbcb8;"
-    onclick="setPresence(1);return false;">
-    <img src="images/busy.png" style="border:0;" alt="" title="" />
-    &nbsp;&nbsp;I'm busy
-  </a>
-  <a href="#" onclick="setPresence();return false;">
-    <img src="images/away.png" style="border:0;" alt="" title="" />
-    &nbsp;&nbsp;
-  </a>
-  <a href="#" onclick="setPresence();return false;">
-    <img src="images/away.png" style="border:0;" alt="" title="" />
-    &nbsp;&nbsp;
-  </a>
-  <a href="#" onclick="setPresence();return false;">
-    <img src="images/away.png" style="border:0;" alt="" title="" />
-    &nbsp;&nbsp;
-  </a>
-  <a href="#" style="border-top: 1px solid #bfbcb8;"
-    onclick="setPresence();return false;">
-    <img src="images/offline.png" style="border:0;" alt="" title="" />
-    &nbsp;&nbsp;
-  </a>
-</div>
   </body>
 </html>

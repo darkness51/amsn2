@@ -63,6 +63,10 @@ class aMSNChatWindow(base.aMSNChatWindow, gtk.Window):
     def set_title(self, title):
         gtk.Window.set_title(self, title)
 
+    def show(self):
+        self.show_all()
+
+
 class aMSNChatWidget(base.aMSNChatWidget, gtk.VBox):
     def __init__(self, amsn_conversation, parent, contacts_uid):
         gtk.VBox.__init__(self, False, 0)

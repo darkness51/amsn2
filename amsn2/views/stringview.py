@@ -151,10 +151,8 @@ class StringView (object):
                 if element.get_type() == StringView.TEXT_ELEMENT:
                     finished = False
                     text = element.get_value()
-                    while (finished == False): 
-                        pos = text.find(shortcut)
-                        if (pos == -1):
-                            pos = text.upper().find(shortcut)
+                    while not finished:
+                        pos = text.lower().find(shortcut.lower())
                         if (pos == -1):
                             finished = True
                             temp_stringview.append_text(text)

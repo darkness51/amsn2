@@ -63,12 +63,12 @@ class aMSNFileChooserWindow(base.aMSNFileChooserWindow, gtk.FileChooserDialog):
         gtk.FileChooserDialog.set_title(self, title)
 
 class aMSNDPChooserWindow(base.aMSNDPChooserWindow, gtk.Window):
-    def __init__(self, callback, backend_manager):
+    def __init__(self, callback, backend_manager, title = "aMSN - Choose a Display Picture"):
         gtk.Window.__init__(self, gtk.WINDOW_TOPLEVEL)
         self.showed = False
         self.set_default_size(550, 450)
         self.set_position(gtk.WIN_POS_CENTER)
-        self.set_title("aMSN - Choose a Display Picture")
+        self.set_title(title)
         self.callback = callback
         self.view = None
         self.child = None

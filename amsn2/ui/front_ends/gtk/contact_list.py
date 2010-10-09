@@ -209,13 +209,13 @@ class aMSNContactListWindow(base.aMSNContactListWindow, gtk.VBox):
             if source is self.btnNickname.get_child():
                 newText = source.get_text()
                 strv = StringView()
-                strv.appendText(newText)
-                self._myview.nick = strv
+                strv.append_text(newText)
+                self._myview.nick = str(strv)
             elif source is self.btnPsm.get_child():
                 newText = source.get_text()
                 strv = StringView()
-                strv.appendText(newText)
-                self._myview.psm = strv
+                strv.append_text(newText)
+                self._myview.psm = str(strv)
         else:
             if source is self.btnNickname.get_child():  # User discards input
                 newText = self.nicklabel.get_text()     # Old nickname

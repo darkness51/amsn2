@@ -1,5 +1,8 @@
 group {
   name: "amsn2/login.dp_frame";
+  min: 0 0;
+  max: 72 72;
+
   parts {
     part {
       name: "dp_border";
@@ -7,14 +10,7 @@ group {
       mouse_events: 0;
       description {
         state: "default" 0.0;
-        rel1 {
-          relative: 0.5 0.0;
-          offset: -56 3;
-        }
-        rel2 {
-          relative: 0.5 1.0;
-          offset: 56 -3;
-        }
+        max: 72 72;
         image {
           normal: "login_screen/dp_border.png";
           border: 8 8 8 8;
@@ -28,6 +24,7 @@ group {
       mouse_events: 0;
       description {
         state: "default" 0.0;
+        max: 56 56;
         rel1 {
           to: "dp_border";
           relative: 0.0 0.0;

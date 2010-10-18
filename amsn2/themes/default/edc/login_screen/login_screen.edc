@@ -4,6 +4,7 @@ images {
   image: "login_screen/language_icon.png" COMP;
   image: "login_screen/arrow.png" COMP;
   image: "login_screen/dp_border.png" COMP;
+  image: "bg_tile.png" COMP;
 #include "logo_anim_images.edc"
 }
 
@@ -60,7 +61,7 @@ group {
   parts {
     part {
       name: "background";
-      type: RECT;
+      type: IMAGE;
       mouse_events: 0;
       description {
         state: "default" 0.0;
@@ -72,6 +73,16 @@ group {
         rel2 {
           relative: 1.0 1.0;
           offset: 0 0;
+        }
+        image {
+          normal: "bg_tile.png";
+          border: 0 0 0 0;
+        }
+        fill {
+          size {
+            relative: 0.0 0.0;
+            offset: 10 10;
+          }
         }
       }
     }
@@ -121,53 +132,71 @@ group {
           item {
             type: GROUP;
             source: "amsn2/login.language_frame";
-            weight: 1 0;
+            weight: 0 0;
+            align: -1 0;
+          }
+          item {
+            type: GROUP;
+            source: "amsn2/spacer";
+            weight: 0 0;
             align: -1 0.5;
           }
           item {
             type: GROUP;
             source: "amsn2/login.dp_frame";
-            weight: 1 0;
+            weight: 1 1;
+            align: -1 0.5;
+          }
+          item {
+            type: GROUP;
+            source: "amsn2/spacer";
+            weight: 0 0;
             align: -1 0.5;
           }
           item {
             type: GROUP;
             source: "amsn2/login.fields_frame";
-            weight: 1 0;
+            weight: 1 1;
+            align: -1 0.5;
+          }
+          item {
+            type: GROUP;
+            source: "amsn2/spacer";
+            weight: 0 0;
             align: -1 0.5;
           }
           item {
             type: GROUP;
             source: "amsn2/login.options_frame";
-            weight: 1 0;
+            weight: 1 1;
             align: -1 0.5;
           }
           item {
             type: GROUP;
             source: "amsn2/login.signin_frame";
-            weight: 1 0;
-            align: -1 0.5;
+            weight: 0 0;
+            align: 0.5 0.5;
           }
           item {
             type: GROUP;
             source: "amsn2/login.links_frame";
-            weight: 1 0;
+            weight: 0 0;
             align: -1 0.5;
           }
+          /*
           item {
             type: GROUP;
             source: "amsn2/login.update_frame";
             weight: 1 0;
             align: -1 0.5;
           }
-          /*
-          */
           item {
             type: GROUP;
             source: "amsn2/login.more_frame";
             weight: 1 0;
             align: -1 1;
           }
+          */
         }
       }
     }

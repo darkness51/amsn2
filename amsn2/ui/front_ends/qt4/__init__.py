@@ -33,7 +33,6 @@ def load():
         etype, value, tb = sys.exc_info()
         traceback.print_exception(etype, value, tb.tb_next)
         return None
-        return None
 
 # Initialize the front end by checking for any
 # dependency then register it to the guimanager

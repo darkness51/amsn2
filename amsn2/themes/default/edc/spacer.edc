@@ -1,0 +1,15 @@
+
+group {
+  name: "amsn2/spacer";
+
+  parts {
+    part {
+      name: "spacer";
+      type: RECT;
+      description {
+          state: "default" 0.0;
+          color: 0 0 0 0;
+      }
+    }
+  }
+}

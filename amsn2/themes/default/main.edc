@@ -15,6 +15,7 @@ externals {
 }
 
 collections {
+#include "edc/spacer.edc"
 #include "edc/login_screen/login_screen.edc"
 #include "edc/contact_list/contact_list.edc"
 #include "edc/contact_list/group.edc"

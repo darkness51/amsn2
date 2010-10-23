@@ -15,7 +15,7 @@ from amsn2.core import aMSNCore, aMSNUserInterfaceManager
 if __name__ == '__main__':
     account = None
     passwd = None
-    default_front_end = "gtk"
+    default_front_end = "qt4"
 
     parser = optparse.OptionParser(usage = "usage: %prog [options] [-- frontend_options]")
     parser.add_option("-a", "--account", dest="account",

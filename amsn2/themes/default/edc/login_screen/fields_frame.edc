@@ -4,11 +4,12 @@ group {
     part {
       name: "label";
       type: TEXT;
+      effect: GLOW;
       scale: 1;
       description {
         state: "default" 0.0;
-        color: 0 0 0 255;
-        color2: 225 225 225 128;
+        color: 225 225 225 255;
+        color2: 0 0 0 255;
         visible: 1;
         text {
           align: 0.0 0.5;
@@ -49,11 +50,12 @@ group {
     part {
       name: "label";
       type: TEXT;
+      effect: GLOW;
       scale: 1;
       description {
         state: "default" 0.0;
-        color: 0 0 0 255;
-        color2: 225 225 225 128;
+        color: 225 225 225 255;
+        color2: 0 0 0 255;
         visible: 1;
         text {
           align: 0.0 0.5;
@@ -93,11 +95,12 @@ group {
     part {
       name: "label";
       type: TEXT;
+      effect: GLOW;
       scale: 1;
       description {
         state: "default" 0.0;
-        color: 0 0 0 255;
-        color2: 225 225 225 128;
+        color: 225 225 225 255;
+        color2: 0 0 0 255;
         visible: 1;
         text {
           align: 0.0 0.5;
@@ -130,44 +133,15 @@ group {
   name: "amsn2/login.fields_frame";
   parts {
     part {
-      name: "arrow";
-      type: IMAGE;
-      mouse_events: 0;
-      description {
-        state: "default" 0.0;
-        rel1 {
-          relative: 0.2 0.0;
-          offset: -30 20;
-        }
-        rel2 {
-          relative: 0.2 0.0;
-          offset: 0 40;
-        }
-        image {
-          normal: "login_screen/arrow.png";
-        }
-      }
-      description {
-        state: "left" 0.0;
-        inherit: "default" 0.0;
-        rel1 {
-          relative: 0.2 0.0;
-          offset: -50 20;
-        }
-        rel2 {
-          relative: 0.2 0.0;
-          offset: -20 40;
-        }
-      }
-    }
-    part {
       name: "vbox";
       type: BOX;
       description {
         state: "default" 0.0;
         rel1 {
-          to_x: "arrow";
-          relative: 1.0 0.0;
+            offset: 50 0;
+        }
+        rel2 {
+            offset: -50 0;
         }
         box {
           layout: "vertical";
@@ -213,6 +187,39 @@ group {
             weight: 1 0;
             align: -1 0.5;
           }
+        }
+      }
+    }
+    part {
+      name: "arrow";
+      type: IMAGE;
+      mouse_events: 0;
+      description {
+        state: "default" 0.0;
+        rel1 {
+          to_y: "vbox";
+          relative: 0 0;
+          offset: -30 0;
+        }
+        rel2 {
+            to_y: "vbox";
+            relative: 0 1;
+            offset: 50 0;
+        }
+        image {
+          normal: "login_screen/arrow.png";
+        }
+      }
+      description {
+        state: "left" 0.0;
+        inherit: "default" 0.0;
+        rel1 {
+          relative: 0.2 0.0;
+          offset: -50 20;
+        }
+        rel2 {
+          relative: 0.2 0.0;
+          offset: -20 40;
         }
       }
     }

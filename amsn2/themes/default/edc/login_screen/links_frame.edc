@@ -5,8 +5,12 @@ group {
     part {
       name: "forgot_pass";
       type: TEXT;
+      effect: GLOW;
+      scale: 1;
       description {
         state: "default" 0.0;
+        color: 225 225 225 255;
+        color2: 0 0 0 255;
         text {
           align: 0.0 0.5;
           font: "VeraBd";
@@ -25,8 +29,12 @@ group {
     part {
       name: "network_status";
       type: TEXT;
+      effect: GLOW;
+      scale: 1;
       description {
         state: "default" 0.0;
+        color: 225 225 225 255;
+        color2: 0 0 0 255;
         text {
           align: 0.0 0.5;
           font: "VeraBd";
@@ -45,8 +53,12 @@ group {
     part {
       name: "new_acct";
       type: TEXT;
+      effect: GLOW;
+      scale: 1;
       description {
         state: "default" 0.0;
+        color: 225 225 225 255;
+        color2: 0 0 0 255;
         text {
           align: 0.0 0.5;
           font: "VeraBd";
@@ -76,19 +88,19 @@ group {
           item {
             type: GROUP;
             source: "amsn2/login.forgot_pass";
-            weight: 1 0;
+            weight: 1 1;
             align: -1 0.5;
           }
           item {
             type: GROUP;
             source: "amsn2/login.network_status";
-            weight: 1 0;
+            weight: 1 1;
             align: -1 0.5;
           }
           item {
             type: GROUP;
             source: "amsn2/login.new_acct";
-            weight: 1 0;
+            weight: 1 1;
             align: -1 0.5;
           }
         }

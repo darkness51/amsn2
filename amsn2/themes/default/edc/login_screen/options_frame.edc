@@ -7,6 +7,9 @@ group {
       source: "elm/check";
       description {
         state: "default" 0.0;
+        params {
+          string: "label" "Remember Me";
+        }
       }
     }
   }
@@ -20,6 +23,9 @@ group {
       source: "elm/check";
       description {
         state: "default" 0.0;
+        params {
+          string: "label" "Remember Password";
+        }
       }
     }
   }
@@ -33,6 +39,9 @@ group {
       source: "elm/check";
       description {
         state: "default" 0.0;
+        params {
+          string: "label" "Auto Login";
+        }
       }
     }
   }
@@ -46,6 +55,12 @@ group {
       type: BOX;
       description {
         state: "default" 0.0;
+        rel1 {
+            offset: 50 0;
+        }
+        rel2 {
+            offset: -50 0;
+        }
         box {
           layout: "vertical";
         }

@@ -7,6 +7,9 @@ group {
       source: "elm/button";
       description {
         state: "default" 0.0;
+        params {
+          string: "label" "Sign in";
+        }
       }
     }
   }

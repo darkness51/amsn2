@@ -6,13 +6,14 @@ group {
       type: IMAGE;
       description {
         state: "default" 0.0;
+        max: 67 67;
         rel1 {
           relative: 0.0 0.0;
           offset: 4 4;
         }
         rel2 {
-          relative: 0.0 1.0;
-          offset: 67 -4;
+          relative: 0.0 0.0;
+          offset: 67 67;
         }
         image {
           normal: "login_screen/language_icon.png";
@@ -41,6 +42,7 @@ group {
     part {
       name: "language_text";
       type: TEXT;
+      effect: GLOW;
       description {
         state: "default" 0.0;
         rel1 {
@@ -53,8 +55,8 @@ group {
           relative: 1.0 1.0;
           offset: -4 0;
         }
-        color: 0 0 0 255;
-        color2: 225 225 225 128;
+        color: 225 225 225 255;
+        color2: 0 0 0 255;
         text {
           align: 0.0 0.5;
           font: "VeraBd";

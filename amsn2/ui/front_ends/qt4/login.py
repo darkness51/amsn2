@@ -2,8 +2,9 @@
 from amsn2.ui import base
 from amsn2.views import AccountView, ImageView
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4 import Qt
+from PyQt4 import QtCore
+from PyQt4 import QtGui
 try:
     from ui_login import Ui_Login
 except ImportError, e:
@@ -16,24 +17,24 @@ class LoginThrobber(StyledWidget):
     def __init__(self, parent):
         StyledWidget.__init__(self, parent)
         # Throbber
-        self.plsWait = QLabel(self)
+        self.plsWait = QtGui.QLabel(self)
         self.plsWait.setText("<strong>Please wait...</strong>")
-        self.plsWait.setAlignment(Qt.AlignCenter)
-        self.status = QLabel(self)
+        self.plsWait.setAlignment(QtCore.Qt.AlignCenter)
+        self.status = QtGui.QLabel(self)
         self.status.setText("")
-        self.status.setAlignment(Qt.AlignCenter)
-        self.throbber = QLabel(self)
-        self.movie = QMovie(self)
+        self.status.setAlignment(QtCore.Qt.AlignCenter)
+        self.throbber = QtGui.QLabel(self)
+        self.movie = QtGui.QMovie(self)
         self.movie.setFileName("amsn2/gui/front_ends/qt4/throbber.gif")
         self.movie.start()
         self.throbber.setMovie(self.movie)
         # Layout, for horizontal centering
-        self.hLayout = QHBoxLayout()
+        self.hLayout = QtGui.QHBoxLayout()
         self.hLayout.addStretch()
         self.hLayout.addWidget(self.throbber)
         self.hLayout.addStretch()
         # Layout, for vertical centering
-        self.vLayout = QVBoxLayout()
+        self.vLayout = QtGui.QVBoxLayout()
         self.vLayout.addStretch()
         self.vLayout.addLayout(self.hLayout)
         self.vLayout.addWidget(self.plsWait)
@@ -56,15 +57,15 @@ class aMSNLoginWindow(StyledWidget, base.aMSNLoginWindow):
         self.ui.setupUi(self)
         self._parent = parent
         self.loginThrobber = None
-        QObject.connect(self.ui.pushSignIn, SIGNAL("clicked()"), self.__login_clicked)
-        QObject.connect(self.ui.linePassword, SIGNAL("returnPressed()"), self.__login_clicked)
-        QObject.connect(self.ui.styleDesktop, SIGNAL("clicked()"), self.setTestStyle)
-        QObject.connect(self.ui.styleRounded, SIGNAL("clicked()"), self.setTestStyle)
-        QObject.connect(self.ui.styleWLM, SIGNAL("clicked()"), self.setTestStyle)
-        QObject.connect(self.ui.checkRememberMe, SIGNAL("toggled(bool)"), self.__on_toggled_cb)
-        QObject.connect(self.ui.checkRememberPass, SIGNAL("toggled(bool)"), self.__on_toggled_cb)
-        QObject.connect(self.ui.checkSignInAuto, SIGNAL("toggled(bool)"), self.__on_toggled_cb)
-        QObject.connect(self.ui.comboAccount, SIGNAL("currentIndexChanged(QString)"), self.__on_user_comboxEntry_changed)
+        QtCore.QObject.connect(self.ui.pushSignIn, QtCore.SIGNAL("clicked()"), self.__login_clicked)
+        QtCore.QObject.connect(self.ui.linePassword, QtCore.SIGNAL("returnPressed()"), self.__login_clicked)
+        QtCore.QObject.connect(self.ui.styleDesktop, QtCore.SIGNAL("clicked()"), self.setTestStyle)
+        QtCore.QObject.connect(self.ui.styleRounded, QtCore.SIGNAL("clicked()"), self.setTestStyle)
+        QtCore.QObject.connect(self.ui.styleWLM, QtCore.SIGNAL("clicked()"), self.setTestStyle)
+        QtCore.QObject.connect(self.ui.checkRememberMe, QtCore.SIGNAL("toggled(bool)"), self.__on_toggled_cb)
+        QtCore.QObject.connect(self.ui.checkRememberPass, QtCore.SIGNAL("toggled(bool)"), self.__on_toggled_cb)
+        QtCore.QObject.connect(self.ui.checkSignInAuto, QtCore.SIGNAL("toggled(bool)"), self.__on_toggled_cb)
+        QtCore.QObject.connect(self.ui.comboAccount, QtCore.SIGNAL("currentIndexChanged(QString)"), self.__on_user_comboxEntry_changed)
         self.setTestStyle()
 
         # status list
@@ -72,21 +73,21 @@ class aMSNLoginWindow(StyledWidget, base.aMSNLoginWindow):
             name = self._amsn_core.p2s[key]
             _, path = self._theme_manager.get_statusicon("buddy_%s" % name)
             if (name == self._amsn_core.p2s['FLN']): continue
-            self.ui.comboStatus.addItem(QIcon(path), str.capitalize(name), key)
+            self.ui.comboStatus.addItem(QtGui.QIcon(path), str.capitalize(name), key)
 
     def __on_user_comboxEntry_changed(self, text):
         self.__switch_to_account(text)
 
     def setTestStyle(self):
-        styleData = QFile()
+        styleData = QtCore.QFile()
         if self.ui.styleDesktop.isChecked() == True:
             styleData.setFileName("amsn2/ui/front_ends/qt4/style0.qss")
         elif self.ui.styleWLM.isChecked() == True:
             styleData.setFileName("amsn2/ui/front_ends/qt4/style1.qss")
         elif self.ui.styleRounded.isChecked() == True:
             styleData.setFileName("amsn2/ui/front_ends/qt4/style2.qss")
-        if styleData.open(QIODevice.ReadOnly|QIODevice.Text):
-            styleReader = QTextStream(styleData)
+        if styleData.open(QtCore.QIODevice.ReadOnly|QtCore.QIODevice.Text):
+            styleReader = QtCore.QTextStream(styleData)
             self.setStyleSheet(styleReader.readAll())
 
     def show(self):

@@ -17,10 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- 
-from QtGui import *
-from QtCore import *
- 
-class ContactDelegate(QItemDelegate):
+
+from PyQt4 import QtGui
+
+class ContactDelegate(QtGui.QItemDelegate):
     def __init__(self, parent):
-        QStandardItemModel.__init__(parent) 
+        QtGui.QStandardItemModel.__init__(parent)

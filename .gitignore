@@ -11,6 +11,8 @@ build/
 Debug/
 ui_*
 .*.swp
-pymsn/
+/pymsn/
+/build/
+/dist/
 amsn2-web-access.log
 amsn2-web-error.log

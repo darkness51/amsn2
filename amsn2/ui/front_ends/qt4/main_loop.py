@@ -2,8 +2,8 @@
 from amsn2.ui import base
 import sys
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4 import QtCore
+from PyQt4 import QtGui
 import gobject
 import signal
 from amsn2.core import aMSNCore
@@ -14,7 +14,7 @@ class aMSNMainLoop(base.aMSNMainLoop):
         self._amsn_core = amsn_core
         os.putenv("QT_NO_GLIB", "1") # FIXME: Temporary workaround for segfault
                                      #        caused by GLib Event Loop integration
-        self.app = QApplication(sys.argv)
+        self.app = QtGui.QApplication(sys.argv)
         self.gmainloop = gobject.MainLoop()
         self.gcontext = self.gmainloop.get_context()
 
@@ -25,8 +25,8 @@ class aMSNMainLoop(base.aMSNMainLoop):
         aMSNCore().quit()
 
     def run(self):
-        self.idletimer = QTimer(QApplication.instance())
-        QObject.connect(self.idletimer, SIGNAL('timeout()'), self.on_idle)
+        self.idletimer = QtCore.QTimer(QtGui.QApplication.instance())
+        QtCore.QObject.connect(self.idletimer, QtCore.SIGNAL('timeout()'), self.on_idle)
         self.idletimer.start(100)
         signal.signal(signal.SIGINT, self.on_keyboard_interrupt)
         self.app.exec_()

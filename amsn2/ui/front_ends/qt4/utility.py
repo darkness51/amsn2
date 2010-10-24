@@ -1,22 +1,25 @@
 
 from amsn2.ui import base
 from amsn2 import views
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
 
-class aMSNErrorWindow(base.aMSNErrorWindow, QMessageBox):
+from PyQt4 import Qt
+from PyQt4 import QtCore
+from PyQt4 import QtGui
+
+class aMSNErrorWindow(base.aMSNErrorWindow, QtGui.QMessageBox):
     def __init__(self, error_text, title = "aMSN Error", parent = None):
-        QMessageBox.__init__(self, QMessageBox.Critical, "aMSN Error", error_text, QMessageBox.Ok, parent)
+        QtGui.QMessageBox.__init__(self, QtGui.QMessageBox.Critical,
+                                   "aMSN Error", error_text, QtGui.QMessageBox.Ok, parent)
         self.setModal(False)
         self.adress = self # Workaround to make the window not disapear as it is poped
-        QObject.connect(self, SIGNAL("finished(int)"), self.finish)
+        QtCore.QtCore.QObject.connect(self, QtCore.SIGNAL("finished(int)"), self.finish)
         self.show()
 
     def set_title(self, title):
         self.setWindowTitle(title)
 
     def show(self):
-        QDialog.show(self)
+        QtGui.QDialog.show(self)
 
     def closeEvent(self, e):
         self.finish()
@@ -27,19 +30,20 @@ class aMSNErrorWindow(base.aMSNErrorWindow, QMessageBox):
         self.deleteLater()
 
 
-class aMSNNotificationWindow(base.aMSNNotificationWindow, QMessageBox):
+class aMSNNotificationWindow(base.aMSNNotificationWindow, QtGui.QMessageBox):
     def __init__(self, notification_text, title = "aMSN Notification", parent = None):
-        QMessageBox.__init__(self, QMessageBox.Information, "aMSN Notification", notification_text, QMessageBox.Ok, parent)
+        QtGui.QMessageBox.__init__(self, QtGui.QMessageBox.Information,
+                                   "aMSN Notification", notification_text, QtGui.QMessageBox.Ok, parent)
         self.setModal(False)
         self.adress = self # Workaround to make the window not disapear as it is poped
-        QObject.connect(self, SIGNAL("finished(int)"), self.finish)
+        QtCore.QObject.connect(self, QtCore.SIGNAL("finished(int)"), self.finish)
         self.show()
 
     def set_title(self, title):
         self.setWindowTitle(title)
 
     def show(self):
-        QDialog.show(self)
+        QtGui.QDialog.show(self)
 
     def closeEvent(self, e):
         self.finish()
@@ -50,26 +54,27 @@ class aMSNNotificationWindow(base.aMSNNotificationWindow, QMessageBox):
         self.deleteLater()
 
 
-class aMSNDialogWindow(base.aMSNDialogWindow, QMessageBox):
+class aMSNDialogWindow(base.aMSNDialogWindow, QtGui.QMessageBox):
     def __init__(self, message, actions, title = "aMSN Dialog", parent = None):
-        QMessageBox.__init__(self, QMessageBox.Information, "aMSN Dialog", message, QMessageBox.NoButton, parent)
+        QtGui.QMessageBox.__init__(self, QtGui.QMessageBox.Information,
+                                   "aMSN Dialog", message, QtGui.QMessageBox.NoButton, parent)
 
         for action in actions:
             name, callback = action
-            button = QPushButton(name)
-            QObject.connect(button, SIGNAL("clicked()"), callback)
-            self.addButton(button, QMessageBox.AcceptRole)
+            button = QtGui.QPushButton(name)
+            QtCore.QObject.connect(button, QtCore.SIGNAL("clicked()"), callback)
+            self.addButton(button, QtGui.QMessageBox.AcceptRole)
 
         self.setModal(False)
         self.adress = self # Workaround to make the window not disapear as it is poped
-        QObject.connect(self, SIGNAL("finished(int)"), self.finish)
+        QtCore.QObject.connect(self, QtCore.SIGNAL("finished(int)"), self.finish)
         self.show()
 
     def set_title(self, title):
         self.setWindowTitle(title)
 
     def show(self):
-        QDialog.show(self)
+        QtGui.QDialog.show(self)
 
     def closeEvent(self, e):
         self.finish()
@@ -80,45 +85,45 @@ class aMSNDialogWindow(base.aMSNDialogWindow, QMessageBox):
         self.deleteLater()
 
 
-class aMSNContactInputWindowSingleton(base.aMSNContactInputWindow, QDialog):
+class aMSNContactInputWindowSingleton(base.aMSNContactInputWindow, QtGui.QDialog):
     def __init__(self):
         self.firstTime = True
 
     def __call__(self, message, callback, groups, title = "aMSN Contact Input", parent = None):
         if self.firstTime :
-            QDialog.__init__(self, parent)
+            QtGui.QDialog.__init__(self, parent)
 
-            self.vboxlayout = QVBoxLayout()
-            self.hboxlayout1 = QHBoxLayout()
-            self.label = QLabel()
+            self.vboxlayout = QtGui.QVBoxLayout()
+            self.hboxlayout1 = QtGui.QHBoxLayout()
+            self.label = QtGui.QLabel()
             self.hboxlayout1.addWidget(self.label)
-            self._name = QLineEdit()
+            self._name = QtGui.QLineEdit()
             self.hboxlayout1.addWidget(self._name)
             self.vboxlayout.addLayout(self.hboxlayout1)
 
-            self.hboxlayout2 = QHBoxLayout()
-            self.label2 = QLabel()
+            self.hboxlayout2 = QtGui.QHBoxLayout()
+            self.label2 = QtGui.QLabel()
             self.hboxlayout2.addWidget(self.label2)
-            self._message = QLineEdit()
+            self._message = QtGui.QLineEdit()
             self.hboxlayout2.addWidget(self._message)
             self.vboxlayout.addLayout(self.hboxlayout2)
 
-            self.scrollarea = QScrollArea()
-            self.scrollvbox = QVBoxLayout()
+            self.scrollarea = QtGui.QScrollArea()
+            self.scrollvbox = QtGui.QVBoxLayout()
             self.scrollarea.setLayout(self.scrollvbox)
             self.vboxlayout.addWidget(self.scrollarea)
 
-            self.buttonbox = QDialogButtonBox()
+            self.buttonbox = QtGui.QDialogButtonBox()
 
-            self.buttonOk = QPushButton("Ok", self)
-            QObject.connect(self.buttonOk, SIGNAL("clicked()"), self.accept)
-            QObject.connect(self, SIGNAL("accepted()"), self.onOk)
-            self.buttonbox.addButton(self.buttonOk,QDialogButtonBox.ActionRole)
+            self.buttonOk = QtGui.QPushButton("Ok", self)
+            QtCore.QObject.connect(self.buttonOk, QtCore.SIGNAL("clicked()"), self.accept)
+            QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), self.onOk)
+            self.buttonbox.addButton(self.buttonOk, QtGui.QDialogButtonBox.ActionRole)
 
-            self.buttonCancel = QPushButton("Cancel", self)
-            QObject.connect(self.buttonCancel, SIGNAL("clicked()"), self.reject)
-            QObject.connect(self, SIGNAL("rejected()"), self.onCancel)
-            self.buttonbox.addButton(self.buttonCancel,QDialogButtonBox.ActionRole)
+            self.buttonCancel = QtGui.QPushButton("Cancel", self)
+            QtCore.QObject.connect(self.buttonCancel, QtCore.SIGNAL("clicked()"), self.reject)
+            QtCore.QObject.connect(self, QtCore.SIGNAL("rejected()"), self.onCancel)
+            self.buttonbox.addButton(self.buttonCancel, QtGui.QDialogButtonBox.ActionRole)
 
             self.vboxlayout.addWidget(self.buttonbox)
 
@@ -126,10 +131,10 @@ class aMSNContactInputWindowSingleton(base.aMSNContactInputWindow, QDialog):
 
         self.dicgroups = {}
         for group in groups:
-            checkbox = QCheckBox(group.name.to_HTML_string())
+            checkbox = QtGui.QCheckBox(group.name.to_HTML_string())
             self.scrollvbox.addWidget(checkbox)
             self.dicgroups[checkbox] = group
-        self.spacer = QWidget()
+        self.spacer = QtGui.QWidget()
         self.scrollvbox.addWidget(self.spacer, 1)
 
         self.setWindowTitle(title)
@@ -145,7 +150,7 @@ class aMSNContactInputWindowSingleton(base.aMSNContactInputWindow, QDialog):
         self.setWindowTitle(title)
 
     def show(self):
-        QDialog.show(self)
+        QtGui.QDialog.show(self)
 
     def empty(self):
         self._name.clear()
@@ -173,36 +178,36 @@ class aMSNContactInputWindowSingleton(base.aMSNContactInputWindow, QDialog):
 
 aMSNContactInputWindow = aMSNContactInputWindowSingleton()
 
-class aMSNGroupInputWindowSingleton(base.aMSNGroupInputWindow, QDialog):
+class aMSNGroupInputWindowSingleton(base.aMSNGroupInputWindow, QtGui.QDialog):
     def __init__(self):
         self.firstTime = True
- 
+
     def __call__(self, message, callback, contacts, title = "aMSN Group Input", parent = None):
         if self.firstTime :
-            QDialog.__init__(self, parent)
+            QtGui.QDialog.__init__(self, parent)
 
-            self.vboxlayout = QVBoxLayout()
-            self.label = QLabel()
+            self.vboxlayout = QtGui.QVBoxLayout()
+            self.label = QtGui.QLabel()
             self.vboxlayout.addWidget(self.label)
-            self._name = QLineEdit()
+            self._name = QtGui.QLineEdit()
             self.vboxlayout.addWidget(self._name)
 
-            self.scrollarea = QScrollArea()
-            self.scrollvbox = QVBoxLayout()
+            self.scrollarea = QtGui.QScrollArea()
+            self.scrollvbox = QtGui.QVBoxLayout()
             self.scrollarea.setLayout(self.scrollvbox)
             self.vboxlayout.addWidget(self.scrollarea)
 
-            self.buttonbox = QDialogButtonBox()
+            self.buttonbox = QtGui.QDialogButtonBox()
 
-            self.buttonOk = QPushButton("Ok", self)
-            QObject.connect(self.buttonOk, SIGNAL("clicked()"), self.accept)
-            QObject.connect(self, SIGNAL("accepted()"), self.onOk)
-            self.buttonbox.addButton(self.buttonOk,QDialogButtonBox.ActionRole)
+            self.buttonOk = QtGui.QPushButton("Ok", self)
+            QtCore.QObject.connect(self.buttonOk, QtCore.SIGNAL("clicked()"), self.accept)
+            QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), self.onOk)
+            self.buttonbox.addButton(self.buttonOk, QtGui.QDialogButtonBox.ActionRole)
 
-            self.buttonCancel = QPushButton("Cancel", self)
-            QObject.connect(self.buttonCancel, SIGNAL("clicked()"), self.reject)
-            QObject.connect(self, SIGNAL("rejected()"), self.onCancel)
-            self.buttonbox.addButton(self.buttonCancel,QDialogButtonBox.ActionRole)
+            self.buttonCancel = QtGui.QPushButton("Cancel", self)
+            QtCore.QObject.connect(self.buttonCancel, QtCore.SIGNAL("clicked()"), self.reject)
+            QtCore.QObject.connect(self, QtCore.SIGNAL("rejected()"), self.onCancel)
+            self.buttonbox.addButton(self.buttonCancel, QtGui.QDialogButtonBox.ActionRole)
 
             self.vboxlayout.addWidget(self.buttonbox)
 
@@ -210,10 +215,10 @@ class aMSNGroupInputWindowSingleton(base.aMSNGroupInputWindow, QDialog):
 
         self.diccontacts = {}
         for contact in contacts:
-            checkbox = QCheckBox(str(contact.name))
+            checkbox = QtGui.QCheckBox(str(contact.name))
             self.scrollvbox.addWidget(checkbox)
             self.diccontacts[checkbox] = contact
-        self.spacer = QWidget()
+        self.spacer = QtGui.QWidget()
         self.scrollvbox.addWidget(self.spacer, 1)
 
         self.setWindowTitle(title)
@@ -228,7 +233,7 @@ class aMSNGroupInputWindowSingleton(base.aMSNGroupInputWindow, QDialog):
         self.setWindowTitle(title)
 
     def show(self):
-        QDialog.show(self)
+        QtGui.QDialog.show(self)
 
     def empty(self):
         self._name.clear()
@@ -256,16 +261,16 @@ class aMSNGroupInputWindowSingleton(base.aMSNGroupInputWindow, QDialog):
 aMSNGroupInputWindow = aMSNGroupInputWindowSingleton()
 
 
-class aMSNContactDeleteWindowSingleton(base.aMSNContactDeleteWindow, QInputDialog): 
+class aMSNContactDeleteWindowSingleton(base.aMSNContactDeleteWindow, QtGui.QInputDialog):
     def __init__(self):
         self.firstTime = True
- 
+
     def __call__(self, message, callback, contacts, title = "aMSN Delete Contact", parent = None):
         if self.firstTime :
-            QInputDialog.__init__(self, parent)
-            self.setInputMode(QInputDialog.TextInput)
-            QObject.connect(self, SIGNAL("accepted()"), self.onOk)
-            QObject.connect(self, SIGNAL("rejected()"), self.onCancel)
+            QtGui.QInputDialog.__init__(self, parent)
+            self.setInputMode(QtGui.QInputDialog.TextInput)
+            QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), self.onOk)
+            QtCore.QObject.connect(self, QtCore.SIGNAL("rejected()"), self.onCancel)
 
         self._callback = callback
         self.setWindowTitle(title)
@@ -279,7 +284,7 @@ class aMSNContactDeleteWindowSingleton(base.aMSNContactDeleteWindow, QInputDialo
         self.setWindowTitle(title)
 
     def show(self):
-        QDialog.show(self)
+        QtGui.QDialog.show(self)
 
     def empty(self):
         self.setTextValue("")
@@ -296,16 +301,16 @@ class aMSNContactDeleteWindowSingleton(base.aMSNContactDeleteWindow, QInputDialo
 aMSNContactDeleteWindow = aMSNContactDeleteWindowSingleton()
 
 
-class aMSNGroupDeleteWindowSingleton(base.aMSNGroupDeleteWindow, QInputDialog): 
+class aMSNGroupDeleteWindowSingleton(base.aMSNGroupDeleteWindow, QtGui.QInputDialog):
     def __init__(self):
         self.firstTime = True
- 
+
     def __call__(self, message, callback, contacts, title = "aMSN Delete Group", parent = None):
         if self.firstTime :
-            QInputDialog.__init__(self, parent)
-            self.setInputMode(QInputDialog.TextInput)
-            QObject.connect(self, SIGNAL("accepted()"), self.onOk)
-            QObject.connect(self, SIGNAL("rejected()"), self.onCancel)
+            QtGui.QInputDialog.__init__(self, parent)
+            self.setInputMode(QtGui.QInputDialog.TextInput)
+            QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), self.onOk)
+            QtCore.QObject.connect(self, QtCore.SIGNAL("rejected()"), self.onCancel)
 
         self._callback = callback
         self.setWindowTitle(title)
@@ -319,7 +324,7 @@ class aMSNGroupDeleteWindowSingleton(base.aMSNGroupDeleteWindow, QInputDialog):
         self.setWindowTitle(title)
 
     def show(self):
-        QDialog.show(self)
+        QtGui.QDialog.show(self)
 
     def empty(self):
         self.setTextValue("")

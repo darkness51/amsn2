@@ -26,9 +26,9 @@ import papyon
 from amsn2.ui import base
 from amsn2.views import ContactView, StringView
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from PyQt4 import *
+from PyQt4 import QtCore
+from PyQt4 import QtGui
+from PyQt4 import Qt
 try:
     from ui_chatWindow import Ui_ChatWindow
 except ImportError, e:
@@ -36,9 +36,9 @@ except ImportError, e:
     print "WARNING: To use the QT4 you need to run the generateFiles.sh, check the README"
     raise e
 
-class aMSNChatWindow(QTabWidget, base.aMSNChatWindow):
+class aMSNChatWindow(QtGui.QTabWidget, base.aMSNChatWindow):
     def __init__(self, amsn_core, parent=None):
-        QTabWidget.__init__(self, parent)
+        QtGui.QTabWidget.__init__(self, parent)
         self.setDocumentMode(True)
         self.setTabsClosable(True)
         self.setMovable(True)
@@ -49,19 +49,19 @@ class aMSNChatWindow(QTabWidget, base.aMSNChatWindow):
         self.addTab(chat_widget, "test")
 
 
-class aMSNChatWidget(QWidget, base.aMSNChatWidget):
+class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
     def __init__(self, amsn_conversation, parent, contacts_uid):
-        QWidget.__init__(self, parent)
+        QtGui.QWidget.__init__(self, parent)
 
         self._amsn_conversation = amsn_conversation
         self.ui = Ui_ChatWindow()
         self.ui.setupUi(self)
-        self._statusBar = QStatusBar(self)
+        self._statusBar = QtGui.QStatusBar(self)
         self._statusBar.setFixedHeight(14)
         self._statusBar.setSizeGripEnabled(False)
         self.layout().addWidget(self._statusBar)
         self.ui.inputWidget.installEventFilter(self)
-        self.cursor = QTextCursor(self.ui.inputWidget.document())
+        self.cursor = QtGui.QTextCursor(self.ui.inputWidget.document())
         self.ui.splitter.setStretchFactor(0, 95)
         self.ui.splitter_2.setStretchFactor(0, 95)
         self.ui.splitter_3.setStretchFactor(0, 95)
@@ -71,14 +71,14 @@ class aMSNChatWidget(QWidget, base.aMSNChatWidget):
         self.msgstyle = "margin-left:15px"
         self.infostyle = "margin-left:2px; font-style:italic; color:#6d6d6d"
         self.loadEmoticonList()
-        self.font = QFont() #TODO : load the default font
+        self.font = QtGui.QFont() #TODO : load the default font
         self.ui.inputWidget.setCurrentFont(self.font)
-        self.color = QColor(Qt.black) #TODO : load the default color
+        self.color = QtGui.QColor(QtCore.Qt.black) #TODO : load the default color
         self.ui.inputWidget.setTextColor(self.color)
 
-        QObject.connect(self.ui.actionInsert_Emoticon, SIGNAL("triggered()"), self.showEmoticonList)
-        QObject.connect(self.ui.actionFont, SIGNAL("triggered()"), self.chooseFont)
-        QObject.connect(self.ui.actionColor, SIGNAL("triggered()"), self.chooseColor)
+        QtCore.QObject.connect(self.ui.actionInsert_Emoticon, QtCore.SIGNAL("triggered()"), self.showEmoticonList)
+        QtCore.QObject.connect(self.ui.actionFont, QtCore.SIGNAL("triggered()"), self.chooseFont)
+        QtCore.QObject.connect(self.ui.actionColor, QtCore.SIGNAL("triggered()"), self.chooseColor)
 
 
         #TODO: remove this when papyon is "fixed"...
@@ -87,8 +87,8 @@ class aMSNChatWidget(QWidget, base.aMSNChatWidget):
     def eventFilter(self, obj, ev):
        #We can filter event msgs by obj/type
        if obj.objectName() == "inputWidget":
-           if ev.type() == QEvent.KeyPress:
-               if ev.key() == Qt.Key_Return or ev.key() == Qt.Key_Enter:
+           if ev.type() == QtCore.QEvent.KeyPress:
+               if ev.key() == QtCore.Qt.Key_Return or ev.key() == QtCore.Qt.Key_Enter:
                    self.__sendMessage()
                    return True
                else:
@@ -104,7 +104,7 @@ class aMSNChatWidget(QWidget, base.aMSNChatWidget):
         txt = self.ui.inputWidget.toPlainText()
         position = self.ui.inputWidget.textCursor().position()
         ok = False
-        (font, ok) = QFontDialog.getFont(self.font, self)
+        (font, ok) = QtGui.QFontDialog.getFont(self.font, self)
         if ok:
             self.font = font
             self.ui.inputWidget.clear()
@@ -118,7 +118,7 @@ class aMSNChatWidget(QWidget, base.aMSNChatWidget):
     def chooseColor(self):
         txt = self.ui.inputWidget.toPlainText()
         position = self.ui.inputWidget.textCursor().position()
-        color = QColorDialog.getColor(self.color, self)
+        color = QtGui.QColorDialog.getColor(self.color, self)
         if color.isValid():
             self.color = color
             self.ui.inputWidget.clear()
@@ -134,7 +134,7 @@ class aMSNChatWidget(QWidget, base.aMSNChatWidget):
         and similar stuff"""
         position = self.cursor.position()
         #We don't want the entire text but only current word
-        self.cursor.select(QTextCursor.WordUnderCursor)
+        self.cursor.select(QtGui.QTextCursor.WordUnderCursor)
         text = self.cursor.selectedText()
         self.cursor.clearSelection()
         for emoticon in self.emoticonList:
@@ -144,7 +144,7 @@ class aMSNChatWidget(QWidget, base.aMSNChatWidget):
         self.__typingNotification()
 
     def loadEmoticonList(self):
-        self.emoticonList = QStringList()
+        self.emoticonList = QtCore.QStringList()
 
         """ TODO: Request emoticon list from amsn core, maybe use a QMap to get the image URL? """
 
@@ -168,12 +168,12 @@ class aMSNChatWidget(QWidget, base.aMSNChatWidget):
         strv = StringView()
         strv.appendElementsFromHtml(msg) """
 
-        msg = QString.fromUtf8(self.ui.inputWidget.toPlainText())
+        msg = QtCore.QString.fromUtf8(self.ui.inputWidget.toPlainText())
         self.ui.inputWidget.clear()
         color = self.color
         hex8 = "%.2x%.2x%.2x" % ((color.red()), (color.green()), (color.blue()))
         style = papyon.TextFormat.NO_EFFECT
-        info = QFontInfo(self.font)
+        info = QtGui.QFontInfo(self.font)
         if info.bold(): style |= papyon.TextFormat.BOLD
         if info.italic():  style |= papyon.TextFormat.ITALIC
         if self.font.underline(): style |= papyon.TextFormat.UNDERLINE
@@ -210,7 +210,7 @@ class aMSNChatWidget(QWidget, base.aMSNChatWidget):
         pass
 
     def on_user_typing(self, contact):
-        self._statusBar.showMessage(unicode(QString.fromUtf8(contact.to_HTML_string()) + " is typing"), 7000)
+        self._statusBar.showMessage(unicode(QtCore.QString.fromUtf8(contact.to_HTML_string()) + " is typing"), 7000)
 
     def on_message_received(self, messageview, formatting=None):
         print "Ding!"
@@ -250,10 +250,10 @@ class aMSNChatWidget(QWidget, base.aMSNChatWidget):
             html += '<span style="%s">%s</span><br/>' % (self.nickstyle, nick)
         html += '<span style="%s">[%s] %s</span></div>' % (self.msgstyle, time.strftime('%X'), fmsg)
 
-        self.ui.textEdit.append(QString.fromUtf8(html))
+        self.ui.textEdit.append(QtCore.QString.fromUtf8(html))
         self.last_sender = sender
 
     def on_nudge_received(self, sender):
-        self.ui.textEdit.append(unicode("<b>"+QString.fromUtf8(sender.to_HTML_string())+" "+self.tr("sent you a nudge!")+("</b>")))
+        self.ui.textEdit.append(unicode("<b>"+QtCore.QString.fromUtf8(sender.to_HTML_string())+" "+self.tr("sent you a nudge!")+("</b>")))
         pass
 

@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from amsn2.ui import base
 import image
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4 import Qt
+from PyQt4 import QtCore
+from PyQt4 import QtGui
 
 
 class aMSNFileChooserWindow(base.aMSNFileChooserWindow):
     def __init__(self, filters, directory, callback, parent = None):
 
-        filefilter = QString()
+        filefilter = QtCore.QString()
 
         if filters:
             first = True
@@ -21,7 +22,7 @@ class aMSNFileChooserWindow(base.aMSNFileChooserWindow):
                 filefilter = filefilter + ")"
                 first = False
 
-        filename=QFileDialog.getOpenFileName(parent, "aMSN2 - Choose a file", "", filefilter)
+        filename = QtGui.QFileDialog.getOpenFileName(parent, "aMSN2 - Choose a file", "", filefilter)
 
 
         self.callback = callback
@@ -34,30 +35,30 @@ class aMSNFileChooserWindow(base.aMSNFileChooserWindow):
 
 
 
-class aMSNDPChooserWindowSingleton(base.aMSNDPChooserWindow, QDialog):
+class aMSNDPChooserWindowSingleton(base.aMSNDPChooserWindow, QtGui.QDialog):
     def __init__(self):
         self.firstTime = True
 
     def __call__(self, callback, backend_manager, title ="aMSN - Choose a Display Picture", parent = None):
         if self.firstTime:
-            QDialog.__init__(self, parent)
-            self.iconview = QListWidget()
+            QtGui.QDialog.__init__(self, parent)
+            self.iconview = QtGui.QListWidget()
             self.iconview.setViewMode(1)
             self.iconview.setResizeMode(1)
             self.iconview.setMovement(0)
             self.iconview.setIconSize(QSize(96,96))
             self.iconview.setWordWrap( True )
             self.iconview.setGridSize(QSize(106,121))
-            QObject.connect(self.iconview, SIGNAL("itemDoubleClicked(QListWidgetItem)"), self._on_dp_dblclick)
-            self.buttonOk= QPushButton("Ok")
-            QObject.connect(self.buttonOk, SIGNAL("clicked()"), self._on_ok_clicked)
-            self.buttonCancel = QPushButton("Cancel")
-            QObject.connect(self.buttonCancel, SIGNAL("clicked()"), self.reject)
-            QObject.connect(self, SIGNAL("rejected()"), self._on_reject)
-            self.buttonOpen = QPushButton("Open File")
-            QObject.connect(self.buttonOpen, SIGNAL("clicked()"), self._open_file)
-            self.vboxlayout = QVBoxLayout()
-            self.hboxlayout = QHBoxLayout()
+            QtCore.QObject.connect(self.iconview, QtCore.SIGNAL("itemDoubleClicked(QListWidgetItem)"), self._on_dp_dblclick)
+            self.buttonOk= QtGui.QPushButton("Ok")
+            QtCore.QObject.connect(self.buttonOk, QtCore.SIGNAL("clicked()"), self._on_ok_clicked)
+            self.buttonCancel = QtGui.QPushButton("Cancel")
+            QtCore.QObject.connect(self.buttonCancel, QtCore.SIGNAL("clicked()"), self.reject)
+            QtCore.QObject.connect(self, QtCore.SIGNAL("rejected()"), self._on_reject)
+            self.buttonOpen = QtGui.QPushButton("Open File")
+            QtCore.QObject.connect(self.buttonOpen, QtCore.SIGNAL("clicked()"), self._open_file)
+            self.vboxlayout = QtGui.QVBoxLayout()
+            self.hboxlayout = QtGui.QHBoxLayout()
             self.vboxlayout.addWidget(self.buttonOk)
             self.vboxlayout.addWidget(self.buttonCancel)
             self.vboxlayout.addWidget(self.buttonOpen)
@@ -105,13 +106,13 @@ class aMSNDPChooserWindowSingleton(base.aMSNDPChooserWindow, QDialog):
         if item == None:
             return
 
-        path = item.data(Qt.UserRole)
+        path = item.data(QtCore.Qt.UserRole)
         path = path.toString()
         self._dp_chosen(path)
 
 
     def _on_dp_dblclick(self, item):
-        path = item.data(Qt.UserRole)
+        path = item.data(QtCore.Qt.UserRole)
         path = path.toString()
         self._dp_chosen(path)
 
@@ -121,16 +122,16 @@ class aMSNDPChooserWindowSingleton(base.aMSNDPChooserWindow, QDialog):
 
 
     def show(self):
-        QDialog.show(self)
+        QtGui.QDialog.show(self)
 
 
     def _update_dp_list(self, dp_path):
-        im = QPixmap(dp_path) #should pass the image to the core then get the rescaled pixmap from it
+        im = QtGui.QPixmap(dp_path) #should pass the image to the core then get the rescaled pixmap from it
         im = im.scaled(96,96,0,1) #should also check if the given path really contains an image, or the core should ?
-        name = QString(dp_path)
+        name = QtCore.QString(dp_path)
         name.remove(0, (name.lastIndexOf("/")+1))
-        item = QListWidgetItem(QIcon(im), name)
-        item.setData(Qt.UserRole, dp_path)
+        item = QtGui.QListWidgetItem(QtGui.QIcon(im), name)
+        item.setData(QtCore.Qt.UserRole, dp_path)
         self.iconview.addItem(item)
 
 aMSNDPChooserWindow = aMSNDPChooserWindowSingleton()

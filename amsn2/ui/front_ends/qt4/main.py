@@ -20,26 +20,28 @@
 
 from amsn2.ui import base
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4 import Qt
+from PyQt4 import QtCore
+from PyQt4 import QtGui
+
 from fadingwidget import FadingWidget
 from amsn2.views import MenuView, MenuItemView
 
 import common
 
-class aMSNMainWindow(QMainWindow, base.aMSNMainWindow):
+class aMSNMainWindow(QtGui.QMainWindow, base.aMSNMainWindow):
     def __init__(self, amsn_core, parent=None):
-        QMainWindow.__init__(self, parent)
+        QtGui.QMainWindow.__init__(self, parent)
         self._amsn_core = amsn_core
-        self.centralWidget = QWidget(self)
-        self.stackedLayout = QStackedLayout()
+        self.centralWidget = QtGui.QWidget(self)
+        self.stackedLayout = QtGui.QStackedLayout()
         #self.stackedLayout.setStackingMode(QStackedLayout.StackAll)
         self.centralWidget.setLayout(self.stackedLayout)
         self.setCentralWidget(self.centralWidget)
-        self.opaqLayer = FadingWidget(Qt.white, self)
+        self.opaqLayer = FadingWidget(QtCore.Qt.white, self)
         self.stackedLayout.addWidget(self.opaqLayer)
-        QObject.connect(self.opaqLayer, SIGNAL("fadeInCompleted()"), self.__activateNewWidget)
-        QObject.connect(self.opaqLayer, SIGNAL("fadeOutCompleted()"), self.__fadeIn)
+        QtCore.QObject.connect(self.opaqLayer, QtCore.SIGNAL("fadeInCompleted()"), self.__activateNewWidget)
+        QtCore.QObject.connect(self.opaqLayer, QtCore.SIGNAL("fadeOutCompleted()"), self.__fadeIn)
         self.resize(230, 550)
 
     def closeEvent(self, event):
@@ -83,8 +85,8 @@ class aMSNMainWindow(QMainWindow, base.aMSNMainWindow):
         print "set_view request"
 
     def set_menu(self, menu):
-        mb = QMenuBar()
-        
+        mb = QtGui.QMenuBar()
+
         common.create_menu_items_from_view(mb, menu.items)
-        
+
         self.setMenuBar(mb)

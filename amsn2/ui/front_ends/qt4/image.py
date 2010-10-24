@@ -20,13 +20,15 @@
 
 from amsn2.ui import base
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4 import Qt
+from PyQt4 import QtCore
+from PyQt4 import QtGui
+
 from amsn2.views import ImageView
 
-class Image(QPixmap):
+class Image(QtGui.QPixmap):
     def __init__(self, theme_manager, view):
-        QPixmap.__init__(self)
+        QtGui.QPixmap.__init__(self)
         self._filename = ""
         self._theme_manager = theme_manager
         self.loader(view)
@@ -40,7 +42,7 @@ class Image(QPixmap):
                 print "From load in qt4/image.py:\n\t(resource_type, value) = (%s, %s)\n\tAttributeError: %s" % (resource_type, value, e)
             else:
                 loadMethod(value, view, i)
-                i += 1            
+                i += 1
 
     def _load_from_Filename(self, filename, view, index):
         # TODO: Implement support for emblems and other embedded images
@@ -72,7 +74,7 @@ class Image(QPixmap):
         except:
             print 'Error converting to qpix image %s' % self._filename
             return None
-        
+
     def _load_from_Skin(self, skin):
         pass
 

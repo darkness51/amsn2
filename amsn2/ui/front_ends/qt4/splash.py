@@ -20,30 +20,32 @@
 
 from amsn2.ui import base
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from fadingwidget import FadingWidget
-from image import *
+from PyQt4 import Qt
+from PyQt4 import QtCore
+from PyQt4 import QtGui
 
-class aMSNSplashScreen(QSplashScreen, base.aMSNSplashScreen):
+from fadingwidget import FadingWidget
+from image import Image
+
+class aMSNSplashScreen(QtGui.QSplashScreen, base.aMSNSplashScreen):
 
     def __init__(self, amsn_core, parent):
-        QSplashScreen.__init__(self, parent)
+        QtGui.QSplashScreen.__init__(self, parent)
         self._theme_manager = amsn_core._theme_manager
 
     def show(self):
         self.setVisible(True)
-        qApp.processEvents()
+        QtGui.qApp.processEvents()
 
     def hide(self):
         self.setVisible(False)
-        qApp.processEvents()
+        QtGui.qApp.processEvents()
 
     def set_text(self, text):
         self.showMessage(text)
-        qApp.processEvents()
+        QtGui.qApp.processEvents()
 
     def set_image(self, image):
         img = Image(self._theme_manager, image)
         self.setPixmap(img)
-        qApp.processEvents()
+        QtGui.qApp.processEvents()

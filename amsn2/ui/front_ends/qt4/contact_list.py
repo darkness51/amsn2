@@ -20,8 +20,9 @@
 
 from amsn2.ui import base
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4 import Qt
+from PyQt4 import QtCore
+from PyQt4 import QtGui
 from ui_contactlist import Ui_ContactList
 from styledwidget import StyledWidget
 
@@ -39,9 +40,9 @@ class aMSNContactListWindow(base.aMSNContactListWindow):
         self._clwidget = aMSNContactListWidget(amsn_core, self)
         self._clwidget.show()
         self.__create_controls()
-        self._clwidget.ui.pixUser.setIconSize(QSize(96,96))
-        self._clwidget.ui.pixUser.setIcon(QIcon("amsn2/ui/front_ends/qt4/msn-userimage2.png"))
-        QObject.connect(self._clwidget.ui.pixUser, SIGNAL("clicked()"),self._myview.changeDP)
+        self._clwidget.ui.pixUser.setIconSize(QtCore.QSize(96,96))
+        self._clwidget.ui.pixUser.setIcon(QtGui.QIcon("amsn2/ui/front_ends/qt4/msn-userimage2.png"))
+        QtCore.QObject.connect(self._clwidget.ui.pixUser, QtCore.SIGNAL("clicked()"),self._myview.changeDP)
 
     def __create_controls(self):
         #status list
@@ -49,7 +50,7 @@ class aMSNContactListWindow(base.aMSNContactListWindow):
             name = self._amsn_core.p2s[key]
             _, path = self._theme_manager.get_statusicon("buddy_%s" % name)
             if (name == self._amsn_core.p2s['FLN']): continue
-            self._clwidget.ui.status.addItem(QIcon(path), str.capitalize(name), key)
+            self._clwidget.ui.status.addItem(QtGui.QIcon(path), str.capitalize(name), key)
 
     def show(self):
         self._clwidget.show()
@@ -67,9 +68,9 @@ class aMSNContactListWindow(base.aMSNContactListWindow):
         # TODO image, ...
         imview = view.dp
         if len(imview.imgs) > 0:
-            pixbuf = QPixmap(imview.imgs[0][1])
+            pixbuf = QtGui.QPixmap(imview.imgs[0][1])
             pixbuf = pixbuf.scaled(96,96,0,1)
-            self._clwidget.ui.pixUser.setIcon(QIcon(pixbuf))
+            self._clwidget.ui.pixUser.setIcon(QtGui.QIcon(pixbuf))
         nk = view.nick
         self._clwidget.ui.nickName.setHtml(nk.to_HTML_string())
         message = view.psm.to_HTML_string()
@@ -83,64 +84,70 @@ class aMSNContactListWindow(base.aMSNContactListWindow):
     def get_contactlist_widget(self):
         return self._clwidget
 
-class itemDelegate(QStyledItemDelegate):
+class itemDelegate(QtGui.QStyledItemDelegate):
     #Dooooon't touch anything here!!! Or it will break into a million pieces and you'll be really sorry!!!
     def paint(self, painter, option, index):
         if not index.isValid():
             return
         painter.translate(0, 0)
-        options = QStyleOptionViewItemV4(option)
+        options = QtGui.QStyleOptionViewItemV4(option)
         self.initStyleOption(options, index)
         painter.save()
-        painter.setRenderHint(QPainter.Antialiasing, True)
-        doc = QTextDocument()
+        painter.setRenderHint(QtGui.QPainter.Antialiasing, True)
+        doc = QtGui.QTextDocument()
         doc.setHtml(options.text)
         options.text = ""
-        QApplication.style().drawControl(QStyle.CE_ItemViewItem, options, painter, options.widget)
+        QtGui.QApplication.style().drawControl(QtGui.QStyle.CE_ItemViewItem, options, painter, options.widget)
         painter.translate(options.rect.left() + self.sizeDp(index) + 3, options.rect.top()) #paint text right after the dp + 3pixels
-        rect = QRectF(0, 0, options.rect.width(), options.rect.height())
+        rect = QtCore.QRectF(0, 0, options.rect.width(), options.rect.height())
         doc.drawContents(painter, rect)
         painter.restore()
 
     def sizeHint(self, option, index):
-        options = QStyleOptionViewItemV4(option)
+        options = QtGui.QStyleOptionViewItemV4(option)
         self.initStyleOption(options, index)
-        doc = QTextDocument()
+        doc = QtGui.QTextDocument()
         doc.setHtml(options.text)
         doc.setTextWidth(options.rect.width())
 
         #if group, leave as it, if contactitem, use dp height for calculating sizeHint.
         model = index.model()
-        qv = QPixmap(model.data(model.index(index.row(), 0, index.parent()), Qt.DecorationRole))
+        qv = QtGui.QPixmap(model.data(model.index(index.row(), 0,
+                                                  index.parent()), QtCore.Qt.DecorationRole))
         if qv.isNull():
-            size = QSize(doc.idealWidth(), doc.size().height())
+            size = QtCore.QSize(doc.idealWidth(), doc.size().height())
         else:
-            size = QSize(doc.idealWidth(), qv.height() + 6)
-            
+            size = QtCore.QSize(doc.idealWidth(), qv.height() + 6)
+
         return size
 
     def sizeDp(self, index):
         model = index.model()
-        qv = QPixmap(model.data(model.index(index.row(), 0, index.parent()), Qt.DecorationRole))
+        qv = QtGui.QPixmap(model.data(model.index(index.row(), 0,
+                                                  index.parent()), QtCore.Qt.DecorationRole))
         return qv.width()
 
-class GlobalFilter(QObject):
+class GlobalFilter(QtCore.QObject):
     def __init__(self,parent =None):
-        QObject.__init__(self,parent)
+        QtCore.QObject.__init__(self,parent)
 
     def eventFilter(self, obj, e):
         if obj.objectName() == "nickName":
-          if e.type() == QEvent.FocusOut:
-            obj.emit(SIGNAL("nickChange()"))
+          if e.type() == QtCore.QEvent.FocusOut:
+            obj.emit(QtCore.SIGNAL("nickChange()"))
             return False
-          if e.type() == QEvent.KeyPress and (e.key() == Qt.Key_Enter or e.key() == Qt.Key_Return):
+          if e.type() == QtCore.QEvent.KeyPress and (e.key() ==
+                                                     QtCore.Qt.Key_Enter or
+                                                     e.key() == QtCore.Qt.Key_Return):
             return True
 
         if obj.objectName() == "statusMessage":
-          if e.type() == QEvent.FocusOut:
-            obj.emit(SIGNAL("psmChange()"))
+          if e.type() == QtCore.QEvent.FocusOut:
+            obj.emit(QtCore.SIGNAL("psmChange()"))
             return False
-          if e.type() == QEvent.KeyPress and (e.key() == Qt.Key_Enter or e.key() == Qt.Key_Return):
+          if e.type() == QtCore.QEvent.KeyPress and (e.key() ==
+                                                     QtCore.Qt.Key_Enter or
+                                                     e.key() == QtCore.Qt.Key_Return):
             return True
         return False
 
@@ -155,16 +162,16 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
         self.ui.cList.setItemDelegate(delegate)
         self._parent = parent
         self._mainWindow = parent._parent
-        self._model = QStandardItemModel(self)
+        self._model = QtGui.QStandardItemModel(self)
         self._model.setColumnCount(4)
-        self._proxyModel = QSortFilterProxyModel(self)
+        self._proxyModel = QtGui.QSortFilterProxyModel(self)
         self._proxyModel.setSourceModel(self._model)
         self.ui.cList.setModel(self._proxyModel)
         self._contactDict = dict()
         self.groups = []
         self.contacts = {}
 
-        self._proxyModel.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        self._proxyModel.setFilterCaseSensitivity(QtCore.Qt.CaseInsensitive)
         self._proxyModel.setFilterKeyColumn(-1)
 
         (self.ui.cList.header()).resizeSections(1) #auto-resize column wigth
@@ -172,11 +179,12 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
         (self.ui.cList.header()).setSectionHidden(2, True) #hide --> (boolean value. Do I really need this?)
         (self.ui.cList.header()).setSectionHidden(3, True) #hide --> (contact/group view object)
 
-        self.connect(self.ui.searchLine, SIGNAL('textChanged(QString)'), self._proxyModel, SLOT('setFilterFixedString(QString)'))
-        self.connect(self.ui.nickName, SIGNAL('nickChange()'), self.__nickChange)
-        self.connect(self.ui.statusMessage, SIGNAL('psmChange()'), self.__psmChange)
-        self.connect(self.ui.status, SIGNAL('currentIndexChanged(int)'), self.__statusChange)
-        self.connect(self.ui.cList, SIGNAL('doubleClicked(QModelIndex)'), self.__clDoubleClick)
+        self.connect(self.ui.searchLine, QtCore.SIGNAL('textChanged(QString)'),
+                     self._proxyModel, QtCore.SLOT('setFilterFixedString(QString)'))
+        self.connect(self.ui.nickName, QtCore.SIGNAL('nickChange()'), self.__nickChange)
+        self.connect(self.ui.statusMessage, QtCore.SIGNAL('psmChange()'), self.__psmChange)
+        self.connect(self.ui.status, QtCore.SIGNAL('currentIndexChanged(int)'), self.__statusChange)
+        self.connect(self.ui.cList, QtCore.SIGNAL('doubleClicked(QModelIndex)'), self.__clDoubleClick)
 
         self.ui.nickName.installEventFilter(GlobalFilter(self.ui.nickName))
         self.ui.statusMessage.installEventFilter(GlobalFilter(self.ui.statusMessage))
@@ -234,7 +242,10 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
             if (gid == 0): gid = '0'
             self.groups.append(gid)
             if gid not in guids:
-                self._model.appendRow([QStandardItem(gid), QStandardItem(gid), QStandardItem("group"), QStandardItem()])
+                self._model.appendRow([QtGui.QStandardItem(gid),
+                                       QtGui.QStandardItem(gid),
+                                       QtGui.QStandardItem("group"),
+                                       QtGui.QStandardItem()])
 
         # Remove unused groups
         for gid in guids:
@@ -248,7 +259,6 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
                 #self.groups.remove(gid)
 
     def contact_updated(self, contact):
-        
         citems = self.__search_by_id(contact.uid)
         if citems is None: return
 
@@ -260,23 +270,28 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
             gitem = citem.parent()
             if gitem is None: continue
 
-            gitem.child(self._model.indexFromItem(citem).row(), 0).setData(QVariant(dp), Qt.DecorationRole)
+            gitem.child(self._model.indexFromItem(citem).row(),
+                        0).setData(QtCore.QVariant(dp), QtCore.Qt.DecorationRole)
             #gitem.child(self._model.indexFromItem(citem).row(), 0).setData(QVariant(icon), Qt.DecorationRole)
 
-            gitem.child(self._model.indexFromItem(citem).row(), 3).setData(QVariant(contact), Qt.DisplayRole)
+            gitem.child(self._model.indexFromItem(citem).row(),
+                        3).setData(QtCore.QVariant(contact), QtCore.Qt.DisplayRole)
             cname = StringView()
             cname = contact.name.to_HTML_string()
-            gitem.child(self._model.indexFromItem(citem).row(), 0).setText(QString.fromUtf8(cname))
+            gitem.child(self._model.indexFromItem(citem).row(),
+                        0).setText(QtCore.QString.fromUtf8(cname))
 
     def group_updated(self, group):
         if (group.uid == 0): group.uid = '0'
         if group.uid not in self.groups: return
-        
+
         gitem = self.__search_by_id(group.uid)
-        self._model.item(self._model.indexFromItem(gitem).row(), 3).setData(QVariant(group), Qt.DisplayRole)
+        self._model.item(self._model.indexFromItem(gitem).row(),
+                         3).setData(QtCore.QVariant(group), QtCore.Qt.DisplayRole)
         gname = StringView()
         gname = group.name
-        self._model.item((self._model.indexFromItem(gitem)).row(), 0).setText('<b>'+QString.fromUtf8(gname.to_HTML_string())+'</b>')
+        self._model.item((self._model.indexFromItem(gitem)).row(),
+                         0).setText('<b>'+QtCore.QString.fromUtf8(gname.to_HTML_string())+'</b>')
 
         try:
             cuids = self.contacts[group.uid]
@@ -287,7 +302,10 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
         for cid in group.contact_ids:
             if cid not in cuids:
                 gitem = self.__search_by_id(group.uid)
-                gitem.appendRow([QStandardItem(cid), QStandardItem(cid), QStandardItem("contact"), QStandardItem()])
+                gitem.appendRow([QtGui.QStandardItem(cid),
+                                 QtGui.QStandardItem(cid),
+                                 QtGui.QStandardItem("contact"),
+                                 QtGui.QStandardItem()])
 
         # Remove unused contacts
         for cid in cuids:
@@ -336,12 +354,12 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
 
         if type == "contact":
             menuview = view.on_right_click_popup_menu
-            menu = QMenu("Contact Popup", self)
+            menu = QtGui.QMenu("Contact Popup", self)
             common.create_menu_items_from_view(menu, menuview.items)
             menu.popup(event.globalPos())
         if type == "group":
             menuview = view.on_right_click_popup_menu
-            menu = QMenu("Group Popup", self)
+            menu = QtGui.QMenu("Group Popup", self)
             common.create_menu_items_from_view(menu, menuview.items)
             menu.popup(event.globalPos())
 
@@ -354,19 +372,19 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
 
         # Adding Group Item
 
-        groupItem = QStandardItem()
+        groupItem = QtGui.QStandardItem()
         gname = StringView()
         gname = group.name
-        self._model.item(groupItem.row(), 0).setText('<b>'+QString.fromUtf8(gname.toHtmlString())+'</b>')
-        self._model.item(groupItem.row(), 1).setText(QString.fromUtf8(str(group.uid)))
+        self._model.item(groupItem.row(), 0).setText('<b>'+QtCore.QString.fromUtf8(gname.toHtmlString())+'</b>')
+        self._model.item(groupItem.row(), 1).setText(QtCore.QString.fromUtf8(str(group.uid)))
         pi.appendRow(groupItem)
 
         for contact in group.contacts:
-            contactItem = QStandardItem()
+            contactItem = QtGui.QStandardItem()
             cname = StringView()
             cname = contact.name
-            self._model.item(contactItem.row(), 0).setText(QString.fromUtf8(cname.toHtmlString()))
-            self._model.item(contactItem.row(), 1).setText(QString.fromUtf8(str(contact.uid)))
+            self._model.item(contactItem.row(), 0).setText(QtCore.QString.fromUtf8(cname.toHtmlString()))
+            self._model.item(contactItem.row(), 1).setText(QtCore.QString.fromUtf8(str(contact.uid)))
 
             groupItem.appendRow(contactItem)
 

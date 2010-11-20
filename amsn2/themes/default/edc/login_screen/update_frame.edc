@@ -4,10 +4,12 @@ group {
     part {
       name: "update_text";
       type: TEXT;
+      effect: GLOW;
+      scale: 1;
       description {
         state: "default" 0.0;
-        color: 0 0 0 255;
-        color2: 225 225 225 128;
+        color: 225 225 225 255;
+        color2: 0 0 0 255;
         text {
           align: 0.5 0.5;
           font: "VeraBd";

@@ -27,6 +27,15 @@ group {
   name: "amsn2/login.username";
   parts {
     part {
+      name: "bg";
+      type: RECT;
+      description {
+        visible: 1;
+        state: "default" 0.0;
+        color: 134 134 134 134;
+      }
+    }
+    part {
       name: "username";
       type: EXTERNAL;
       source: "elm/scrolled_entry";
@@ -38,6 +47,12 @@ group {
            bool: "editable" "1";
            bool: "single line" "1";
            bool: "password" "0";
+        }
+        rel1 {
+          to: "bg";
+        }
+        rel1 {
+          to: "bg";
         }
       }
     }
@@ -73,6 +88,15 @@ group {
   name: "amsn2/login.password";
   parts {
     part {
+      name: "bg";
+      type: RECT;
+      description {
+        visible: 1;
+        state: "default" 0.0;
+        color: 134 134 134 134;
+      }
+    }
+    part {
       name: "username";
       type: EXTERNAL;
       source: "elm/scrolled_entry";
@@ -84,6 +108,12 @@ group {
            bool: "editable" "1";
            bool: "single line" "1";
            bool: "password" "1";
+        }
+        rel1 {
+          to: "bg";
+        }
+        rel1 {
+          to: "bg";
         }
       }
     }

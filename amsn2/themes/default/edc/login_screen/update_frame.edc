@@ -13,7 +13,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "Check for updates";
-          min: 0 0;
+          min: 0 1;
           elipsis: 0.0;
         }
       }

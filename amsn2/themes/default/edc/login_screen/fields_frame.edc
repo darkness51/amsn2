@@ -16,7 +16,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "Username:";
-          min: 1 1;
+          min: 0 1;
           elipsis: 0.0;
         }
       }
@@ -62,7 +62,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "Password:";
-          min: 1 1;
+          min: 0 1;
           elipsis: 0.0;
         }
       }
@@ -107,7 +107,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "Sign-in Presence:";
-          min: 1 1;
+          min: 0 1;
           elipsis: 0.0;
         }
       }

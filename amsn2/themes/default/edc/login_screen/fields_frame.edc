@@ -190,6 +190,7 @@ group {
         }
       }
     }
+    /*
     part {
       name: "arrow";
       type: IMAGE;
@@ -223,6 +224,7 @@ group {
         }
       }
     }
+    */
   }
 }
 

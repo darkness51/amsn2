@@ -16,7 +16,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "Username:";
-          min: 1 1;
+          min: 0 1;
           elipsis: 0.0;
         }
       }
@@ -26,6 +26,15 @@ group {
 group {
   name: "amsn2/login.username";
   parts {
+    part {
+      name: "bg";
+      type: RECT;
+      description {
+        visible: 1;
+        state: "default" 0.0;
+        color: 134 134 134 134;
+      }
+    }
     part {
       name: "username";
       type: EXTERNAL;
@@ -38,6 +47,12 @@ group {
            bool: "editable" "1";
            bool: "single line" "1";
            bool: "password" "0";
+        }
+        rel1 {
+          to: "bg";
+        }
+        rel1 {
+          to: "bg";
         }
       }
     }
@@ -62,7 +77,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "Password:";
-          min: 1 1;
+          min: 0 1;
           elipsis: 0.0;
         }
       }
@@ -72,6 +87,15 @@ group {
 group {
   name: "amsn2/login.password";
   parts {
+    part {
+      name: "bg";
+      type: RECT;
+      description {
+        visible: 1;
+        state: "default" 0.0;
+        color: 134 134 134 134;
+      }
+    }
     part {
       name: "username";
       type: EXTERNAL;
@@ -84,6 +108,12 @@ group {
            bool: "editable" "1";
            bool: "single line" "1";
            bool: "password" "1";
+        }
+        rel1 {
+          to: "bg";
+        }
+        rel1 {
+          to: "bg";
         }
       }
     }
@@ -107,7 +137,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "Sign-in Presence:";
-          min: 1 1;
+          min: 0 1;
           elipsis: 0.0;
         }
       }
@@ -190,6 +220,7 @@ group {
         }
       }
     }
+    /*
     part {
       name: "arrow";
       type: IMAGE;
@@ -223,6 +254,7 @@ group {
         }
       }
     }
+    */
   }
 }
 

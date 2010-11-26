@@ -180,10 +180,15 @@ group {
           item {
             type: GROUP;
             source: "amsn2/login.links_frame";
+            weight: 1 1;
+            align: -1 0.5;
+          }
+          item {
+            type: GROUP;
+            source: "amsn2/spacer";
             weight: 0 0;
             align: -1 0.5;
           }
-          /*
           item {
             type: GROUP;
             source: "amsn2/login.update_frame";
@@ -196,7 +201,6 @@ group {
             weight: 1 0;
             align: -1 1;
           }
-          */
         }
       }
     }
@@ -227,7 +231,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "Connecting";
-          min: 0 0;
+          min: 0 1;
           elipsis: 0.0;
         }
 
@@ -262,7 +266,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "";
-          min: 0 0;
+          min: 0 1;
           elipsis: 0.0;
         }
 

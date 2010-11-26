@@ -16,6 +16,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "I forgot my password";
+          min: 0 1;
           elipsis: 0.0;
         }
       }
@@ -40,6 +41,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "MSN Network Status";
+          min: 0 1;
           elipsis: 0.0;
         }
       }
@@ -64,6 +66,7 @@ group {
           font: "VeraBd";
           size: 10;
           text: "Create account";
+          min: 0 1;
           elipsis: 0.0;
         }
       }

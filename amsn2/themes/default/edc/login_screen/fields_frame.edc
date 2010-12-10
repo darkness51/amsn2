@@ -153,6 +153,9 @@ group {
       source: "elm/hoversel";
       description {
         state: "default" 0.0;
+        params {
+           string: "label" "presence";
+        }
       }
     }
   }

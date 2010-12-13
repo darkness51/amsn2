@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """TODO:
     * Let the aMSNContactListWidget be selectable to choose contacts to add to a
     conversation... each contact should have a checkbox on front of it
@@ -101,7 +103,7 @@ class aMSNContactListWidget(base.aMSNContactListWidget):
         self.groups[groupView.uid]=groupView
         self._main.send("groupUpdated",
                         groupView.uid,
-                        str(groupView.name),
+                        unicode(groupView.name),
                         sorted(groupView.contact_ids))
 
     def contact_updated(self, contactView):

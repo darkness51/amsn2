@@ -47,6 +47,9 @@ class aMSNChatWindow(QtGui.QTabWidget, base.aMSNChatWindow):
 
     def add_chat_widget(self, chat_widget):
         self.addTab(chat_widget, "test")
+        
+    def set_title(self, text):
+        self.setWindowTitle(text)
 
 
 class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
@@ -79,6 +82,7 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
         QtCore.QObject.connect(self.ui.actionInsert_Emoticon, QtCore.SIGNAL("triggered()"), self.showEmoticonList)
         QtCore.QObject.connect(self.ui.actionFont, QtCore.SIGNAL("triggered()"), self.chooseFont)
         QtCore.QObject.connect(self.ui.actionColor, QtCore.SIGNAL("triggered()"), self.chooseColor)
+        QtCore.QObject.connect(self.ui.actionNudge, QtCore.SIGNAL("triggered()"), self.__sendNudge)
 
 
         #TODO: remove this when papyon is "fixed"...
@@ -189,7 +193,7 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
         #self.ui.textEdit.append("<b>/me says:</b><br>"+unicode(msg)+"")
 
     def __sendNudge(self):
-        self._amsn_conversation.sendNudge()
+        self._amsn_conversation.send_nudge()
         self.ui.textEdit.append("<b>/me sent a nudge</b>")
 
     def __typingNotification(self):
@@ -199,14 +203,14 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
         self.ui.inputWidget.textCursor().insertHtml(unicode(text))
 
     def appendImageAtCursor(self, image):
-        self.ui.inputWidget.textCursor().insertHtml(QString("<img src=\"" + str(image) + "\" />"))
+        self.ui.inputWidget.textCursor().insertHtml(QtCore.QString("<img src=\"" + str(image) + "\" />"))
 
     def on_user_joined(self, contact):
-        self.ui.textEdit.append(unicode("<b>"+QString.fromUtf8(contact.to_HTML_string())+" "+self.tr("has joined the conversation")+("</b>")))
+        self.ui.textEdit.append(unicode("<b>"+QtCore.QString.fromUtf8(contact.to_HTML_string())+" "+self.tr("has joined the conversation")+("</b>")))
         pass
 
     def on_user_left(self, contact):
-        self.ui.textEdit.append(unicode("<b>"+QString.fromUtf8(contact.to_HTML_string())+" "+self.tr("has left the conversation")+("</b>")))
+        self.ui.textEdit.append(unicode("<b>"+QtCore.QString.fromUtf8(contact.to_HTML_string())+" "+self.tr("has left the conversation")+("</b>")))
         pass
 
     def on_user_typing(self, contact):
@@ -252,8 +256,9 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
 
         self.ui.textEdit.append(QtCore.QString.fromUtf8(html))
         self.last_sender = sender
+        
+        self._statusBar.clearMessage()
 
     def on_nudge_received(self, sender):
         self.ui.textEdit.append(unicode("<b>"+QtCore.QString.fromUtf8(sender.to_HTML_string())+" "+self.tr("sent you a nudge!")+("</b>")))
         pass
-

@@ -88,7 +88,7 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
                 break
             
         if not foundDP:
-            remoteDP = QtGui.QPixmap.fromImage(QtGui.QImage("amsn2/ui/front_ends/qt4/msn-userimage2.png"))
+            remoteDP = QtGui.QPixmap.fromImage(QtGui.QImage("amsn2/themes/displaypic/default/nopic.png"))
             self.ui.remoteDP.setPixmap(remoteDP.scaled(96, 96, 0, 1))
             
         localDPImgs = self._amsn_conversation._core._personalinfo_manager._personalinfoview.dp.imgs
@@ -101,7 +101,7 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
                 break
 
         if not foundDP:
-            localDP = QtGui.QPixmap.fromImage(QtGui.QImage("amsn2/ui/front_ends/qt4/msn-userimage2.png"))
+            localDP = QtGui.QPixmap.fromImage(QtGui.QImage("amsn2/themes/displaypic/default/nopic.png"))
             self.ui.localDP.setPixmap(localDP.scaled(96, 96, 0, 1))
 
         QtCore.QObject.connect(self.ui.actionInsert_Emoticon, QtCore.SIGNAL("triggered()"), self.showEmoticonList)

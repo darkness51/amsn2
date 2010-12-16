@@ -24,7 +24,7 @@ reload(sys)
 
 import papyon
 from amsn2.ui import base
-from amsn2.views import ContactView, StringView
+from amsn2.views import ContactView, StringView, ImageView
 
 from PyQt4 import QtCore
 from PyQt4 import QtGui
@@ -78,6 +78,31 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
         self.ui.inputWidget.setCurrentFont(self.font)
         self.color = QtGui.QColor(QtCore.Qt.black) #TODO : load the default color
         self.ui.inputWidget.setTextColor(self.color)
+
+        remoteDPImgs = self._amsn_conversation._core._contactlist_manager.get_contact(contacts_uid[0]).dp.imgs
+        foundDP = False
+        for (type, data) in remoteDPImgs:
+            if type == ImageView.FILENAME:
+                self.ui.remoteDP.setPixmap(QtGui.QPixmap(data))
+                foundDP = True
+                break
+            
+        if not foundDP:
+            remoteDP = QtGui.QPixmap.fromImage(QtGui.QImage("amsn2/ui/front_ends/qt4/msn-userimage2.png"))
+            self.ui.remoteDP.setPixmap(remoteDP.scaled(96, 96, 0, 1))
+            
+        localDPImgs = self._amsn_conversation._core._personalinfo_manager._personalinfoview.dp.imgs
+        foundDP = False
+        for (type, data) in localDPImgs:
+            if type == ImageView.FILENAME:
+                localDP = QtGui.QPixmap(data)
+                self.ui.localDP.setPixmap(localDP.scaled(96, 96, 0, 1))
+                foundDP = True
+                break
+
+        if not foundDP:
+            localDP = QtGui.QPixmap.fromImage(QtGui.QImage("amsn2/ui/front_ends/qt4/msn-userimage2.png"))
+            self.ui.localDP.setPixmap(localDP.scaled(96, 96, 0, 1))
 
         QtCore.QObject.connect(self.ui.actionInsert_Emoticon, QtCore.SIGNAL("triggered()"), self.showEmoticonList)
         QtCore.QObject.connect(self.ui.actionFont, QtCore.SIGNAL("triggered()"), self.chooseFont)

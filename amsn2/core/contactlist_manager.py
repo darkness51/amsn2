@@ -509,8 +509,18 @@ class aMSNContact():
             self.personal_message.append_text(papyon_contact.personal_message.decode('utf-8'))
         self.current_media.reset()
         if papyon_contact.current_media:
-            self.current_media.append_smiley("amsn2/themes/smileys/note.png", "Current Media")
-            self.current_media.append_text("{0} - {1}".format(papyon_contact.current_media[0].decode('utf-8'), papyon_contact.current_media[1].decode('utf-8')))
+            self.current_media.append_smiley(
+                self._core._theme_manager.get_smiley("smiley_note")[1],
+                "Current Media"
+            )
+            
+            self.current_media.append_text(
+                "{0} - {1}".format(
+                    papyon_contact.current_media[0].decode('utf-8'), 
+                    papyon_contact.current_media[1].decode('utf-8')
+                )
+            )
+            
         self.status.reset()
         self.status.append_text(self._core.p2s[papyon_contact.presence])
 

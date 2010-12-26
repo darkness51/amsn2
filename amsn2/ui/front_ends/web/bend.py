@@ -236,11 +236,11 @@ class Backend(object):
             print "TODO"
             w.write("HTTP/1.1 200 OK\r\n\r\n")
             w.close()
-            p = int(args['p'][0]);
+            p = args['p'][0];
             if (not p in self._core.p2s.keys()):
                 w._400()
                 return
             v = self.cl_window._view
-            v.presence = self._amsn_core.p2s[p]
+            v.presence = self._core.p2s[p]
             return
         w._400()

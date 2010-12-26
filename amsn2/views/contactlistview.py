@@ -17,7 +17,7 @@ class GroupView:
         self.icon = ImageView() # TODO: expanded/collapsed icon
         self.name = StringView() # TODO: default color from skin/settings
 
-        self.name.append_text(amsn_group.name) #TODO: parse for smileys
+        self.name.append_text(amsn_group.name.decode('utf-8')) #TODO: parse for smileys
         active = len(amsn_group.contacts_online)
 
         #self.name.append_text(name) #TODO: parse for smileys

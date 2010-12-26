@@ -91,7 +91,7 @@ class aMSNUserInterfaceManager(object):
         if self._login:
             self.unload_login()
 
-        self._main.title = "aMSN 2"
+        self._main.set_title("aMSN 2")
         self._contactlist.show()
 
     def unload_contactlist(self):

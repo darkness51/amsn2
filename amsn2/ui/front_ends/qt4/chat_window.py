@@ -24,7 +24,7 @@ reload(sys)
 
 import papyon
 from amsn2.ui import base
-from amsn2.views import ContactView, StringView
+from amsn2.views import ContactView, StringView, ImageView
 
 from PyQt4 import QtCore
 from PyQt4 import QtGui
@@ -47,6 +47,9 @@ class aMSNChatWindow(QtGui.QTabWidget, base.aMSNChatWindow):
 
     def add_chat_widget(self, chat_widget):
         self.addTab(chat_widget, "test")
+        
+    def set_title(self, text):
+        self.setWindowTitle(text)
 
 
 class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
@@ -76,9 +79,35 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
         self.color = QtGui.QColor(QtCore.Qt.black) #TODO : load the default color
         self.ui.inputWidget.setTextColor(self.color)
 
+        remoteDPImgs = self._amsn_conversation._core._contactlist_manager.get_contact(contacts_uid[0]).dp.imgs
+        foundDP = False
+        for (type, data) in remoteDPImgs:
+            if type == ImageView.FILENAME:
+                self.ui.remoteDP.setPixmap(QtGui.QPixmap(data))
+                foundDP = True
+                break
+            
+        if not foundDP:
+            remoteDP = QtGui.QPixmap.fromImage(QtGui.QImage("amsn2/themes/displaypic/default/nopic.png"))
+            self.ui.remoteDP.setPixmap(remoteDP.scaled(96, 96, 0, 1))
+            
+        localDPImgs = self._amsn_conversation._core._personalinfo_manager._personalinfoview.dp.imgs
+        foundDP = False
+        for (type, data) in localDPImgs:
+            if type == ImageView.FILENAME:
+                localDP = QtGui.QPixmap(data)
+                self.ui.localDP.setPixmap(localDP.scaled(96, 96, 0, 1))
+                foundDP = True
+                break
+
+        if not foundDP:
+            localDP = QtGui.QPixmap.fromImage(QtGui.QImage("amsn2/themes/displaypic/default/nopic.png"))
+            self.ui.localDP.setPixmap(localDP.scaled(96, 96, 0, 1))
+
         QtCore.QObject.connect(self.ui.actionInsert_Emoticon, QtCore.SIGNAL("triggered()"), self.showEmoticonList)
         QtCore.QObject.connect(self.ui.actionFont, QtCore.SIGNAL("triggered()"), self.chooseFont)
         QtCore.QObject.connect(self.ui.actionColor, QtCore.SIGNAL("triggered()"), self.chooseColor)
+        QtCore.QObject.connect(self.ui.actionNudge, QtCore.SIGNAL("triggered()"), self.__sendNudge)
 
 
         #TODO: remove this when papyon is "fixed"...
@@ -189,7 +218,7 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
         #self.ui.textEdit.append("<b>/me says:</b><br>"+unicode(msg)+"")
 
     def __sendNudge(self):
-        self._amsn_conversation.sendNudge()
+        self._amsn_conversation.send_nudge()
         self.ui.textEdit.append("<b>/me sent a nudge</b>")
 
     def __typingNotification(self):
@@ -199,14 +228,14 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
         self.ui.inputWidget.textCursor().insertHtml(unicode(text))
 
     def appendImageAtCursor(self, image):
-        self.ui.inputWidget.textCursor().insertHtml(QString("<img src=\"" + str(image) + "\" />"))
+        self.ui.inputWidget.textCursor().insertHtml(QtCore.QString("<img src=\"" + str(image) + "\" />"))
 
     def on_user_joined(self, contact):
-        self.ui.textEdit.append(unicode("<b>"+QString.fromUtf8(contact.to_HTML_string())+" "+self.tr("has joined the conversation")+("</b>")))
+        self.ui.textEdit.append(unicode("<b>"+QtCore.QString.fromUtf8(contact.to_HTML_string())+" "+self.tr("has joined the conversation")+("</b>")))
         pass
 
     def on_user_left(self, contact):
-        self.ui.textEdit.append(unicode("<b>"+QString.fromUtf8(contact.to_HTML_string())+" "+self.tr("has left the conversation")+("</b>")))
+        self.ui.textEdit.append(unicode("<b>"+QtCore.QString.fromUtf8(contact.to_HTML_string())+" "+self.tr("has left the conversation")+("</b>")))
         pass
 
     def on_user_typing(self, contact):
@@ -252,8 +281,9 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
 
         self.ui.textEdit.append(QtCore.QString.fromUtf8(html))
         self.last_sender = sender
+        
+        self._statusBar.clearMessage()
 
     def on_nudge_received(self, sender):
         self.ui.textEdit.append(unicode("<b>"+QtCore.QString.fromUtf8(sender.to_HTML_string())+" "+self.tr("sent you a nudge!")+("</b>")))
         pass
-

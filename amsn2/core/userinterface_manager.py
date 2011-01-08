@@ -37,8 +37,8 @@ class aMSNUserInterfaceManager(object):
             self._core._skin_manager = self._skin_manager
 
         else:
-            logger.error('Unable to load UI %s. Available front ends are: %s'
-                         % (ui_name, str(self.list_frontends())))
+            logger.error('Unable to load UI %s. Available front ends are: %s.'
+                         % (ui_name, ", ".join(self.list_frontends())))
             self._core.quit()
 
     def load_splash(self):

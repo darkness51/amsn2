@@ -115,9 +115,6 @@ class aMSNLang(object):
 
         return r
 
-    def clear_keys(self):
-        self.lang_keys = {}
-
     def print_keys(self):
         print self.lang_code
         print '{'

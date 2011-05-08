@@ -33,11 +33,11 @@ class aMSNPersonalInfoManager:
     """ Actions from ourselves """
     def _on_nick_changed(self, new_nick):
         # TODO: parsing
-        self._papyon_profile.display_name = new_nick
+        self._papyon_profile.display_name = new_nick.encode("utf-8")
 
     def _on_PSM_changed(self, new_psm):
         # TODO: parsing
-        self._papyon_profile.personal_message = new_psm
+        self._papyon_profile.personal_message = new_psm.encode("utf-8")
 
     def _on_presence_changed(self, new_presence):
         # TODO: manage custom presence

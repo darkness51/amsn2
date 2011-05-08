@@ -79,7 +79,8 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
         self.color = QtGui.QColor(QtCore.Qt.black) #TODO : load the default color
         self.ui.inputWidget.setTextColor(self.color)
 
-        remoteDPImgs = self._amsn_conversation._core._contactlist_manager.get_contact(contacts_uid[0]).dp.imgs
+        remoteContact = self._amsn_conversation._core._contactlist_manager.get_contact(contacts_uid[0])
+        remoteDPImgs = remoteContact.dp.imgs
         foundDP = False
         for (type, data) in remoteDPImgs:
             if type == ImageView.FILENAME:
@@ -103,6 +104,19 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
         if not foundDP:
             localDP = QtGui.QPixmap.fromImage(QtGui.QImage("amsn2/themes/displaypic/default/nopic.png"))
             self.ui.localDP.setPixmap(localDP.scaled(96, 96, 0, 1))
+            
+        remoteContactNick = remoteContact.nickname.parse_default_smileys().to_HTML_string()
+        remoteContactStatus = remoteContact.status.to_HTML_string()
+        if len(str(remoteContact.current_media.to_HTML_string())) == 0:
+            remoteContactMessage = remoteContact.personal_message.parse_default_smileys().to_HTML_string()
+        else:
+            remoteContactMessage = remoteContact.current_media.to_HTML_string()
+
+        
+        self.ui.userinfo.setTextFormat(1) #rich text
+        self.ui.userinfo.setText("To: {0} &lt;{1}&gt; {2} ({3})".format(
+            remoteContactNick, remoteContact.account, remoteContactMessage, remoteContactStatus)
+        )
 
         QtCore.QObject.connect(self.ui.actionInsert_Emoticon, QtCore.SIGNAL("triggered()"), self.showEmoticonList)
         QtCore.QObject.connect(self.ui.actionFont, QtCore.SIGNAL("triggered()"), self.chooseFont)

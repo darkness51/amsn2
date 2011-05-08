@@ -194,8 +194,7 @@ class aMSNGroupInputWindowSingleton(base.aMSNGroupInputWindow, QtGui.QDialog):
 
         self.scrollarea = QtGui.QScrollArea()
         self.scrollvbox = QtGui.QVBoxLayout()
-        self.scrollarea.setLayout(self.scrollvbox)
-        self.vboxlayout.addWidget(self.scrollarea)
+        self.clistwidget = QtGui.QWidget()
 
         self.buttonbox = QtGui.QDialogButtonBox()
 
@@ -221,6 +220,10 @@ class aMSNGroupInputWindowSingleton(base.aMSNGroupInputWindow, QtGui.QDialog):
         self.spacer = QtGui.QWidget()
         self.scrollvbox.addWidget(self.spacer, 1)
 
+        self.clistwidget.setLayout(self.scrollvbox)
+        self.scrollarea.setWidget(self.clistwidget)
+        self.vboxlayout.addWidget(self.scrollarea)
+        
         self.setWindowTitle(title)
         self.label.setText(message[0])
         self.firstTime = False

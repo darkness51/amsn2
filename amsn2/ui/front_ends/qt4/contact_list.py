@@ -364,15 +364,13 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
             view = qvarv.toPyObject()
 
         if objtype == "contact":
-            menuview = view.on_right_click_popup_menu
             menu = QtGui.QMenu("Contact Popup", self)
-            common.create_menu_items_from_view(menu, menuview.items)
-            menu.popup(event.globalPos())
         elif objtype == "group":
-            menuview = view.on_right_click_popup_menu
             menu = QtGui.QMenu("Group Popup", self)
-            common.create_menu_items_from_view(menu, menuview.items)
-            menu.popup(event.globalPos())
+            
+        menuview = view.on_right_click_popup_menu
+        common.create_menu_items_from_view(menu, menuview.items)
+        menu.popup(event.globalPos())
         
     def set_contact_context_menu(self, cb):
         #TODO:

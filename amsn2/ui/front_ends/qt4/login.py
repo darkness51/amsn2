@@ -68,13 +68,6 @@ class aMSNLoginWindow(StyledWidget, base.aMSNLoginWindow):
         QtCore.QObject.connect(self.ui.comboAccount, QtCore.SIGNAL("currentIndexChanged(QString)"), self.__on_user_comboxEntry_changed)
         self.setTestStyle()
 
-        # status list
-        for key in self._amsn_core.p2s:
-            name = self._amsn_core.p2s[key]
-            _, path = self._theme_manager.get_statusicon("buddy_%s" % name)
-            if (name == self._amsn_core.p2s['FLN']): continue
-            self.ui.comboStatus.addItem(QtGui.QIcon(path), str.capitalize(name), key)
-
     def __on_user_comboxEntry_changed(self, text):
         self.__switch_to_account(text)
 
@@ -110,6 +103,13 @@ class aMSNLoginWindow(StyledWidget, base.aMSNLoginWindow):
             if self._account_views[0].autologin:
                 self.signing_in()
 
+    def set_p2s(self, p2s):
+        # status list
+        for key in p2s:
+            name = p2s[key]
+            _, path = self._theme_manager.get_statusicon("buddy_%s" % name)
+            if (name == p2s['FLN']): continue
+            self.ui.comboStatus.addItem(QtGui.QIcon(path), str.capitalize(name), key)
 
     def __switch_to_account(self, email):
 

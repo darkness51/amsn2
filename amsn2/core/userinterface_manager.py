@@ -63,11 +63,13 @@ class aMSNUserInterfaceManager(object):
         if not self._login:
             self._login = self._ui.aMSNLoginWindow(self._core, self._main)
             self._login.set_accounts(accounts)
+            self._login.set_p2s(self._core.p2s)
             if accounts and accounts[0].autologin:
                 self._core.signin_to_account(self._login, accounts[0])
         else:
             self._login.signout()
             self._login.set_accounts(accounts)
+            self._login.set_p2s(self._core.p2s)
 
         self._main.set_title("aMSN 2 - Login")
 

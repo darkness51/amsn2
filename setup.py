@@ -1,50 +1,80 @@
-from distutils.core import setup
+import sys, os
+from cx_Freeze import setup, Executable
 
-import os
-from glob import glob
+amsn2path = ""
+if amsn2path == "":
+  amsn2path = os.getcwd()
 
-if os.name == 'nt':
-    import gobject
-    import PyQt4
-    import locale
-    import py2exe
+base = None
+if sys.platform == "win32":
+  base = "Win32GUI"
 
-    version_id = "0.1"
+buildOptions = dict(
+  optimize = 0, # 2 for max
+  #includes = [],
+  excludes = ["amsn2", #we'll copy
+              "papyon", #those later...
+              "PyQt4.phonon",
+              "PyQt4.QAxContainer",
+              "PyQt4.Qsci",
+              "PyQt4.QtDeclarative",
+              "PyQt4.QtDesigner",
+              "PyQt4.QtHelp",
+              "PyQt4.QtMultimedia",
+              "PyQt4.QtNetwork",
+              "PyQt4.QtOpenGL",
+              "PyQt4.QtScript",
+              "PyQt4.QtScriptTools",
+              "PyQt4.QtSql",
+              "PyQt4.QtSvg",
+              "PyQt4.QtTest",
+              "PyQt4.QtWebKit",
+              "PyQt4.QtXml",
+              "PyQt4.QtXmlPatterns",
+             ],
+  packages = ["OpenSSL", 
+              "gzip", 
+              "io", 
+              "uuid", 
+              "platform", 
+              "xml.etree.ElementTree", 
+              "xml.etree.cElementTree", 
+              "xml.dom.minidom", 
+              "Crypto.Util.randpool",
+              "Crypto.Hash.HMAC",
+              "Crypto.Hash.SHA",
+              "Crypto.Cipher.DES3",
+              "imghdr",
+              "hmac",
+              "gobject",
+              "cgi",
+              "Image",
+              "sip",
+              "PyQt4.QtCore",
+              "PyQt4.QtGui",
+              "PyQt4.Qt",
+            ],
+  include_files = [(os.path.join(amsn2path, "amsn2"), "amsn2"),
+                   (os.path.join(amsn2path, "papyon"), "papyon")
+                  ],
+  path = sys.path + [amsn2path],
+  base = base
+)
 
-    opts = {
-        'py2exe': {
-            'packages': ['amsn2'],
-            'includes': ['locale', 'optparse', 'sip', 'gobject',
-                         'PyQt4', 'PyQt4.QtCore', 'PyQt4.QtGui',
-                         'os', 'Image',
-                         'papyon', 'papyon.event', 'papyon.msnp2p'],
-            'excludes': ["ltihooks", "gdk", 
-                         "pywin.dialogs", "pywin.dialogs.list",
-                         "Tkconstants","Tkinter","tcl",
-                         "doctest","macpath","pdb",
-                         "cookielib","ftplib","pickle",
-                         "calendar","win32wnet","unicodedata"],
-            'dll_excludes': ["libglade-2.0-0.dll", "w9xpopen.exe", "MSVCP90.dll"],
-            'skip_archive': True,
-            #'optimize': '2',
-            'dist_dir': 'dist/',
-        }
-    }
+exe = Executable(
+  script = os.path.join(amsn2path, "amsn2.py"),
+  icon = None,
+  compress = True,
+  copyDependentFiles = True,
+  appendScriptToLibrary = True
+)
 
-    files = []
-    #individual files
-    #files.append( (".", ) )
-    files.append( ("Microsoft.VC90.CRT", glob(r'c:\dev\ms-vc-runtime\*.*')) )
-
-    setup(name="aMSN2",
-      version=version_id,
-      author="The aMSN2 Team",
-      author_email="amsn-devel@lists.sourceforge.net",
-      url="http://amsn-project.net",
-      license="GNU General Public License version 2 (GPLv2)",
-      requires = ['gobject', 'PyQt4'],
-      windows=[{"script" : "amsn2.py"}],
-      options=opts,
-      data_files=files)
-
-    print "Done! Files are here in dist/"
+setup(
+  name = "aMSN2",
+  version = "0.1",
+  description = "aMSN 0.1",
+  options = dict(
+    build_exe = buildOptions
+  ),
+  executables = [exe]
+)

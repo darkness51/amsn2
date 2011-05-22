@@ -18,8 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import time
-import sys
+import time, sys, os
 reload(sys)
 
 import papyon
@@ -29,12 +28,15 @@ from amsn2.views import ContactView, StringView, ImageView
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from PyQt4 import Qt
-try:
-    from ui_chatWindow import Ui_ChatWindow
-except ImportError, e:
-    # FIXME: Should do that with logging...
-    print "WARNING: To use the QT4 you need to run the generateFiles.sh, check the README"
-    raise e
+from PyQt4 import uic
+
+pfp = os.path.join(os.path.split(__file__)[0], 'ui_chatWindow.py')
+ufp = os.path.join(os.path.split(__file__)[0], 'chatWindow.ui')
+if not os.path.isfile(pfp):
+  f = open(pfp, 'w+') #TODO: This will bug when creating portable versions with no rw access
+  uic.compileUi(ufp, f)
+  f.close()
+from ui_chatWindow import Ui_ChatWindow
 
 class aMSNChatWindow(QtGui.QTabWidget, base.aMSNChatWindow):
     def __init__(self, amsn_core, parent=None):

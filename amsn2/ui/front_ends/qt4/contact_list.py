@@ -18,17 +18,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import os, common
+from image import *
+
 from amsn2.ui import base
+from amsn2.views import StringView, ContactView, GroupView, ImageView, PersonalInfoView
 
 from PyQt4 import Qt
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+from PyQt4 import uic
+
+pfp = os.path.join(os.path.split(__file__)[0], 'ui_contactlist.py')
+ufp = os.path.join(os.path.split(__file__)[0], 'contactlist.ui')
+if not os.path.isfile(pfp):
+  f = open(pfp, 'w+') #TODO: This will bug when creating portable versions with no rw access
+  uic.compileUi(ufp, f)
+  f.close()
 from ui_contactlist import Ui_ContactList
 from styledwidget import StyledWidget
-
-from image import *
-from amsn2.views import StringView, ContactView, GroupView, ImageView, PersonalInfoView
-import common
 
 class aMSNContactListWindow(base.aMSNContactListWindow):
     def __init__(self, amsn_core, parent):
@@ -343,26 +351,35 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
             print "Double click on group!"
 
     def contextMenuEvent(self, event):
+        objtype = None
+        view  = None
         l = self.ui.cList.selectedIndexes()
-        index = l[0]
-        model = index.model()
-        qvart = model.data(model.index(index.row(), 2, index.parent()))
-        qvarv = model.data(model.index(index.row(), 3, index.parent()))
+        if len(l) == 0:  #no item in cList was selected, make context work as if a group was selected
+            objtype = "group"
+            for item in self._model.findItems("*", QtCore.Qt.MatchWildcard):
+              index = item.index()
+              model = item.model()
+              qvarv = model.data(model.index(index.row(), 3, index.parent()))          
+              gitem = qvarv.toPyObject()
+              if str(gitem.uid) == "0":
+                  view = gitem
+        else:
+            index = l[0]
+            model = index.model()
+            qvart = model.data(model.index(index.row(), 2, index.parent()))
+            qvarv = model.data(model.index(index.row(), 3, index.parent()))
+            objtype = qvart.toString()
+            view = qvarv.toPyObject()
 
-        type = qvart.toString()
-        view = qvarv.toPyObject()
-
-        if type == "contact":
-            menuview = view.on_right_click_popup_menu
+        if objtype == "contact":
             menu = QtGui.QMenu("Contact Popup", self)
-            common.create_menu_items_from_view(menu, menuview.items)
-            menu.popup(event.globalPos())
-        if type == "group":
-            menuview = view.on_right_click_popup_menu
+        elif objtype == "group":
             menu = QtGui.QMenu("Group Popup", self)
-            common.create_menu_items_from_view(menu, menuview.items)
-            menu.popup(event.globalPos())
-
+            
+        menuview = view.on_right_click_popup_menu
+        common.create_menu_items_from_view(menu, menuview.items)
+        menu.popup(event.globalPos())
+        
     def set_contact_context_menu(self, cb):
         #TODO:
         pass

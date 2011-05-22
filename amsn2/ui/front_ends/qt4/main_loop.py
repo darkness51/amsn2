@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from amsn2.ui import base
-import sys
+import sys, os
 
 from PyQt4 import QtCore
 from PyQt4 import QtGui
@@ -10,7 +10,6 @@ from amsn2.core import aMSNCore
 
 class aMSNMainLoop(base.aMSNMainLoop):
     def __init__(self, amsn_core):
-        import os
         self._amsn_core = amsn_core
         os.putenv("QT_NO_GLIB", "1") # FIXME: Temporary workaround for segfault
                                      #        caused by GLib Event Loop integration
@@ -26,12 +25,12 @@ class aMSNMainLoop(base.aMSNMainLoop):
 
     def run(self):
         self.idletimer = QtCore.QTimer(QtGui.QApplication.instance())
-        QtCore.QObject.connect(self.idletimer, QtCore.SIGNAL('timeout()'), self.on_idle)
+        QtCore.QObject.connect(self.idletimer, QtCore.SIGNAL('timeout()'), self.on_timeout)
         self.idletimer.start(100)
         signal.signal(signal.SIGINT, self.on_keyboard_interrupt)
         self.app.exec_()
 
-    def on_idle(self):
+    def on_timeout(self):
         iter = 0
         while iter < 10 and self.gcontext.pending():
             self.gcontext.iteration()

@@ -18,8 +18,9 @@ def load():
 # Initialize the front end by checking for any
 # dependency then register it to the guimanager
 try:
-    import imp
-    imp.find_module('gobject') #the only one not from stdlib
+    #import imp                  #Don't do that. imp.find_module() can't work with any packager (py2exe and family)
+    #imp.find_module("gobject")     #so it will fail. Instead just try to import directy.
+    import gobject
     aMSNUserInterfaceManager.register_frontend("web", sys.modules[__name__])
 
 except ImportError:

@@ -18,9 +18,9 @@ def load():
 # Initialize the front end by checking for any
 # dependency then register it to the guimanager
 try:
-    import imp
-
-    imp.find_module("curses")
+    #import imp                  #Don't do that. imp.find_module() can't work with any packager (py2exe and family)
+    #imp.find_module("curses")     #so it will fail. Instead just try to import directy.
+    import curses
     aMSNUserInterfaceManager.register_frontend("curses", sys.modules[__name__])
 
 except ImportError:

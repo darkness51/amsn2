@@ -18,11 +18,13 @@ def load():
 # Initialize the front end by checking for any
 # dependency then register it to the guimanager
 try:
-    import imp
-    imp.find_module('objc')
-    imp.find_module('Foundation')
-    imp.find_module('AppKit')
-
+    #import imp                  #Don't do that. imp.find_module() can't work with any packager (py2exe and family)
+    #imp.find_module("objc")     #so it will fail. Instead just try to import directy.
+    #imp.find_module("Foundation")
+    #imp.find_module("AppKit")
+    import objc
+    import Foundation
+    import AppKit
     aMSNUserInterfaceManager.register_frontend("cocoa", sys.modules[__name__])
 
 except ImportError:

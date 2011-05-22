@@ -19,12 +19,15 @@ def load():
 # Initialize the front end by checking for any
 # dependency then register it to the guimanager
 try:
-    import imp
-    imp.find_module("evas")
-    imp.find_module("edje")
-    imp.find_module("ecore")
-    imp.find_module("elementary")
-
+    #import imp                  #Don't do that. imp.find_module() can't work with any packager (py2exe and family)
+    #imp.find_module("evas")     #so it will fail. Instead just try to import directy.
+    #imp.find_module("edje")
+    #imp.find_module("ecore")
+    #imp.find_module("elementary")
+    import evas
+    import edje
+    import ecore
+    import elementary
     aMSNUserInterfaceManager.register_frontend("efl", sys.modules[__name__])
 
 except ImportError:

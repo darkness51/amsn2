@@ -17,9 +17,9 @@ def load():
 # Initialize the front end by checking for any
 # dependency then register it to the guimanager
 try:
-    import imp
-
-    imp.find_module("gtk")
+    #import imp                  #Don't do that. imp.find_module() can't work with any packager (py2exe and family)
+    #imp.find_module("gtk")      #so it will fail. Instead just try to import directy.
+    import gtk
     aMSNUserInterfaceManager.register_frontend("gtk", sys.modules[__name__])
 
 except ImportError:

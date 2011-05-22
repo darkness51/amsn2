@@ -18,17 +18,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import os, common
+from image import *
+
 from amsn2.ui import base
+from amsn2.views import StringView, ContactView, GroupView, ImageView, PersonalInfoView
 
 from PyQt4 import Qt
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+from PyQt4 import uic
+
+pfp = os.path.join(os.path.split(__file__)[0], 'ui_contactlist.py')
+ufp = os.path.join(os.path.split(__file__)[0], 'contactlist.ui')
+if not os.path.isfile(pfp):
+  f = open(pfp, 'w+') #TODO: This will bug when creating portable versions with no rw access
+  uic.compileUi(ufp, f)
+  f.close()
 from ui_contactlist import Ui_ContactList
 from styledwidget import StyledWidget
-
-from image import *
-from amsn2.views import StringView, ContactView, GroupView, ImageView, PersonalInfoView
-import common
 
 class aMSNContactListWindow(base.aMSNContactListWindow):
     def __init__(self, amsn_core, parent):

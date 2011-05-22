@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
+import os
 from amsn2.ui import base
 from amsn2.views import AccountView, ImageView
 
 from PyQt4 import Qt
 from PyQt4 import QtCore
 from PyQt4 import QtGui
-try:
-    from ui_login import Ui_Login
-except ImportError, e:
-    print " WARNING: To use the QT4 you need to run the generateFiles.sh, check the README"
-    raise e
+from PyQt4 import uic
+
+pfp = os.path.join(os.path.split(__file__)[0], 'ui_login.py')
+ufp = os.path.join(os.path.split(__file__)[0], 'login.ui')
+if not os.path.isfile(pfp):
+  f = open(pfp, 'w+') #TODO: This will bug when creating portable versions with no rw access
+  uic.compileUi(ufp, f)
+  f.close()
+from ui_login import Ui_Login
 from styledwidget import StyledWidget
 
 

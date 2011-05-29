@@ -53,6 +53,7 @@ buildOptions = dict(
               "PyQt4.QtCore",
               "PyQt4.QtGui",
               "PyQt4.Qt",
+              "PyQqt4.uic"
             ],
   include_files = [(os.path.join(amsn2path, "amsn2"), "amsn2"),
                    (os.path.join(amsn2path, "papyon"), "papyon")

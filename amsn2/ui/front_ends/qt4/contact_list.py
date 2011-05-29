@@ -28,15 +28,9 @@ from PyQt4 import Qt
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from PyQt4 import uic
-
-pfp = os.path.join(os.path.split(__file__)[0], 'ui_contactlist.py')
-ufp = os.path.join(os.path.split(__file__)[0], 'contactlist.ui')
-if not os.path.isfile(pfp):
-  f = open(pfp, 'w+') #TODO: This will bug when creating portable versions with no rw access
-  uic.compileUi(ufp, f)
-  f.close()
-from ui_contactlist import Ui_ContactList
 from styledwidget import StyledWidget
+
+ufp = os.path.join(os.path.split(__file__)[0], 'contactlist.ui')
 
 class aMSNContactListWindow(base.aMSNContactListWindow):
     def __init__(self, amsn_core, parent):
@@ -48,8 +42,8 @@ class aMSNContactListWindow(base.aMSNContactListWindow):
         self._clwidget = aMSNContactListWidget(amsn_core, self)
         self._clwidget.show()
         self.__create_controls()
-        self._clwidget.ui.pixUser.setIconSize(QtCore.QSize(96,96))
-        self._clwidget.ui.pixUser.setIcon(QtGui.QIcon("amsn2/ui/front_ends/qt4/msn-userimage2.png"))
+        self._clwidget.ui.pixUser.setIcon(QtGui.QIcon("amsn2/ui/front_ends/qt4/msn-userimage.png"))
+        self._clwidget.ui.pixUser.setIconSize(QtCore.QSize(96, 96))
         QtCore.QObject.connect(self._clwidget.ui.pixUser, QtCore.SIGNAL("clicked()"),self._myview.changeDP)
 
     def __create_controls(self):
@@ -164,8 +158,7 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
         StyledWidget.__init__(self, parent._parent)
         self._amsn_core = amsn_core
         self._myview = parent._myview
-        self.ui = Ui_ContactList()
-        self.ui.setupUi(self)
+        self.ui = uic.loadUi(ufp, self)
         delegate = itemDelegate(self)
         self.ui.cList.setItemDelegate(delegate)
         self._parent = parent

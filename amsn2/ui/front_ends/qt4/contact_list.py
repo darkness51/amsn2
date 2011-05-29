@@ -42,8 +42,8 @@ class aMSNContactListWindow(base.aMSNContactListWindow):
         self._clwidget = aMSNContactListWidget(amsn_core, self)
         self._clwidget.show()
         self.__create_controls()
-        self._clwidget.ui.pixUser.setIconSize(QtCore.QSize(96,96))
-        self._clwidget.ui.pixUser.setIcon(QtGui.QIcon("amsn2/ui/front_ends/qt4/msn-userimage2.png"))
+        self._clwidget.ui.pixUser.setIcon(QtGui.QIcon("amsn2/ui/front_ends/qt4/msn-userimage.png"))
+        self._clwidget.ui.pixUser.setIconSize(QtCore.QSize(96, 96))
         QtCore.QObject.connect(self._clwidget.ui.pixUser, QtCore.SIGNAL("clicked()"),self._myview.changeDP)
 
     def __create_controls(self):

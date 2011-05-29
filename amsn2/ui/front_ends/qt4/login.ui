@@ -156,9 +156,6 @@ color: white;
          <height>129</height>
         </size>
        </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
@@ -497,34 +494,6 @@ p, li { white-space: pre-wrap; }
       </size>
      </property>
     </spacer>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_7">
-     <item>
-      <widget class="QRadioButton" name="styleDesktop">
-       <property name="text">
-        <string>Desktop</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="styleRounded">
-       <property name="text">
-        <string>Rounded</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="styleWLM">
-       <property name="text">
-        <string>WLM</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </item>
   </layout>
  </widget>

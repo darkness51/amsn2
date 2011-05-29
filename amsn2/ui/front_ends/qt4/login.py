@@ -56,29 +56,18 @@ class aMSNLoginWindow(StyledWidget, base.aMSNLoginWindow):
         self.loginThrobber = None
         QtCore.QObject.connect(self.ui.pushSignIn, QtCore.SIGNAL("clicked()"), self.__login_clicked)
         QtCore.QObject.connect(self.ui.linePassword, QtCore.SIGNAL("returnPressed()"), self.__login_clicked)
-        QtCore.QObject.connect(self.ui.styleDesktop, QtCore.SIGNAL("clicked()"), self.setTestStyle)
-        QtCore.QObject.connect(self.ui.styleRounded, QtCore.SIGNAL("clicked()"), self.setTestStyle)
-        QtCore.QObject.connect(self.ui.styleWLM, QtCore.SIGNAL("clicked()"), self.setTestStyle)
         QtCore.QObject.connect(self.ui.checkRememberMe, QtCore.SIGNAL("toggled(bool)"), self.__on_toggled_cb)
         QtCore.QObject.connect(self.ui.checkRememberPass, QtCore.SIGNAL("toggled(bool)"), self.__on_toggled_cb)
         QtCore.QObject.connect(self.ui.checkSignInAuto, QtCore.SIGNAL("toggled(bool)"), self.__on_toggled_cb)
         QtCore.QObject.connect(self.ui.comboAccount, QtCore.SIGNAL("currentIndexChanged(QString)"), self.__on_user_comboxEntry_changed)
-        self.setTestStyle()
-
-    def __on_user_comboxEntry_changed(self, text):
-        self.__switch_to_account(text)
-
-    def setTestStyle(self):
         styleData = QtCore.QFile()
-        if self.ui.styleDesktop.isChecked() == True:
-            styleData.setFileName("amsn2/ui/front_ends/qt4/style0.qss")
-        elif self.ui.styleWLM.isChecked() == True:
-            styleData.setFileName("amsn2/ui/front_ends/qt4/style1.qss")
-        elif self.ui.styleRounded.isChecked() == True:
-            styleData.setFileName("amsn2/ui/front_ends/qt4/style2.qss")
+        styleData.setFileName("amsn2/ui/front_ends/qt4/style1.qss")
         if styleData.open(QtCore.QIODevice.ReadOnly|QtCore.QIODevice.Text):
             styleReader = QtCore.QTextStream(styleData)
             self.setStyleSheet(styleReader.readAll())
+            
+    def __on_user_comboxEntry_changed(self, text):
+        self.__switch_to_account(text)
 
     def show(self):
         if not self.loginThrobber:

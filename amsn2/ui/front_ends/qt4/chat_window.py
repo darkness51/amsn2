@@ -30,13 +30,7 @@ from PyQt4 import QtGui
 from PyQt4 import Qt
 from PyQt4 import uic
 
-pfp = os.path.join(os.path.split(__file__)[0], 'ui_chatWindow.py')
 ufp = os.path.join(os.path.split(__file__)[0], 'chatWindow.ui')
-if not os.path.isfile(pfp):
-  f = open(pfp, 'w+') #TODO: This will bug when creating portable versions with no rw access
-  uic.compileUi(ufp, f)
-  f.close()
-from ui_chatWindow import Ui_ChatWindow
 
 class aMSNChatWindow(QtGui.QTabWidget, base.aMSNChatWindow):
     def __init__(self, amsn_core, parent=None):
@@ -57,10 +51,8 @@ class aMSNChatWindow(QtGui.QTabWidget, base.aMSNChatWindow):
 class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
     def __init__(self, amsn_conversation, parent, contacts_uid):
         QtGui.QWidget.__init__(self, parent)
-
         self._amsn_conversation = amsn_conversation
-        self.ui = Ui_ChatWindow()
-        self.ui.setupUi(self)
+        self.ui = uic.loadUi(ufp, self)
         self._statusBar = QtGui.QStatusBar(self)
         self._statusBar.setFixedHeight(14)
         self._statusBar.setSizeGripEnabled(False)

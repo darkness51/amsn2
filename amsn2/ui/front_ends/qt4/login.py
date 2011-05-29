@@ -7,16 +7,9 @@ from PyQt4 import Qt
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from PyQt4 import uic
-
-pfp = os.path.join(os.path.split(__file__)[0], 'ui_login.py')
-ufp = os.path.join(os.path.split(__file__)[0], 'login.ui')
-if not os.path.isfile(pfp):
-  f = open(pfp, 'w+') #TODO: This will bug when creating portable versions with no rw access
-  uic.compileUi(ufp, f)
-  f.close()
-from ui_login import Ui_Login
 from styledwidget import StyledWidget
 
+ufp = os.path.join(os.path.split(__file__)[0], 'login.ui')
 
 class LoginThrobber(StyledWidget):
     def __init__(self, parent):
@@ -58,8 +51,7 @@ class aMSNLoginWindow(StyledWidget, base.aMSNLoginWindow):
         self._skin = amsn_core._skin_manager.skin
         self._theme_manager = self._amsn_core._theme_manager
         self._ui_manager = self._amsn_core._ui_manager
-        self.ui = Ui_Login()
-        self.ui.setupUi(self)
+        self.ui = uic.loadUi(ufp, self)
         self._parent = parent
         self.loginThrobber = None
         QtCore.QObject.connect(self.ui.pushSignIn, QtCore.SIGNAL("clicked()"), self.__login_clicked)

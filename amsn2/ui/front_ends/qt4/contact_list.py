@@ -28,15 +28,9 @@ from PyQt4 import Qt
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from PyQt4 import uic
-
-pfp = os.path.join(os.path.split(__file__)[0], 'ui_contactlist.py')
-ufp = os.path.join(os.path.split(__file__)[0], 'contactlist.ui')
-if not os.path.isfile(pfp):
-  f = open(pfp, 'w+') #TODO: This will bug when creating portable versions with no rw access
-  uic.compileUi(ufp, f)
-  f.close()
-from ui_contactlist import Ui_ContactList
 from styledwidget import StyledWidget
+
+ufp = os.path.join(os.path.split(__file__)[0], 'contactlist.ui')
 
 class aMSNContactListWindow(base.aMSNContactListWindow):
     def __init__(self, amsn_core, parent):
@@ -164,8 +158,7 @@ class aMSNContactListWidget(StyledWidget, base.aMSNContactListWidget):
         StyledWidget.__init__(self, parent._parent)
         self._amsn_core = amsn_core
         self._myview = parent._myview
-        self.ui = Ui_ContactList()
-        self.ui.setupUi(self)
+        self.ui = uic.loadUi(ufp, self)
         delegate = itemDelegate(self)
         self.ui.cList.setItemDelegate(delegate)
         self._parent = parent

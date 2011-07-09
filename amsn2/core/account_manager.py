@@ -64,9 +64,9 @@ class aMSNAccount(object):
                 dp_path_tmp = self.backend_manager.get_file_location_DP(self.view.email, profile.id, 'tmp')
                 im.save(dp_path_tmp, "PNG")
                 f = open(dp_path_tmp)
-		buf = f.read()
-		f.close()
-		f = StringIO (buf)
+                buf = f.read()
+                f.close()
+                f = StringIO (buf)
                 dp_object = papyon.p2p.MSNObject(self.client.profile,
                                                  os.path.getsize(dp_path_tmp),
                                                  papyon.p2p.MSNObjectType.DISPLAY_PICTURE,

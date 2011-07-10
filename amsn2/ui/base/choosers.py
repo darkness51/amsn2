@@ -6,8 +6,8 @@ class aMSNFileChooserWindow(object):
     """
     def __init__(self, filters, directory, callback, title = "aMSN Display Picture Chooser"):
         """
-        @type filter: dict of tuple
-        @param filter: A dict whose keys are the names of the filters,
+        @type filters: dict of tuple
+        @param filters: A dict whose keys are the names of the filters,
         and the values are a tuple containing strings,
         that will represent the patterns to filter.
         @type directory: str

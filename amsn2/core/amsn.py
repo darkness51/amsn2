@@ -47,12 +47,12 @@ class aMSNCore(object):
         which has a variable for each option the core is supposed to received.
         This is easier done using optparse.
         The options supported are :
-           options.account = the account's username to use
-           options.password = the account's password to use
-           options.front_end = the front end's name to use
-           options.debug_protocol = whether or not to enable protocol debug output
-           options.debug_amsn2 = whether or not to enable amsn2 debug output
-           options.auto_login = whether to autologin with the credentials given
+           - options.account = the account's username to use
+           - options.password = the account's password to use
+           - options.front_end = the front end's name to use
+           - options.debug_protocol = whether or not to enable protocol debug output
+           - options.debug_amsn2 = whether or not to enable amsn2 debug output
+           - options.auto_login = whether to autologin with the credentials given
         """
         self.__dict__ = self.__shared_state
         if options:

@@ -18,7 +18,6 @@ class aMSNAccount(object):
         """
         @type core: aMSNCore
         @type accountview: AccountView
-        @type account_dir: str
         """
 
         self.view = accountview

@@ -33,9 +33,9 @@ class aMSNEventManager:
     def register(self, event, callback, type='ro', deps=[]):
         """
         Register a callback for an event:
-        ro callback: doesn't need to modify the view
-        rw callback: modify the view, can have dependencies which actually
-                     are the names of the callbacks from which it depends
+            - ro callback: doesn't need to modify the view
+            - rw callback: modify the view, can have dependencies which actually
+              are the names of the callbacks from which it depends
         """
         if type is 'ro':
             self._events_cbs[event][1].append(callback)

@@ -4,6 +4,10 @@ import papyon.event
 
 class ProfileEvents(papyon.event.ProfileEventInterface):
     def __init__(self, client, personalinfo_manager):
+        """
+        @type client: L{amsn2.protocol.client.Client}
+        @type personalinfo_manager: L{amsn2.core.personalinfo_manager.aMSNPersonalInfoManager}
+        """
         self._personalinfo_manager = personalinfo_manager
         papyon.event.ProfileEventInterface.__init__(self, client)
 

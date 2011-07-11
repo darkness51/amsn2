@@ -30,6 +30,10 @@ from events.mailbox import *
 
 class Client(papyon.Client):
     def __init__(self, amsn_core, account):
+        """
+        @type amsn_core: L{amsn2.core.amsn.aMSNCore}
+        @type account: L{amsn2.core.account_manager.aMSNAccount}
+        """
         self._amsn_account = account
         self._amsn_core = amsn_core
         server = (self._amsn_account.config.get_key("ns_server", "messenger.hotmail.com"),
@@ -45,10 +49,20 @@ class Client(papyon.Client):
         self._mailbox_events_handler = MailboxEvents(self, self._amsn_core)
 
     def connect(self, email, password):
+        """
+        @type email: str
+        @type password: str
+        """
         self.login(email, password)
 
     def change_nick(self, nick):
+        """
+        @type nick: str
+        """
         self.profile.display_name = unicode(nick)
 
     def change_message(self, message):
+        """
+        @type message: str
+        """
         self.profile.personal_message = unicode(message)

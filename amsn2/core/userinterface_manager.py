@@ -8,6 +8,9 @@ logger = logging.getLogger('amsn2.ui_manager')
 class aMSNUserInterfaceManager(object):
     front_ends = {}
     def __init__(self, core):
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        """
         self._core = core
         self._ui = None
         self._splash = None
@@ -16,6 +19,10 @@ class aMSNUserInterfaceManager(object):
 
     @staticmethod
     def register_frontend(name, module):
+        """
+        @type name: str
+        @type module: module
+        """
         aMSNUserInterfaceManager.front_ends[name] = module
 
     @staticmethod
@@ -24,9 +31,15 @@ class aMSNUserInterfaceManager(object):
 
     @staticmethod
     def frontend_exists(front_end):
+        """
+        @type front_end: str
+        """
         return front_end in aMSNUserInterfaceManager.list_frontends()
 
     def load_UI(self, ui_name):
+        """
+        @type ui_name: str
+        """
         if self.frontend_exists(ui_name):
             self._ui = self.front_ends[ui_name].load()
 
@@ -53,6 +66,9 @@ class aMSNUserInterfaceManager(object):
         return self._splash
 
     def load_login(self, accounts):
+        """
+        @type accounts: list
+        """
         if self._splash:
             self._splash.hide()
             self._splash = None
@@ -110,43 +126,77 @@ class aMSNUserInterfaceManager(object):
         self._contactlist = None
 
     def show_dialog(self, message, buttons):
+        """
+        @type message: str
+        @type buttons: tuple
+        """
         win = self._ui.aMSNDialogWindow(message, buttons)
         win.set_title("aMSN 2 - Dialog")
         win.show()
 
     def show_notification(self, message):
+        """
+        @type message: str
+        """
         win = self._ui.aMSNNotificationWindow(message)
         win.set_title("aMSN 2 - Notification")
         win.show()
 
     def show_error(self, message):
+        """
+        @type message: str
+        """
         win = self._ui.aMSNErrorWindow(message)
         win.set_title("aMSN 2 - Error")
         win.show()
 
     def load_chat_window(self, conv_manager):
+        """
+        @type conv_manager: L{amsn2.core.conversation_manager.aMSNConversationManager}
+        """
         return self._ui.aMSNChatWindow(conv_manager)
 
     def load_chat_widget(self, conversation, window, cuids):
+        """
+        @type conversation: L{amsn2.core.conversation.aMSNConversation}
+        @type window: L{amsn2.ui.base.window.aMSNWindow}
+        @type cuids: list of str
+        """
         return self._ui.aMSNChatWidget(conversation, window, cuids)
 
     def load_contact_input_window(self, callback, groupviews):
+        """
+        @type callback: L{amsn2.core.event_manager.aMSNEventCallback}
+        @type groupviews: list of L{amsn2.views.contactlistview.GroupView}
+        """
         win = self._ui.aMSNContactInputWindow(('Contact to add: ', 'Invite message: '),
                                                  callback, groupviews, "aMSN 2 - Add a Contact")
         win.show()
         return win
 
     def load_contact_delete_window(self, callback, contactviews):
+        """
+        @type callback: L{amsn2.core.event_manager.aMSNEventCallback}
+        @type contactviews: list of L{amsn2.views.contactlistview.ContactView}
+        """
         win = self._ui.aMSNContactDeleteWindow(('Contact to remove: ',), callback, contactviews, "aMSN 2 - Delete a Contact")
         win.show()
         return win
 
     def load_group_input_window(self, callback, contactviews):
+        """
+        @type callback: L{amsn2.core.event_manager.aMSNEventCallback}
+        @type contactviews: list of L{amsn2.views.contactlistview.ContactView}
+        """
         win = self._ui.aMSNGroupInputWindow(('Group to add: ',), callback, contactviews, "aMSN 2 - Add a Group")
         win.show()
         return win
 
     def load_group_delete_window(self, callback, groupviews):
+        """
+        @type callback: L{amsn2.core.event_manager.aMSNEventCallback}
+        @type groupviews: list of L{amsn2.views.contactlistview.GroupView}
+        """
         win = self._ui.aMSNGroupDeleteWindow(('Group to remove: ',), callback, groupviews, "aMSN 2 - Delete a Group")
         win.show()
         return win

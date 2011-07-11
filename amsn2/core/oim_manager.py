@@ -21,7 +21,7 @@
 class aMSNOIMManager:
     def __init__(self, core):
         """
-        @type core: aMSNCore
+        @type core: L{amsn2.core.amsn.aMSNCore}
         """
 
         self._core = core

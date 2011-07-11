@@ -17,6 +17,10 @@ class aMSNLang(object):
         self.lang_keys = {}
 
     def load_lang(self, lang_code, force_reload=False):
+        """
+        @type lang_code: str
+        @type force_reload: bool
+        """
         if self.lang_code is lang_code and force_reload is False:
             # Don't reload the same lang unless forced.
             return
@@ -67,10 +71,16 @@ class aMSNLang(object):
             self.lang_code = lang_code
 
     def add_lang_dir(self, lang_dir):
+        """
+        @type lang_dir: str
+        """
         self.lang_dirs.append(str(lang_dir))
         self.reload_keys()
 
     def remove_lang_dir(self, lang_dir):
+        """
+        @type lang_dir: str
+        """
         try:
             # Remove the lang_dir from the lang_dirs list, and reload keys.
             self.lang_dirs.remove(str(lang_dir))
@@ -92,9 +102,17 @@ class aMSNLang(object):
         self.load_lang(self.lang_code, True)
 
     def set_key(self, key, val):
+        """
+        @type key: str
+        @type val: str
+        """
         self.lang_keys[key] = val
 
     def get_key(self, key, replacements=[]):
+        """
+        @type key: str
+        @type replacements: list
+        """
         try:
             r = self.lang_keys[key]
         except KeyError:

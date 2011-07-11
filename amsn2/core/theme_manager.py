@@ -25,6 +25,9 @@ import os
 
 class aMSNThemeManager:
     def __init__(self, core):
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        """
         self._core = core
         self._buttons = {}
         self._statusicons = {}
@@ -34,6 +37,10 @@ class aMSNThemeManager:
         self.load()
 
     def __get(self, var, key):
+        """
+        @type var: dict
+        @type key: str
+        """
         # TODO: evaluate if should be returned None when key is not valid
         if key in var.keys():
             return var[key]
@@ -50,6 +57,9 @@ class aMSNThemeManager:
         self._smileys = aMSNSmileyLoader().load('default')
 
     def get_value(self, key):
+        """
+        @type key: str
+        """
         if (key.startswith('button_')):
             return self.get_button(key)
         elif (key.startswith('buddy_')):
@@ -65,22 +75,40 @@ class aMSNThemeManager:
             return (None, None)
 
     def get_button(self, key):
+        """
+        @type key: str
+        """
         return self.__get(self._buttons, key)
 
     def get_statusicon(self, key):
+        """
+        @type key: str
+        """
         return self.__get(self._statusicons, key)
 
     def get_dp(self, key):
+        """
+        @type key: str
+        """
         return self.__get(self._displaypic, key)
 
     def get_emblem(self, key):
+        """
+        @type key: str
+        """
         return self.__get(self._emblems, key)
 
     def get_smiley(self, key):
+        """
+        @type key: str
+        """
         return self.__get(self._smileys, key)
 
 class aMSNGenericLoader:
     def __init__(self, basedir):
+        """
+        @type basedir: str
+        """
         self._theme = 'default'
         self._basedir = os.path.join("amsn2", "themes", basedir)
         self._defaultdir = os.path.join(self._basedir, "default")
@@ -90,6 +118,9 @@ class aMSNGenericLoader:
         self._dict = {}
 
     def load(self, theme='default'):
+        """
+        @type theme: str
+        """
         self.theme = theme
         self._theme_dir = os.path.join(self._basedir, theme)
 

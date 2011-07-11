@@ -16,8 +16,8 @@ class aMSNAccount(object):
     #TODO: use the personnal info stuff instead of the view
     def __init__(self, core, accountview):
         """
-        @type core: L{amsn.core.amsn.aMSNCore}
-        @type accountview: L{amsn.views.accountview.AccountView}
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        @type accountview: L{amsn2.views.accountview.AccountView}
         """
 
         self.view = accountview
@@ -99,7 +99,7 @@ class aMSNAccountManager(object):
     """
     def __init__(self, core, options):
         """
-        @type core: L{amsn.core.amsn.aMSNCore}
+        @type core: L{amsn2.core.amsn.aMSNCore}
         @type options: Values
         """
         self._core = core
@@ -127,7 +127,7 @@ class aMSNAccountManager(object):
 
     def signin_to_account(self, accountview):
         """
-        @type accountview: L{amsn.views.accountview.AccountView}
+        @type accountview: L{amsn2.views.accountview.AccountView}
         @rtype: aMSNAccount
         """
 
@@ -146,7 +146,7 @@ class aMSNAccountManager(object):
 
     def is_account_locked(self, accountview):
         """
-        @type accountview: L{amsn.views.accountview.AccountView}
+        @type accountview: L{amsn2.views.accountview.AccountView}
         @rtype: bool
         @return: True if accountview is locked
         """

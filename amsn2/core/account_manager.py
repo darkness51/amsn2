@@ -16,8 +16,8 @@ class aMSNAccount(object):
     #TODO: use the personnal info stuff instead of the view
     def __init__(self, core, accountview):
         """
-        @type core: aMSNCore
-        @type accountview: AccountView
+        @type core: L{amsn.core.amsn.aMSNCore}
+        @type accountview: L{amsn.views.accountview.AccountView}
         """
 
         self.view = accountview
@@ -53,6 +53,9 @@ class aMSNAccount(object):
         self.backend_manager.save_account(self)
 
     def set_dp(self, path):
+        """
+        @type path: string
+        """
         if path:
             try:
                 im = Image.open(path)
@@ -95,6 +98,10 @@ class aMSNAccountManager(object):
     and retreiving all the account.
     """
     def __init__(self, core, options):
+        """
+        @type core: L{amsn.core.amsn.aMSNCore}
+        @type options: Values
+        """
         self._core = core
         self.reload()
 
@@ -120,7 +127,7 @@ class aMSNAccountManager(object):
 
     def signin_to_account(self, accountview):
         """
-        @type accountview: AccountView
+        @type accountview: L{amsn.views.accountview.AccountView}
         @rtype: aMSNAccount
         """
 
@@ -139,7 +146,7 @@ class aMSNAccountManager(object):
 
     def is_account_locked(self, accountview):
         """
-        @type accountview: AccountView
+        @type accountview: L{amsn.views.accountview.AccountView}
         @rtype: bool
         @return: True if accountview is locked
         """

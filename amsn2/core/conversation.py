@@ -26,9 +26,9 @@ import papyon
 class aMSNConversation:
     def __init__(self, core, conv_manager, conv = None, contacts_uid = None):
         """
-        @type core: aMSNCore
-        @type conv_manager: aMSNConversationManager
-        @type conv: papyon.conversation.SwitchboardConversation
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        @type conv_manager: L{amsn2.core.conversation_manager.aMSNConversationManager}
+        @type conv: L{papyon.papyon.conversation.SwitchboardConversation}
         @type contacts_uid: list of str
         """
 
@@ -65,24 +65,45 @@ class aMSNConversation:
 
     """ events from outside """
     def on_state_changed(self, state):
+        """
+        @type state: object
+        """
         print "state changed"
 
     def on_error(self, type, error):
+        """
+        @type type: object
+        @type error: str
+        """
         print error
 
     def on_user_joined(self, contact_uid):
+        """
+        @type contact_uid: str
+        """
         c = self._core._contactlist_manager.get_contact(contact_uid)
         self._conv_widget.on_user_joined(c.nickname)
 
     def on_user_left(self, contact_uid):
+        """
+        @type contact_uid: str
+        """
         c = self._core._contactlist_manager.get_contact(contact_uid)
         self._conv_widget.on_user_left(c.nickname)
 
     def on_user_typing(self, contact_uid):
+        """
+        @type contact_uid: str
+        """
         c = self._core._contactlist_manager.get_contact(contact_uid)
         self._conv_widget.on_user_typing(c.nickname)
 
     def on_message_received(self, message, sender_uid=None, formatting=None):
+        """
+        @type message: str
+        @type sender_uid: str
+        @type formatting: L{papyon.papyon.conversation.TextFormat}
+        """
         #TODO: messageView
         mv = MessageView()
         if sender_uid is None:
@@ -96,11 +117,17 @@ class aMSNConversation:
         self._conv_widget.on_message_received(mv, formatting)
 
     def on_nudge_received(self, sender_uid):
+        """
+        @type sender_uid: str
+        """
         self._conv_widget.nudge()
 
     """ Actions from ourselves """
     def send_message(self, msg, formatting=None):
-        """ msg is a StringView """
+        """ 
+        @type msg: L{amsn2.views.stringview.StringView}
+        @type formatting: L{papyon.papyon.conversation.TextFormat}
+        """
         # for the moment, no smiley substitution... (TODO)
         self.on_message_received(msg, formatting=formatting)
         message = papyon.ConversationMessage(unicode(msg), formatting)
@@ -116,7 +143,10 @@ class aMSNConversation:
         self._conv.leave()
 
     def invite_contact(self, contact_uid):
-        """ contact_uid is the Id of the contact to invite """
+        """
+        @type contact_uid: str
+        @param contact_uid: the Id of the contact to invite 
+        """
         c = self._core._contactlist_manager.get_contact(contact_uid)
         self._conv.invite_user(c.papyon_contact)
 

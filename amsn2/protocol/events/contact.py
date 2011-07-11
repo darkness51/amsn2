@@ -7,7 +7,7 @@ class ContactEvents(papyon.event.ContactEventInterface):
     def __init__(self, client, contact_manager):
         """
         @type client: L{amsn2.protocol.client.Client}
-        @type contact_manager: L{amsn2.core.contact_manager.aMSNContactManager}
+        @type contact_manager: L{amsn2.core.contactlist_manager.aMSNContactListManager}
         """
         self._contact_manager = contact_manager
         papyon.event.ContactEventInterface.__init__(self, client)

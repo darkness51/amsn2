@@ -12,10 +12,19 @@ class aMSNPluginSelectorWindow(object):
     def getPluginsWithStatus(self):
         return plugins.getPluginsWithStatus()
     def loadPlugin(self, plugin_name):
+        """
+        @type plugin_name: str
+        """
         pass
     def unLoadPlugin(self, plugin_name):
+        """
+        @type plugin_name: str
+        """
         pass
     def configurePlugin(self, plugin_name):
+        """
+        @type plugin_name: str
+        """
         pass
 
 class aMSNPluginConfigurationWindow(object):
@@ -25,6 +34,9 @@ class aMSNPluginConfigurationWindow(object):
     # We cannot configure unloaded plugins so do not show the window if the plugin isn't found.
     # Then draw the window and show it.
     def __init__(self, plugin_name):
+        """
+        @type plugin_name: str
+        """
         pass
 
     # drawWindow(self)
@@ -50,4 +62,7 @@ class aMSNPluginConfigurationWindow(object):
     # saveConfig(self): pass
     # Saves the config via plugins.saveConfig(plugin_name, data)
     def saveConfig(self, config):
+        """
+        @type config: L{amsn2.core.config.aMSNConfig}
+        """
         pass

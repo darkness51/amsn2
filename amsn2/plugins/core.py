@@ -14,15 +14,27 @@ def init(): pass
 # loadPlugin(plugin_name)
 # Called (by the GUI or from init()) to load a plugin. plugin_name as set in plugin's XML (or from getPlugins()).
 # This loads the module for the plugin. The module is then responsible for calling plugins.registerPlugin(instance).
-def loadPlugin(plugin_name): pass
+def loadPlugin(plugin_name): 
+    """
+    @type plugin_name: str
+    """
+    pass
 
 # unLoadPlugin(plugin_name)
 # Called to unload a plugin. Name is name as set in plugin's XML.
-def unLoadPlugin(plugin_name): pass
+def unLoadPlugin(plugin_name): 
+    """
+    @type plugin_name: str
+    """
+    pass
 
 # registerPlugin(plugin_instance)
 # Saves the instance of the plugin, and registers it in the loaded list.
-def registerPlugin(plugin_instance): pass
+def registerPlugin(plugin_instance): 
+    """
+    @type plugin_instance: L{amsn2.plugins.developers.aMSNPlugin}
+    """
+    pass
 
 # getPlugins()
 # Returns a list of all available plugins, as in ['Plugin 1', 'Plugin 2']
@@ -39,10 +51,19 @@ def getLoadedPlugins(): pass
 
 # findPlugin(plugin_name)
 # Retruns the running instance of the plugin with name plugin_name, or None if not found.
-def findPlugin(plugin_name): pass
+def findPlugin(plugin_name): 
+    """
+    @type plugin_name: str
+    """
+    pass
 
 # saveConfig(plugin_name, data)
-def saveConfig(plugin_name, data): pass
+def saveConfig(plugin_name, data): 
+    """
+    @type plugin_name: str
+    @type data: object
+    """
+    pass
 
 # Calls the init procedure.
 # Will only be called on the first import (thanks to python).

@@ -32,6 +32,9 @@ class defaultaccountbackend(basebackend.basebackend):
             pass
 
     def load_account(self, email):
+        """
+        @type email: str
+        """
         accview = None
         self.create_account_file_tree(email)
         accpath = os.path.join(self.account_dir, "account.xml")
@@ -108,6 +111,9 @@ class defaultaccountbackend(basebackend.basebackend):
         return accountviews
 
     def create_account_file_tree(self, email):
+        """
+        @type email: str
+        """
         self.account_dir = os.path.join(self.accounts_dir, self._get_dir(email))
         if not os.path.isdir(self.account_dir):
                 os.makedirs(self.account_dir, 0700)
@@ -116,9 +122,15 @@ class defaultaccountbackend(basebackend.basebackend):
                 os.makedirs(self.dps_dir, 0700)
 
     def set_account(self, email):
+        """
+        @type email: str
+        """
         self.create_account_file_tree(email)
 
     def save_account(self, amsn_account):
+        """
+        @type amsn_account: L{amsn2.core.account_manager.aMSNAccount}
+        """
         if amsn_account.view is None or amsn_account.view.email is None:
             return false
 
@@ -164,6 +176,9 @@ class defaultaccountbackend(basebackend.basebackend):
         xml_tree.write(accpath, encoding='utf-8')
 
     def remove_account(self, email):
+        """
+        @type email: str
+        """
         accdir = os.path.join(self.accounts_dir, self._get_dir(email))
         if os.path.isdir(accdir):
             for [root, subdirs, subfiles] in os.walk(accdir, False):
@@ -178,6 +193,9 @@ class defaultaccountbackend(basebackend.basebackend):
         """
         Get location of display picture. A SHA sum is included in the filename,
         this is converted to hex.
+        @type email: str
+        @type uid: str
+        @type shac: str
         @return: string with filename.
         """
         dir = os.path.join(self.dps_dir, self._get_dir(email))
@@ -186,4 +204,7 @@ class defaultaccountbackend(basebackend.basebackend):
         return os.path.join(dir, shac.encode("hex")+".img")
 
     def _get_dir(self, email):
+        """
+        @type email: str
+        """
         return email.lower().strip().replace("@","_at_")

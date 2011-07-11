@@ -1,11 +1,18 @@
 
 class aMSNBackendManager(object):
     def __init__(self, core):
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        """
         self._backend = None
         self._core = core
         self.switch_to_backend('nullbackend')
 
     def set_backend_for_func(self, funcname, backend):
+        """
+        @type funcname: str
+        @type backend: L{amsn2.backend.basebackend.basebackend} 
+        """
         try:
             f = getattr(backend, funcname)
             self.__setattr__(funcname, f)
@@ -13,6 +20,9 @@ class aMSNBackendManager(object):
             self.__setattr__(funcname, self.__missing_func)
 
     def switch_to_backend(self, backend):
+        """
+        @type backend: str
+        """
         try:
             m = __import__(backend, globals(), locals(), [], -1)
         except ImportError:
@@ -47,6 +57,9 @@ class aMSNBackendManager(object):
         # ...
 
     def __missing_func(*args):
+        """
+        @type args: args
+        """
         print 'Function missing for %s' % self.current_backend
 
 

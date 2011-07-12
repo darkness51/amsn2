@@ -4,7 +4,7 @@ class aMSNMainLoop(object):
     Everythin related to the main loop will be delegates here """
     def __init__(self, amsn_core):
         """
-        @type amsn_core: aMSNCore
+        @type amsn_core: L{amsn2.core.amsn.aMSNCore}
         """
 
         raise NotImplementedError

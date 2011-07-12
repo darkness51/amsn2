@@ -3,7 +3,7 @@ class aMSNWindow(object):
     """ This Interface represents a window of the application. Everything will be done from here """
     def __init__(self, amsn_core):
         """
-        @type amsn_core: aMSNCore
+        @type amsn_core: L{amsn2.core.amsn.aMSNCore}
         """
 
         raise NotImplementedError
@@ -28,6 +28,6 @@ class aMSNWindow(object):
         """
         This will allow the core to change the current window's main menu
 
-        @type menu: MenuView
+        @type menu: L{amsn2.views.menuview.MenuView}
         """
         raise NotImplementedError

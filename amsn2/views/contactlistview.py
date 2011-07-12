@@ -12,6 +12,10 @@ class ContactListView:
 
 class GroupView:
     def __init__(self, core, amsn_group):
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        @type amsn_group: L{amsn2.core.contactlist_manager.aMSNBaseGroup}
+        """
         self.uid = amsn_group.id
         self.contact_ids = set(amsn_group.contacts)
         self.icon = ImageView() # TODO: expanded/collapsed icon
@@ -47,8 +51,8 @@ class GroupView:
 class ContactView:
     def __init__(self, core, amsn_contact):
         """
-        @type core: aMSNCore
-        @type amsn_contact: aMSNContact
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        @type amsn_contact: L{amsn2.core.amsn.aMSNContact}
         """
 
         self.uid = amsn_contact.uid
@@ -93,6 +97,10 @@ class ContactView:
 
 class ContactPopupMenu(MenuView):
     def __init__(self, core, amsn_contact):
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        @type amsn_contact: L{amsn2.core.contactlist_manager.aMSNContact}
+        """
         MenuView.__init__(self)
         self._cm = core._contactlist_manager
         self._uid = amsn_contact.uid
@@ -149,6 +157,10 @@ class ContactPopupMenu(MenuView):
 
 class GroupPopupMenu(MenuView):
     def __init__(self, core, amsn_group):
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        @type amsn_group: L{amsn2.core.contactlist_manager.aMSNBaseGroup}
+        """
         MenuView.__init__(self)
         add_group = MenuItemView(MenuItemView.COMMAND,
                                  label="Add group",

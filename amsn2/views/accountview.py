@@ -4,6 +4,10 @@ from stringview import StringView
 
 class AccountView:
     def __init__(self, core, email):
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        @type email: str
+        """
         self._core = core
         self.email = email
         self.password = None

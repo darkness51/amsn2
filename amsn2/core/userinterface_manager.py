@@ -43,7 +43,7 @@ class aMSNUserInterfaceManager(object):
         if self.frontend_exists(ui_name):
             self._ui = self.front_ends[ui_name].load()
 
-            self._core._loop = self._ui.aMSNMainLoop(self)
+            self._core._loop = self._ui.aMSNMainLoop(self._core)
             self._main = self._ui.aMSNMainWindow(self._core)
             self._core._main = self._main
             self._skin_manager = self._ui.SkinManager(self._core)

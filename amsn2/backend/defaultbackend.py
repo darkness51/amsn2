@@ -50,11 +50,13 @@ class defaultbackend(defaultaccountbackend.defaultaccountbackend):
         configpath = os.path.join(self.accounts_dir,
                                   self._get_dir(account.view.email),
                                   "config.xml")
+        
+        configfile = None
         try:
             configfile = file(configpath, "r")
         except IOError:
             return c
-        configfile = file(configpath, "r")
+
         root_tree = ElementTree(file=configfile)
         configfile.close()
         config = root_tree.getroot()

@@ -122,19 +122,19 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
         sys.setdefaultencoding("utf8")
 
     def eventFilter(self, obj, ev):
-       #We can filter event msgs by obj/type
-       if obj.objectName() == "inputWidget":
-           if ev.type() == QtCore.QEvent.KeyPress:
-               if ev.key() == QtCore.Qt.Key_Return or ev.key() == QtCore.Qt.Key_Enter:
-                   self.__sendMessage()
-                   return True
-               else:
-                   self.processInput()
-                   return False
-           else:
-               return False
-
-       return False
+        #We can filter event msgs by obj/type
+        if obj.objectName() == "inputWidget":
+            if ev.type() == QtCore.QEvent.KeyPress:
+                if ev.key() == QtCore.Qt.Key_Return or ev.key() == QtCore.Qt.Key_Enter:
+                    self.__sendMessage()
+                    return True
+                else:
+                    self.processInput()
+                    return False
+            else:
+                return False
+    
+        return False
 
 
     def chooseFont(self):

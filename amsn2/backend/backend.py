@@ -56,7 +56,7 @@ class aMSNBackendManager(object):
         # Files received
         # ...
 
-    def __missing_func(*args):
+    def __missing_func(self, *args):
         """
         @type args: args
         """

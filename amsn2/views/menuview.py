@@ -1,3 +1,4 @@
+from amsn2.views.keybindingview import KeyBindingView
 
 class MenuItemView(object):
     CASCADE_MENU = "cascade"
@@ -62,7 +63,6 @@ class MenuItemView(object):
         new_label = label
         if accelerator is None and label is not None:
             done = False
-            idx = 0
             new_label = ""
             while not done:
                 part = label.partition('&')

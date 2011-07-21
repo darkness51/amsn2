@@ -33,7 +33,7 @@ class aMSNConversation:
         """
 
         if (contacts_uid is None):
-            raise InvalidArgument
+            raise ValueError("aMSNConversation: contacts_uid is None")
 
         self._core = core
         self._conversation_manager = conv_manager

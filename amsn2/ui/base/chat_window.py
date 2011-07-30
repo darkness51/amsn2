@@ -37,7 +37,10 @@ class aMSNChatWidget(object):
         """
         raise NotImplementedError
 
-    def nudge(self):
+    def on_nudge_received(self, contact):
+        """
+        @type contact: L{amsn2.core.contactlist_manager.aMSNContact}
+        """
         raise NotImplementedError
 
     def on_user_typing(self, contact):
@@ -46,3 +49,5 @@ class aMSNChatWidget(object):
         """
         raise NotImplementedError
 
+    def on_nudge_sent(self):
+        raise NotImplementedError

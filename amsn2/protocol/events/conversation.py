@@ -105,3 +105,5 @@ class ConversationEvents(papyon.event.ConversationEventInterface):
         """
         self._amsn_conversation.on_nudge_received(sender.id)
 
+    def on_conversation_nudge_sent(self):
+        self._amsn_conversation.on_nudge_sent()

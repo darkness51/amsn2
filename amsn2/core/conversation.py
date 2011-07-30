@@ -120,7 +120,8 @@ class aMSNConversation:
         """
         @type sender_uid: str
         """
-        self._conv_widget.nudge()
+        contact = self._core._contactlist_manager.get_contact(sender_uid)
+        self._conv_widget.on_nudge_received(contact)
 
     """ Actions from ourselves """
     def send_message(self, msg, formatting=None):
@@ -135,6 +136,9 @@ class aMSNConversation:
 
     def send_nudge(self):
         self._conv.send_nudge()
+        
+    def on_nudge_sent(self):
+        self._conv_widget.on_nudge_sent()
 
     def send_typing_notification(self):
         self._conv.send_typing_notification()

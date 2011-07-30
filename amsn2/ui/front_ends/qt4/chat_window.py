@@ -227,6 +227,8 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
 
     def __sendNudge(self):
         self._amsn_conversation.send_nudge()
+        
+    def on_nudge_sent(self):
         self.ui.textEdit.append("<b>/me sent a nudge</b>")
 
     def __typingNotification(self):
@@ -293,5 +295,5 @@ class aMSNChatWidget(QtGui.QWidget, base.aMSNChatWidget):
         self._statusBar.clearMessage()
 
     def on_nudge_received(self, sender):
-        self.ui.textEdit.append(unicode("<b>"+QtCore.QString.fromUtf8(sender.to_HTML_string())+" "+self.tr("sent you a nudge!")+("</b>")))
+        self.ui.textEdit.append(unicode("<b>"+QtCore.QString.fromUtf8(sender.nickname.to_HTML_string())+" "+self.tr("sent you a nudge!")+("</b>")))
         pass

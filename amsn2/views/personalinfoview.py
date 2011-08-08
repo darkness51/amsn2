@@ -3,6 +3,9 @@ from imageview import *
 
 class PersonalInfoView(object):
     def __init__(self, personalinfo_manager):
+        """
+        @type personalinfo_manager: L{amsn2.core.personalinfo_manager.aMSNPersonalInfoManager}
+        """
         self._personalinfo_manager = personalinfo_manager
 
         self._nickname = StringView()
@@ -21,30 +24,46 @@ class PersonalInfoView(object):
     def get_nick(self):
         return self._nickname
     def set_nick(self, nick):
+        """
+        @type nick: str
+        """
         self._personalinfo_manager._on_nick_changed(nick)
     nick = property(get_nick, set_nick)
 
     def get_psm(self):
         return self._psm
     def set_psm(self, psm):
+        """
+        @type psm: str
+        """
         self._personalinfo_manager._on_PSM_changed(psm)
     psm = property(get_psm, set_psm)
 
     def get_dp(self):
         return self._image
     def set_dp(self, dp_msnobj):
+        """
+        @type dp_msnobj: L{papyon.papyon.p2p.MSNObject}
+        """
         self._personalinfo_manager._on_DP_changed(dp_msnobj)
     dp = property(get_dp, set_dp)
 
     def get_current_media(self):
         return self._current_media
     def set_current_media(self, artist, song):
+        """
+        @type artist: str
+        @type song: str
+        """
         self._personalinfo_manager._on_CM_changed((artist, song))
     current_media = property(get_current_media, set_current_media)
 
     def get_presence(self):
         return self._presence
     def set_presence(self, presence):
+        """
+        @type presence: str defined in L{papyon.papyon.profile.Presence}
+        """
         self._personalinfo_manager._on_presence_changed(presence)
     presence = property(get_presence, set_presence)
 

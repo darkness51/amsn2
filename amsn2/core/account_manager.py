@@ -16,9 +16,8 @@ class aMSNAccount(object):
     #TODO: use the personnal info stuff instead of the view
     def __init__(self, core, accountview):
         """
-        @type core: aMSNCore
-        @type accountview: AccountView
-        @type account_dir: str
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        @type accountview: L{amsn2.views.accountview.AccountView}
         """
 
         self.view = accountview
@@ -54,6 +53,9 @@ class aMSNAccount(object):
         self.backend_manager.save_account(self)
 
     def set_dp(self, path):
+        """
+        @type path: string
+        """
         if path:
             try:
                 im = Image.open(path)
@@ -64,9 +66,9 @@ class aMSNAccount(object):
                 dp_path_tmp = self.backend_manager.get_file_location_DP(self.view.email, profile.id, 'tmp')
                 im.save(dp_path_tmp, "PNG")
                 f = open(dp_path_tmp)
-		buf = f.read()
-		f.close()
-		f = StringIO (buf)
+                buf = f.read()
+                f.close()
+                f = StringIO (buf)
                 dp_object = papyon.p2p.MSNObject(self.client.profile,
                                                  os.path.getsize(dp_path_tmp),
                                                  papyon.p2p.MSNObjectType.DISPLAY_PICTURE,
@@ -96,6 +98,10 @@ class aMSNAccountManager(object):
     and retreiving all the account.
     """
     def __init__(self, core, options):
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        @type options: Values
+        """
         self._core = core
         self.reload()
 
@@ -121,7 +127,7 @@ class aMSNAccountManager(object):
 
     def signin_to_account(self, accountview):
         """
-        @type accountview: AccountView
+        @type accountview: L{amsn2.views.accountview.AccountView}
         @rtype: aMSNAccount
         """
 
@@ -140,7 +146,7 @@ class aMSNAccountManager(object):
 
     def is_account_locked(self, accountview):
         """
-        @type accountview: AccountView
+        @type accountview: L{amsn2.views.accountview.AccountView}
         @rtype: bool
         @return: True if accountview is locked
         """

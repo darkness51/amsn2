@@ -9,7 +9,7 @@ logger = logging.getLogger('amsn2.cl-manager')
 class aMSNContactListManager:
     def __init__(self, core):
         """
-        @type core: aMSNCore
+        @type core: L{amsn2.core.amsn.aMSNCore}
         """
 
         self._core = core
@@ -25,7 +25,9 @@ class aMSNContactListManager:
     ''' normal changes of a contact '''
 
     def on_contact_changed(self, papyon_contact):
-        """ Called when a contact changes either its presence, nick, psm or current media."""
+        """ Called when a contact changes either its presence, nick, psm or current media.
+        @type papyon_contact: L{papyon.papyon.profile.Contact}
+        """
 
         #1st/ update the aMSNContact object
         c = self.get_contact(papyon_contact.id, papyon_contact)
@@ -48,18 +50,24 @@ class aMSNContactListManager:
             self.on_amsn_group_changed(g)
 
     def on_group_changed(self, papyon_group):
-        """ Called when a group changes its members or is renamed """
+        """ Called when a group changes its members or is renamed 
+        @type papyon_group: L{papyon.papyon.profile.Group}"""
         # if grouping by papyon groups
         g = self.get_group(papyon_group.id)
         g.fill(papyon_group)
         self.on_amsn_group_changed(g)
 
     def on_amsn_group_changed(self, amsn_group):
+        """
+        @type amsn_group: L{amsn2.views.contactlistview.GroupView}
+        """
         gv = GroupView(self._core, amsn_group)
         self._em.emit(self._em.events.GROUPVIEW_UPDATED, gv)
 
     def on_contact_DP_changed(self, papyon_contact):
-        """ Called when a contact changes its Display Picture. """
+        """ Called when a contact changes its Display Picture. 
+        @type papyon_contact: L{papyon.papyon.profile.Contact}
+        """
 
         #Request the DP...
         c = self.get_contact(papyon_contact.id, papyon_contact)
@@ -80,6 +88,10 @@ class aMSNContactListManager:
                                                                  peer = papyon_contact)
 
     def on_DP_downloaded(self, msn_object, uid):
+        """
+        @type msn_object: L{papyon.papyon.p2p.MSNObject}
+        @type uid: str
+        """
         #1st/ update the aMSNContact object
         try:
             c = self.get_contact(uid)
@@ -145,6 +157,9 @@ class aMSNContactListManager:
         self._core._ui_manager.load_contact_delete_window(contact_cb, contactviews)
 
     def remove_contact_Uid(self, uid):
+        """
+        @type uid: str
+        """
         papyon_contact = self._papyon_addressbook.contacts.search_by('id', uid)[0]
         def cb_ok():
             def failed(error_code):
@@ -160,15 +175,27 @@ class aMSNContactListManager:
                                           (('OK', cb_ok), ('Cancel', lambda : '')))
 
     def block_contact(self, cid):
+        """
+        @type cid: str
+        """
         pass
 
     def unblock_contact(self, cid):
+        """
+        @type cid: str
+        """
         pass
 
     def allow_contact(self, cid):
+        """
+        @type cid: str
+        """
         pass
 
     def disallow_contact(self, cid):
+        """
+        @type cid: str
+        """
         pass
 
     def accept_contact_invitation(self):
@@ -211,6 +238,10 @@ class aMSNContactListManager:
         self._core._ui_manager.load_group_delete_window(cb, groupviews)
 
     def remove_group_gid(self, gid):
+        """
+        @type gid: str
+        """
+
         papyon_group = [g for g in self._papyon_addressbook.groups if g.id==gid][0]
         def failed(error_code):
             logger.error('Failed to remove group %s error code %s'
@@ -221,6 +252,10 @@ class aMSNContactListManager:
         self._papyon_addressbook.delete_group(papyon_group, failed_cb=(failed,))
 
     def rename_group_gid(self, gid, new_name):
+        """
+        @type gid: str
+        @type new_name: str
+        """        
         group = self.get_group(gid)
         def failed(error_code):
             logger.error('Failed to rename %s to %s error code %s'
@@ -232,6 +267,10 @@ class aMSNContactListManager:
         self._papyon_addressbook.rename_group(group, new_name, failed_cb=(failed,))
 
     def add_contact_to_groups(self, cid, gids):
+        """
+        @type cid: str
+        @type gids: list
+        """
         def failed(error_code):
             account = self.get_contact(cid).account
             groups = [self.get_group(gid) for gid in gids]
@@ -248,6 +287,10 @@ class aMSNContactListManager:
                                                           failed_cb=(failed,))
 
     def remove_contact_from_groups(self, cid, gids):
+        """
+        @type cid: str
+        @type gids: list
+        """
         def failed(error_code):
             account = self.get_contact(cid).account
             groups = [self.get_group(gid).name for gid in gids]
@@ -266,6 +309,9 @@ class aMSNContactListManager:
     ''' callbacks for the user's actions '''
 
     def on_contact_added(self, contact):
+        """
+        @type contact: L{papyon.papyon.profile.Contact}
+        """
         logger.info('Contact %s added' %contact.account)
         c = self.get_contact(contact.id, contact)
         gids = [ g.id for g in self.get_groups(contact.id)]
@@ -273,6 +319,9 @@ class aMSNContactListManager:
         self._core._ui_manager.show_notification("Contact %s added!" % contact.account)
 
     def on_contact_removed(self, contact):
+        """
+        @type contact: L{papyon.papyon.profile.Contact}
+        """
         logger.info('Contact %s removed' %contact.account)
         groups = self.get_groups(contact.id)
         groups = filter(lambda g: contact.id in g.contacts, groups)
@@ -281,16 +330,28 @@ class aMSNContactListManager:
         self._core._ui_manager.show_notification("Contact %s removed!" % contact.account)
 
     def on_contact_blocked(self, papyon_contact):
+        """
+        @type papyon_contact: L{papyon.papyon.profile.Contact}
+        """
         pass
 
     def on_contact_unblocked(self, papyon_contact):
+        """
+        @type papyon_contact: L{papyon.papyon.profile.Contact}
+        """
         pass
 
     def on_group_added(self, papyon_group):
+        """
+        @type papyon_group: L{papyon.papyon.profile.Group}
+        """
         logger.info('Group %s added' %papyon_group.name)
         self.update_groups()
 
     def on_group_deleted(self, papyon_group):
+        """
+        @type papyon_group: L{papyon.papyon.profile.Group}
+        """
         logger.info('Group %s deleted' %papyon_group.name)
         amsn_group = self.get_group(papyon_group.id)
         self.update_groups()
@@ -300,14 +361,25 @@ class aMSNContactListManager:
             self._em.emit(self._em.events.CONTACTVIEW_UPDATED, cv)
 
     def on_group_renamed(self, papyon_group):
+        """
+        @type papyon_group: L{papyon.papyon.profile.Group}
+        """
         logger.info('Group %s renamed' %papyon_group.name)
 
     def on_group_contact_added(self, papyon_group, papyon_contact):
+        """
+        @type papyon_group: L{papyon.papyon.profile.Group}
+        @type papyon_contact: L{papyon.papyon.profile.Contact}
+        """
         logger.info('Contact %s added to group %s' %(papyon_contact.account,
                                                      papyon_group.name))
         self._add_contact_to_groups(papyon_contact.id, [papyon_group.id])
 
     def on_group_contact_deleted(self, papyon_group, papyon_contact):
+        """
+        @type papyon_group: L{papyon.papyon.profile.Group}
+        @type papyon_contact: L{papyon.papyon.profile.Contact}
+        """
         logger.info('Contact %s deleted from group %s'
                                   %(papyon_contact.account, papyon_group.name))
 
@@ -325,6 +397,10 @@ class aMSNContactListManager:
 
     # used when a contact is deleted, moved or change status to offline
     def _remove_contact_from_groups(self, cid, groups):
+        """
+        @type cid: str
+        @type groups: list
+        """
         for g in groups:
             g.contacts.remove(cid)
             g.contacts_online.discard(cid)
@@ -334,6 +410,10 @@ class aMSNContactListManager:
         # if a contact has to be removed from all the groups, has been deleted
 
     def _add_contact_to_groups(self, cid, gids):
+        """
+        @type cid: str
+        @type gids: list
+        """
         for gid in gids:
             g = self.get_group(gid)
             g.fill()
@@ -348,6 +428,9 @@ class aMSNContactListManager:
         self._em.emit(self._em.events.CONTACTVIEW_UPDATED, cv)
 
     def on_CL_downloaded(self, address_book):
+        """
+        @type address_book: L{papyon.papyon.service.AddressBook.address_book.AddressBook}
+        """
         self._papyon_addressbook = address_book
         self._clv = ContactListView()
         self._contacts = {}
@@ -409,7 +492,7 @@ class aMSNContactListManager:
         @param uid: uid of the contact
         @type uid: str
         @param papyon_contact:
-        @type papyon_contact:
+        @type papyon_contact: L{papyon.papyon.profile.Contact}
         @return: aMSNContact of that contact
         @rtype: aMSNContact
         """
@@ -431,7 +514,7 @@ class aMSNContactListManager:
         @param gid: uid of the group
         @type gid: str
         @param papyon_group:
-        @type papyon_group:
+        @type papyon_group: L{papyon.papyon.profile.Group}
         @return: aMSNGroup of that group
         @rtype: aMSNGroup
         """
@@ -463,9 +546,8 @@ class aMSNContactListManager:
 class aMSNContact():
     def __init__(self, core, papyon_contact=None):
         """
-        @type core: aMSNCore
-        @param papyon_contact:
-        @type papyon_contact: papyon.profile.Contact
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        @type papyon_contact: L{papyon.papyon.profile.Contact}
         """
         self._core = core
 
@@ -493,7 +575,7 @@ class aMSNContact():
         """
         Fills the aMSNContact structure.
 
-        @type papyon_contact: papyon.profile.Contact
+        @type papyon_contact: L{papyon.papyon.profile.Contact}
         """
 
         self.uid = papyon_contact.id
@@ -553,6 +635,9 @@ class aMSNContact():
 class aMSNBaseGroup():
     """ Base class that represent a group of amsn2contacts """
     def __init__(self, core):
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        """
         self._contacts_storage = core._contactlist_manager._papyon_addressbook.contacts
         self.contacts = set()
         self.contacts_online = set()
@@ -567,6 +652,10 @@ class aMSNBaseGroup():
 class aMSNPapyonGroup(aMSNBaseGroup):
     """ Group which holds the contacts according to the group assigned in the WLM network """
     def __init__(self, core, papyon_group):
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        @type papyon_group: L{papyon.papyon.profile.Group}
+        """
         aMSNBaseGroup.__init__(self, core)
         self.papyon_group = papyon_group
 
@@ -588,5 +677,8 @@ class aMSNPapyonGroup(aMSNBaseGroup):
 class aMSNPresenceGroup(aMSNBaseGroup):
     """ Group which holds the contacts according to their status """
     def __init__(self, core):
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        """
         aMSNBaseGroup.__init__(self, core)
 

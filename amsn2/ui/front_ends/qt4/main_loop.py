@@ -21,7 +21,7 @@ class aMSNMainLoop(base.aMSNMainLoop):
         self.gmainloop.quit()
 
     def on_keyboard_interrupt(self, signal, stack):
-        aMSNCore().quit()
+        self._amsn_core.quit()
 
     def run(self):
         self.idletimer = QtCore.QTimer(QtGui.QApplication.instance())

@@ -19,10 +19,20 @@ class aMSNPlugin(object):
 
     # Used to log data.
     def log(self, message):
+        """
+        @type message: str
+        """
         plugins.log(self._name, message)
 
     # Used to register/de-register for events.
     def registerForEvent(self, event, callback):
+        """
+        @type event: str defined in L{amsn2.core.event_manager.aMSNEvents}
+        @type callback: L{amsn2.core.event_manager.aMSNEventCallback}
+        """
         pass
     def unRegisterForEvent(self, event):
+        """
+        @type event: str defined in L{amsn2.core.event_manager.aMSNEvents}
+        """
         pass

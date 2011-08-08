@@ -9,6 +9,9 @@ class aMSNErrorWindow(object):
         raise NotImplementedError
 
     def set_title(self, title):
+        """
+        @type title: str
+        """
         raise NotImplementedError
 
     def show(self):
@@ -27,6 +30,9 @@ class aMSNNotificationWindow(object):
         raise NotImplementedError
 
     def set_title(self, title):
+        """
+        @type title: str
+        """
         raise NotImplementedError
 
     def show(self):
@@ -49,6 +55,9 @@ class aMSNDialogWindow(object):
         raise NotImplementedError
 
     def set_title(self, title):
+        """
+        @type title: str
+        """
         raise NotImplementedError
 
     def show(self):
@@ -67,12 +76,15 @@ class aMSNContactInputWindow(object):
         @param callback: The function that will be called when the contact info has been filled.
         The prototype is callback(email, invite_message, groups).
         @type groupviews: list
-        @param groupviews: a list of groupviews of existing groups
+        @param groupviews: a list of L{amsn2.views.contactlistview.aMSNGroupView} of existing groups
         @type title: str
         """
         raise NotImplementedError
 
     def set_title(self, title):
+        """
+        @type title: str
+        """
         raise NotImplementedError
 
     def show(self):
@@ -90,12 +102,15 @@ class aMSNGroupInputWindow(object):
         @param callback: The function that will be called when the group info has been filled.
         The prototype is callback(name_group, contacts).
         @type contactviews: list
-        @param contactviews: a list of contactviews of existing contacts
+        @param contactviews: a list of L{amsn2.views.contactlistview.aMSNContactView} of existing contacts
         @type title: str
         """
         raise NotImplementedError
 
     def set_title(self, title):
+        """
+        @type title: str
+        """
         raise NotImplementedError
 
     def show(self):
@@ -113,13 +128,16 @@ class aMSNContactDeleteWindow(object):
         @param callback: The function that will be called when the account has been entered.
         The prototype is callback(account), where account is the email of the account to delete.
         @type contactviews: list
-        @param contactviews: a list of contactviews of all the contacts
+        @param contactviews: a list of L{amsn2.views.contactlistview.aMSNContactView} of all the contacts
         that can be removed from the AddressBook.
         @type title: str
         """
         raise NotImplementedError
 
     def set_title(self, title):
+        """
+        @type title: str
+        """
         raise NotImplementedError
 
     def show(self):
@@ -137,13 +155,16 @@ class aMSNGroupDeleteWindow(object):
         @param callback: The function that will be called when the group has been entered.
         The prototype is callback(group), where group is the group name.
         @type groupviews: list
-        @param groupviews: a list of groupviews of all the groups
+        @param groupviews: a list of L{amsn2.views.contactlistview.aMSNGroupView} of all the groups
         that can be removed from the AddressBook.
         @type title: str
         """
         raise NotImplementedError
 
     def set_title(self, title):
+        """
+        @type title: str
+        """
         raise NotImplementedError
 
     def show(self):

@@ -6,8 +6,8 @@ class aMSNFileChooserWindow(object):
     """
     def __init__(self, filters, directory, callback, title = "aMSN Display Picture Chooser"):
         """
-        @type filter: dict of tuple
-        @param filter: A dict whose keys are the names of the filters,
+        @type filters: dict of tuple
+        @param filters: A dict whose keys are the names of the filters,
         and the values are a tuple containing strings,
         that will represent the patterns to filter.
         @type directory: str
@@ -15,10 +15,14 @@ class aMSNFileChooserWindow(object):
         @type callback: function
         @param callback: The function called when the file has been choosed.
         Its prototype is callback(file_path)
+        @type title: str
         """
         raise NotImplementedError
 
     def set_title(self, title):
+        """
+        @type title: str
+        """
         raise NotImplementedError
 
     def show(self):
@@ -34,11 +38,14 @@ class aMSNDPChooserWindow(object):
         @type callback: function
         @param callback: The function called when the dp has been choosed.
         Its prototype is callback(dp_path)
-        @type backend_manager: aMSNBackendManager
+        @type backend_manager: L{amsn2.backend.backend.aMSNBackendManager}
         """
         raise NotImplementedError
 
     def set_title(self, title):
+        """
+        @type title: str
+        """
         raise NotImplementedError
 
     def show(self):

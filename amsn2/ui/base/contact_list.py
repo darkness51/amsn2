@@ -12,7 +12,9 @@ class aMSNContactListWindow(object):
         self._clwiget is an aMSNContactListWidget 
     """
     def __init__(self, amsn_core, parent):
-        """Initialize the interface. You should store the reference to the core in here """
+        """Initialize the interface. You should store the reference to the core in here 
+        @type amsn_core: L{amsn2.core.amsn.aMSNCore}
+        """
         raise NotImplementedError
 
     def show(self):
@@ -31,14 +33,14 @@ class aMSNContactListWindow(object):
 
     def set_menu(self, menu):
         """ This will allow the core to change the current window's main menu
-        @type menu: MenuView
+        @type menu: L{amsn2.views.menuview.MenuView}
         """
         raise NotImplementedError
 
     def my_info_updated(self, view):
         """ This will allow the core to change pieces of information about
         ourself, such as DP, nick, psm, the current media being played,...
-        @type view: PersonalInfoView
+        @type view: L{amsn2.views.personalinfoview.PersonalInfoView}
         @param view: the PersonalInfoView of the ourself (contains DP, nick, psm,
         currentMedia,...)"""
         raise NotImplementedError
@@ -50,7 +52,10 @@ class aMSNContactListWindow(object):
 class aMSNContactListWidget(object):
     """ This interface implements the contact list of the UI """
     def __init__(self, amsn_core, parent):
-        """Initialize the interface. You should store the reference to the core in here """
+        """Initialize the interface. You should store the reference to the core in here 
+        @type amsn_core: L{amsn2.core.amsn.aMSNCore}
+        @type parent: L{amsn2.ui.base.contact_list.aMSNContactListWindow}
+        """
         raise NotImplementedError
 
     def show(self):
@@ -69,7 +74,7 @@ class aMSNContactListWidget(object):
         that the CL should contain.
         It will also be called to remove any group that needs to be removed.
 
-        @type clView: ContactListView
+        @type clView: L{amsn2.views.contactlistview.ContactListView}
         @param clView : contains the list of groups contained in
         the contact list which will contain the list of ContactViews
         for all the contacts to show in the group."""
@@ -82,6 +87,7 @@ class aMSNContactListWidget(object):
         but also its content (the ContactViews). The order of the contacts
         may be changed, in which case the UI should update itself accordingly.
         A contact can also be added or removed from a group using this method
+        @type groupView: L{amsn2.views.contactlistview.GroupView}
         """
         raise NotImplementedError
 
@@ -94,6 +100,7 @@ class aMSNContactListWidget(object):
         to this function. If the position was changed, a groupUpdated
         call will be made with the new order of the contacts
         in the affects groups.
+        @type contactView: L{amsn2.views.contactlistview.ContactView}
         """
         raise NotImplementedError
 

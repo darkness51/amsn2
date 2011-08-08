@@ -16,6 +16,12 @@ class KeyBindingView(object):
     DELETE = "Delete"
 
     def __init__(self, key = None, control = False, alt = False, shift = False):
+        """
+        @type key: str defined in L{amsn2.views.keybindingview.KeyBindingView}
+        @type control: bool
+        @type alt: bool
+        @type shift: bool
+        """
         self.key = key
         self.control = control
         self.alt = alt

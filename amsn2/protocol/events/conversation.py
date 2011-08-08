@@ -25,29 +25,51 @@ import papyon.event
 
 class ConversationEvents(papyon.event.ConversationEventInterface):
     def __init__(self, amsn_conversation):
+        """
+        @type amsn_conversation: L{amsn2.core.conversation.aMSNConversation}
+        """
         self._amsn_conversation = amsn_conversation
         self._conversation = amsn_conversation._conv
         papyon.event.ConversationEventInterface.__init__(self, self._conversation)
 
     def on_conversation_state_changed(self, state):
+        """
+        @type state: str
+        """
         self._amsn_conversation.on_state_changed(state)
 
     def on_conversation_error(self, type, error):
+        """
+        @type type: object
+        @type error: str
+        """
         self._amsn_conversation.on_error(type, error)
 
     def on_conversation_user_joined(self, contact):
+        """
+        @type contact: L{papyon.papyon.profile.Contact}
+        """
         self._amsn_conversation.on_user_joined(contact.id)
 
     def on_conversation_user_left(self, contact):
+        """
+        @type contact: L{papyon.papyon.profile.Contact}
+        """
         self._amsn_conversation.on_user_left(contact.id)
 
     def on_conversation_user_typing(self, contact):
+        """
+        @type contact: L{papyon.papyon.profile.Contact}
+        """
         self._amsn_conversation.on_user_typing(contact.id)
 
     def on_conversation_message_received(self, sender, message):
         """ Powers of the stringview, here we come! We need to parse the message,
         that could actually contain some emoticons. In that case, we simply replace
-        them into the stringview """
+        them into the stringview 
+        @type sender: L{amsn2.views.contactlistview.ContactView}
+        @type message: L{amsn2.views.messageview.MessageView}
+        """
         #TODO: have Smiley object in the stringView to keep image+trigger
         strv = StringView()
         if message.content in message.msn_objects.keys():
@@ -78,5 +100,10 @@ class ConversationEvents(papyon.event.ConversationEventInterface):
         self._amsn_conversation.on_message_received(strv, sender.id, message.formatting)
 
     def on_conversation_nudge_received(self, sender):
+        """
+        @type sender: L{amsn2.views.contactlistview.ContactView}
+        """
         self._amsn_conversation.on_nudge_received(sender.id)
 
+    def on_conversation_nudge_sent(self):
+        self._amsn_conversation.on_nudge_sent()

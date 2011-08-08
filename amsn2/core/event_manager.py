@@ -10,7 +10,7 @@ class aMSNEvents:
 class aMSNEventManager:
     def __init__(self, core):
         """
-        @type core: aMSNCore
+        @type core: L{amsn2.core.amsn.aMSNCore}
         """
 
         self._core = core
@@ -19,7 +19,10 @@ class aMSNEventManager:
         self.events = aMSNEvents()
 
     def emit(self, event, *args):
-        """ emit the event """
+        """ emit the event
+        @type event: int defined in L{amsn2.core.event_manager.aMSNEvents}
+        @type args: args 
+        """
         # rw callback
         for cb in self._events_cbs[event][0]:
             #TODO: try except
@@ -33,9 +36,13 @@ class aMSNEventManager:
     def register(self, event, callback, type='ro', deps=[]):
         """
         Register a callback for an event:
-        ro callback: doesn't need to modify the view
-        rw callback: modify the view, can have dependencies which actually
-                     are the names of the callbacks from which it depends
+            - ro callback: doesn't need to modify the view
+            - rw callback: modify the view, can have dependencies which actually
+              are the names of the callbacks from which it depends
+        @type event: int defined in L{amsn2.core.event_manager.aMSNEvents}
+        @type callback: L{amsn2.core.event_manager.aMSNEventCallback}
+        @type type: str
+        @type deps: list
         """
         if type is 'ro':
             self._events_cbs[event][1].append(callback)
@@ -47,7 +54,10 @@ class aMSNEventManager:
                 print 'Failed adding callback '+callback.__name__+' to event '+event+': missing dependencies'
 
     def unregister(self, event, callback):
-        """ unregister a callback for an event """
+        """ unregister a callback for an event 
+        @type event: int defined in L{amsn2.core.event_manager.aMSNEvents}
+        @type callback: L{amsn2.core.event_manager.aMSNEventCallback}
+        """
         if self._events_tree[event].is_listed(callback):
             self._events_tree[event].remove(callback)
             self._events_cbs[event][0] = self._events_tree.get_callbacks_sequence()
@@ -59,12 +69,20 @@ class aMSNEventManager:
 
 class aMSNEventCallback:
     def __init__(self, tree, callback_function, deps):
+        """
+        @type tree: L{amsn2.core.event_manager.aMSNEventTree}
+        @type callback_function: Function
+        @type deps: list
+        """
         self.data = callback_function
         self.id = callback_function.__name__
         self._deps = set(deps)
         self._tree = tree
 
     def depends(self, cb):
+        """
+        @type cb: L{amsn2.core.event_manager.aMSNEventCallback}
+        """
         for dep in self._deps:
             if cb.id == dep or (\
                cb._tree.right is not None and \
@@ -74,6 +92,9 @@ class aMSNEventCallback:
 
 class aMSNEventTree:
     def __init__(self, parent):
+        """
+        @type parent: L{amsn2.core.event_manager.aMSNEventTree}
+        """
         self.parent = parent
         self.root = None
         self.left = None
@@ -81,6 +102,9 @@ class aMSNEventTree:
         self._elements = set()
 
     def remove(self, callback_function):
+        """
+        @type callback_function: Function
+        """
         if self.is_listed(callback_function.__name__):
             cb_obj = self._find(callback_function.__name__)
 
@@ -103,6 +127,10 @@ class aMSNEventTree:
 
     # FIXME: what if a dependence is not yet in the tree?
     def insert(self, callback_function, deps=[]):
+        """
+        @type callback_function: Function
+        @type deps: list
+        """
         cb_obj = aMSNEventCallback(self, callback_function, deps)
         if self.is_listed(cb_obj.id):
             self.remove(callback_function)
@@ -121,12 +149,18 @@ class aMSNEventTree:
             return False
 
     def is_listed(self, item):
+        """
+        @type item: str
+        """
         return item in self._elements
 
     def get_callbacks_sequence(self):
         return self._inorder([])
 
     def _insert(self, cb):
+        """
+        @type cb: L{amsn2.core.event_manager.aMSNEventCallback}
+        """
         self._elements.add(cb.id)
         cb._tree = self
         if self.root is None:
@@ -143,6 +177,9 @@ class aMSNEventTree:
             self.left._insert(cb)
 
     def _inorder(self, q):
+        """
+        @type q: list
+        """
         if self.left is not None:
             q = self.left._inorder(q)
         q.append(self.root.data)
@@ -151,6 +188,9 @@ class aMSNEventTree:
         return q
 
     def _find(self, str_id):
+        """
+        @type str_id: str
+        """
         if self.left is not None and self.left.is_listed(str_id):
             return self.left._find(str_id)
         elif self.right is not None and self.right.is_listed(str_id):

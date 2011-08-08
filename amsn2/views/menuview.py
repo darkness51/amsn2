@@ -1,3 +1,4 @@
+from amsn2.views.keybindingview import KeyBindingView
 
 class MenuItemView(object):
     CASCADE_MENU = "cascade"
@@ -10,17 +11,23 @@ class MenuItemView(object):
     def __init__(self, type, label = None, icon = None, accelerator = None,
                  radio_value = None, checkbox_value = False, disabled = False,  command = None):
         """ Create a new MenuItemView
+        @type type: str defined in L{amsn2.views.menuview.MenuItemView}
         @param type: the type of item, can be cascade, checkbutton, radiobutton,
         radiogroup, separator or command
+        @type label: str
         @param label: the label for the item, unused for separator items
+        @type icon: object
         @param icon: an optional icon to show next to the menu item, unused for separator items
+        @type accelerator: L{amsn2.views.keybindingview.KeyBindingView}
         @param accelerator: the accelerator (KeyBindingView) to access this item.
                        If None, an '&' preceding a character of the menu label will set that key with Ctrl- as an accelerator
+        @type radio_value: object
         @param radio_value: the value to set when the radiobutton is enabled
         @type checkbox_value: bool
         @param checkbox_value: whether the checkbox/radiobutton is set or not
         @type disabled: bool
         @param disabled: true if the item's state should be disabled
+        @type command: function
         @param command: the command to call for setting the value for checkbutton and radiobutton items, or the command in case of a 'command' item
 
         @todo: dynamic menus (use 'command' in CASCADE_MENU)
@@ -56,7 +63,6 @@ class MenuItemView(object):
         new_label = label
         if accelerator is None and label is not None:
             done = False
-            idx = 0
             new_label = ""
             while not done:
                 part = label.partition('&')
@@ -96,6 +102,9 @@ class MenuView(object):
         self._fixed_items = []
 
     def add_item(self, item):
+        """
+        @type item: L{amsn2.views.menuview.MenuItemView}
+        """
         self._fixed_items.append(item)
 
     def _get_items(self):

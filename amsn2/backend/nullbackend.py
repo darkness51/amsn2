@@ -24,6 +24,9 @@ class nullbackend(defaultaccountbackend.defaultaccountbackend):
         self.config_dir = None
 
     def set_account(self, email):
+        """
+        @type email: str
+        """
         dir = tempfile.mkdtemp()
         self.accounts_dir = dir
         defaultaccountbackend.defaultaccountbackend.accounts_dir = dir
@@ -39,10 +42,17 @@ class nullbackend(defaultaccountbackend.defaultaccountbackend):
         return default_account.load_accounts()
 
     def save_config(self, account, config):
+        """
+        @type account: L{amsn2.core.account_manager.aMSNAccount}
+        @type config: L{amsn2.core.config.aMSNConfig}
+        """
         # Is it necessary to temporarily save the config?
         pass
 
     def load_config(self, account):
+        """
+        @type account: L{amsn2.core.amsn.aMSNAccount}
+        """
         c = aMSNConfig()
         c._config = {"ns_server":'messenger.hotmail.com',
                        "ns_port":1863,

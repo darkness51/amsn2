@@ -21,6 +21,9 @@
 
 class aMSNSmileyManager:
     def __init__(self, core): #for now, only a dic of default smileys' shortcuts
+        """
+        @type core: L{amsn2.core.amsn.aMSNCore}
+        """
         self._core = core
         self.default_smileys_shortcuts = {
             "(ap)": "smiley_airplane",

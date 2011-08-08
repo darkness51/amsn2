@@ -7,7 +7,7 @@ class aMSNMainWindow(object):
 
     def __init__(self, amsn_core):
         """
-        @type amsn_core: aMSNCore
+        @type amsn_core: L{amsn2.core.amsn.aMSNCore}
         """
 
         pass
@@ -19,8 +19,14 @@ class aMSNMainWindow(object):
         raise NotImplementedError
 
     def set_title(self,title):
+        """
+        @type title: str
+        """
         raise NotImplementedError
 
     def set_menu(self,menu):
+        """
+        @type menu: L{amsn2.views.menuview.MenuView}
+        """
         raise NotImplementedError
 

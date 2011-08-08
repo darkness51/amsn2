@@ -37,6 +37,10 @@ class StringView (object):
 
     class StringElement(object):
         def __init__(self, type, value):
+            """
+            @type type: str defined in L{amsn2.views.stringview.StringView}
+            @type value: str
+            """
             self._type = type
             self._value = value
 
@@ -48,39 +52,78 @@ class StringView (object):
 
     class ColorElement(StringElement):
         def __init__(self, color):
+            """
+            @type color: object
+            """
             StringView.StringElement.__init__(self, StringView.COLOR_ELEMENT, color)
     class BackgroundColorElement(StringElement):
         def __init__(self, color):
+            """
+            @type color: object
+            """
             StringView.StringElement.__init__(self, StringView.BACKGROUND_ELEMENT, color)
     class TextElement(StringElement):
         def __init__(self, text):
+            """
+            @type text: str
+            """
             StringView.StringElement.__init__(self, StringView.TEXT_ELEMENT, text)
     class ImageElement(StringElement):
         def __init__(self, image):
+            """
+            @type image: object
+            """
             StringView.StringElement.__init__(self, StringView.IMAGE_ELEMENT, image)
     class OpenTagElement(StringElement):
         def __init__(self, tag):
+            """
+            @type tag: str
+            """
             StringView.StringElement.__init__(self, StringView.OPEN_TAG_ELEMENT, tag)
     class CloseTagElement(StringElement):
         def __init__(self, tag):
+            """
+            @type tag: str
+            """
             StringView.StringElement.__init__(self, StringView.CLOSE_TAG_ELEMENT, tag)
     class FontElement(StringElement):
         def __init__(self, font):
+            """
+            @type font: object
+            """
             StringView.StringElement.__init__(self, StringView.FONT_ELEMENT, font)
     class BoldElement(StringElement):
         def __init__(self, bold):
+            """
+            @type bold: bool
+            """
             StringView.StringElement.__init__(self, StringView.BOLD_ELEMENT, bold)
     class ItalicElement(StringElement):
         def __init__(self, italic):
+            """
+            @type italic: bool
+            """
             StringView.StringElement.__init__(self, StringView.ITALIC_ELEMENT, italic)
     class UnderlineElement(StringElement):
         def __init__(self, underline):
+            """
+            @type underline: bool
+            """
             StringView.StringElement.__init__(self, StringView.UNDERLINE_ELEMENT, underline)
     class SmileyElement(StringElement):
         def __init__(self, (image, alt)):
+            """
+            @type image: object
+            @type alt: str 
+            """
             StringView.StringElement.__init__(self, StringView.SMILEY_ELEMENT, (image, alt))
 
     def __init__(self, default_background_color = None, default_color = None, default_font = None):
+        """
+        @type default_background_color: object
+        @type default_color: object
+        @type default_font: object
+        """
         self._elements = []
         from amsn2.core import aMSNCore
         self._core = aMSNCore()
@@ -97,26 +140,58 @@ class StringView (object):
             self.reset_font()
 
     def append(self, type, value):
+        """
+        @type type: str defined in L{amsn2.views.stringview.StringView}
+        @type value: str
+        """
         self._elements.append(StringView.StringElement(type, value))
 
     def append_smiley(self, image, alt):
+        """
+        @type image: object
+        @type alt: str
+        """
         self._elements.append(StringView.SmileyElement((image, alt)))
     def append_stringview(self, strv):
+        """
+        @type strv: L{amsn2.views.stringview.StringView}
+        """
         #TODO: default (bg)color
         self._elements.extend(strv._elements)
     def append_text(self, text):
+        """
+        @type text: str
+        """
         self._elements.append(StringView.TextElement(text))
     def append_image(self, image):
+        """
+        @type image: object
+        """
         self._elements.append(StringView.ImageElement(image))
     def set_color(self, color):
+        """
+        @type color: object
+        """
         self._elements.append(StringView.ColorElement(color))
     def set_background_color(self, color):
+        """
+        @type color: object
+        """
         self._elements.append(StringView.BackgroundColorElement(color))
     def set_font(self, font):
+        """
+        @type font: object
+        """
         self._elements.append(StringView.FontElement(font))
     def open_tag(self, tag):
+        """
+        @type tag: str
+        """
         self._elements.append(StringView.OpenTagElement(tag))
     def close_tag(self, tag):
+        """
+        @type tag: str
+        """
         self._elements.append(StringView.CloseTagElement(tag))
 
     def set_bold(self):
@@ -194,6 +269,9 @@ class StringView (object):
         return out
 
     def get_tag(self, tagname):
+        """
+        @type tagname: str
+        """
 
         for i in range(len(self._elements)):
             e = self._elements[i]

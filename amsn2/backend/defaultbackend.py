@@ -21,6 +21,10 @@ class defaultbackend(defaultaccountbackend.defaultaccountbackend):
         defaultaccountbackend.defaultaccountbackend.__init__(self)
 
     def save_config(self, account, config):
+        """
+        @type account: L{amsn2.core.account_manager.aMSNAccount}
+        @type config: L{amsn2.core.config.aMSNConfig}
+        """
         #TODO: improve
         root_section = Element("aMSNConfig")
         for e in config._config:
@@ -36,6 +40,9 @@ class defaultbackend(defaultaccountbackend.defaultaccountbackend):
         xml_tree.write(accpath, encoding='utf-8')
 
     def load_config(self, account):
+        """
+        @type account: L{amsn2.core.account_manager.aMSNAccount}
+        """
         c = aMSNConfig()
         c.set_key("ns_server", "messenger.hotmail.com")
         c.set_key("ns_port", 1863)
@@ -43,11 +50,13 @@ class defaultbackend(defaultaccountbackend.defaultaccountbackend):
         configpath = os.path.join(self.accounts_dir,
                                   self._get_dir(account.view.email),
                                   "config.xml")
+        
+        configfile = None
         try:
             configfile = file(configpath, "r")
         except IOError:
             return c
-        configfile = file(configpath, "r")
+
         root_tree = ElementTree(file=configfile)
         configfile.close()
         config = root_tree.getroot()

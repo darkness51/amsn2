@@ -17,14 +17,14 @@ class aMSNWindow(base.aMSNWindow):
 
     def set_title(self, text):
         """ This will allow the core to change the current window's title
-        @text : a string
+        @type text: string
         """
         print "aMSNWindow.setTitle"
         pass
 
     def set_menu(self, menu):
         """ This will allow the core to change the current window's main menu
-        @menu : a MenuView
+        @type menu: L{amsn2.views.menuview.MenuView}
         """
         print "aMSNWindow.setMenu"
         pass

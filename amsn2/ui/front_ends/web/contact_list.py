@@ -36,20 +36,21 @@ class aMSNContactListWindow(base.aMSNContactListWindow):
 
     def set_title(self, text):
         """ This will allow the core to change the current window's title
-        @text : a string
+        @type text: string
         """
         self._main.send("setContactListTitle", text)
 
     def set_menu(self, menu):
         """ This will allow the core to change the current window's main menu
-        @menu : a MenuView
+        @type menu: L{amsn2.views.menuview.MenuView}
         """
         self._main.send("setMenu")
 
     def my_info_updated(self, view):
         """ This will allow the core to change pieces of information about
         ourself, such as DP, nick, psm, the current media being played,...
-        @view: the contactView of the ourself (contains DP, nick, psm,
+        @type view: L{amsn2.views.accountview.AccountView}
+        @param view: the AccountView of ourself (contains DP, nick, psm,
         currentMedia,...)"""
         self._view = view
         self._main.send("myInfoUpdated", unicode(view.nick),
@@ -87,7 +88,7 @@ class aMSNContactListWidget(base.aMSNContactListWidget):
         It will be called initially to feed the contact list with the groups
         that the CL should contain.
         It will also be called to remove any group that needs to be removed.
-        @cl : a ContactListView containing the list of groups contained in
+        @param clView: a ContactListView containing the list of groups contained in
         the contact list which will contain the list of ContactViews
         for all the contacts to show in the group."""
         self._main.send("contactListUpdated", clView.group_ids)
